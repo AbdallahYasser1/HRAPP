@@ -12,4 +12,9 @@ protected $fillable=[
     "name",
     "date"
     ];
+    Const Validation_Rules=[
+        
+        'name' => 'required|string',
+        'date' => 'required|date'
+    ];
 }

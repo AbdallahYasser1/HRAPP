@@ -29,6 +29,7 @@ if($request['role']=='Admin'&& !Auth::user()->hasPermissionTo('create_account_Ad
             'email' => $request['email'],
             'phone' => $request['phone'],
             'birthdate' => $request['birthdate'],
+            'shift_id'=>$request['shift_id'],
           'password' => bcrypt($hashed_random_password),
 
     ]    );

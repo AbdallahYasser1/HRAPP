@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HolidayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,11 @@ Route::middleware(['auth:sanctum','abilities:firstlogin'])->group( function () {
 Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['role:super-admin']], function () {
     //
+});
+Route::middleware('auth:sanctum')->get('/Holidays/{id}',[HolidayController::class,'show']);
+Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
+    Route::apiResources([
+        'Holidays' => HolidayController::class,
+    ]);
 });
 Route::post('/test', [AuthController::class, 'Test']);

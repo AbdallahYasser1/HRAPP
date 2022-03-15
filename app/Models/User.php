@@ -25,7 +25,8 @@ Const Validation_Rules=[
     'birthdate' => 'required|date',
     'phone' => 'required|string|unique:users,phone',
     'email' => 'required|string|unique:users,email',
-    'role'=>'required|string|in:Normal,HR,Admin,Accountant'
+    'role'=>'required|string|in:Normal,HR,Admin,Accountant',
+    'shift_id'=>'required|integer'
 ];
     protected $fillable = [
         'id',
@@ -33,7 +34,8 @@ Const Validation_Rules=[
         'email',
         'phone',
         'password',
-        'birthdate'];
+        'birthdate',
+    'shift_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -57,5 +59,8 @@ Const Validation_Rules=[
     public function shift()
     {
         return $this->belongsTo(Shift::class);
+    }
+    public function attendances(){
+        return $this->hasMany(Attendance::class);
     }
 }
