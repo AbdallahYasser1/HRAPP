@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreHoliday;
 use App\Models\Holiday;
 use App\Http\Controllers\ApiController;
+use Illuminate\Database\Eloquent\Collection;
+
 class HolidayController extends ApiController
 {
     public function store(StoreHoliday $reqest){
@@ -45,5 +47,14 @@ class HolidayController extends ApiController
             return $this->showCustom(['holiday deleted'],200);    
         }
         }
+    public function getAllHolidaysOfMonth($month){
+        $holidays=Holiday::whereMonth('date',$month)->get();
+        if($holidays->count()==0){
+            return $this->errorResponse("Holiday not found",404);
+        }else{
+            return $this->showAll( $holidays,200);
+        }
+
+    }
 
 }

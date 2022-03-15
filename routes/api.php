@@ -31,6 +31,7 @@ Route::group(['middleware' => ['role:super-admin']], function () {
     //
 });
 Route::middleware('auth:sanctum')->get('/Holidays/{id}',[HolidayController::class,'show']);
+Route::middleware('auth:sanctum')->get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
     Route::apiResources([
         'Holidays' => HolidayController::class,
