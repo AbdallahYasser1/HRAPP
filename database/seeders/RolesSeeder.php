@@ -21,19 +21,23 @@ class RolesSeeder extends Seeder
 
         // create permissions
         $permissions = [
-'create_account_Admin',
-'create_account',
+            'create_account_Admin',
+            'create_account',
+           // 'create_holiday',
+           // 'update_holiday',
+            //'view_holiday',
+           // 'delete_holiday'
 
         ];
 
-        foreach ($permissions as $permission)   {
+        foreach ($permissions as $permission) {
             Permission::create([
                 'name' => $permission
             ]);
         }
 
         // gets all permissions via Gate::before rule; see AuthServiceProvider
-      $role_admin=  Role::create(['name' => 'Admin']);
+        $role_admin =  Role::create(['name' => 'Admin']);
 
         $role_employee = Role::create(['name' => 'Normal']);
         $role_HR = Role::create(['name' => 'HR']);
@@ -43,23 +47,25 @@ class RolesSeeder extends Seeder
             // create user permission
         ];
         $HRPermissions = [
-            'create_account'
+            'create_account',
+           // 'create_holiday',
+           // 'update_holiday',
+           // 'view_holiday',
+           // 'delete_holiday'
         ];
         $AccountantPermissions = [
             // create user permission
         ];
 
-        foreach ($NormalPermissions as $permission)   {
+        foreach ($NormalPermissions as $permission) {
             $role_employee->givePermissionTo($permission);
         }
-        foreach ($HRPermissions as $permission)   {
+        foreach ($HRPermissions as $permission) {
             $role_HR->givePermissionTo($permission);
         }
 
-    foreach ($permissions as $permission){
-        $role_admin->givePermissionto($permission);
+        foreach ($permissions as $permission) {
+            $role_admin->givePermissionto($permission);
+        }
     }
-
-    }
-
 }
