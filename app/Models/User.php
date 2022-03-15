@@ -53,4 +53,9 @@ Const Validation_Rules=[
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
 }

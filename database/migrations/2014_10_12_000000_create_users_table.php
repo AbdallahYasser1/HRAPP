@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+    /**php
      * Run the migrations.
      *
      * @return void
@@ -23,6 +23,10 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->boolean('first_time_login')->default(true);
             $table->string("status")->default('active');
+        //   $table->unsignedInteger('supplier_id');
+
+
+
             $table->rememberToken();
             $table->timestamps();
         });

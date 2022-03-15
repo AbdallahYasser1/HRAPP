@@ -91,7 +91,7 @@ if($request['role']=='Admin'&& !Auth::user()->hasPermissionTo('create_account_Ad
         return response()->json($response,200);
     }
     $token = $user->createToken('myapptoken',['application'])->plainTextToken;
-    $response = ['user' => $user, 'token' => $token];
+    $response = ['user' => $user,'token' => $token];
     return response()->json($response, 200);
 }
     return response()->json(["message"=>"The given data was invalid."],401);
