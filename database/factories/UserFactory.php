@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Shift;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Nette\Utils\Random;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 /**
@@ -28,14 +30,15 @@ class UserFactory extends Factory
             'active'=>true,
             'first_time_login'=>false,
             'status'=>'active',
-            'password' => Hash::make('123456789'), // password
+            'password' => Hash::make('123456789'),
+            'shift_id'=>Shift::all()->Random(),// password
             'remember_token' => Str::random(10),
         ];
     }
     public function configure()
     {
         return $this->afterMaking(function (User $user) {
-           
+
             $user->assignRole(Role::all()->random());
 
         });
