@@ -19,11 +19,11 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate();
         if($users===null){
             return $this->errorResponse("users not found", 404);
         }else{
-            return new UserCollection($users->paginate());
+            return new UserCollection($users);
         }
     }
 
@@ -110,6 +110,6 @@ class UserController extends ApiController
     }
 
     public function acceptPhoto(){
-        
+
     }
 }

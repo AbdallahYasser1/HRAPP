@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserCont
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
-    Route::apiResource('Users', UserController::class)->only('show','update');
+    Route::apiResource('Users', UserController::class)->only('index','show','update');
     Route::apiResources([
         'Holidays' => HolidayController::class,
         'Shifts' =>ShiftController::class
