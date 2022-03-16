@@ -34,9 +34,12 @@ Route::group(['middleware' => ['role:super-admin']], function () {
 });
 Route::middleware('auth:sanctum')->get('/Holidays/{id}',[HolidayController::class,'show']);
 Route::middleware('auth:sanctum')->get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
+Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserController::class,'destroy']);
+
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
+    Route::apiResource('Users', UserController::class)->only('show','update');
     Route::apiResources([
         'Holidays' => HolidayController::class,
         'Shifts' =>ShiftController::class

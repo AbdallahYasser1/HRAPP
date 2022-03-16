@@ -28,6 +28,13 @@ class User extends Authenticatable
         'role' => 'required|string|in:Normal,HR,Admin,Accountant',
         'shift_id' => 'required|integer'
     ];
+    const Validation_Update_Account_Rules = [
+        'name' => 'required|string',
+        'birthdate' => 'required|date',
+        'phone' => 'required|string|unique:users,phone',
+        'email' => 'required|string|unique:users,email',
+        
+    ];
     protected $fillable = [
         'id',
         'name',

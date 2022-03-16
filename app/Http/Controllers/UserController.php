@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use Illuminate\Support\Facades\Auth;
 class UserController extends ApiController
@@ -74,7 +75,7 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = User::find($id);
         if ($user === null) {
@@ -99,6 +100,16 @@ class UserController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        if ($user === null) {
+            return $this->errorResponse("user not found", 404);
+        } else {
+            $user->delete();
+            return $this->showCustom(['user deleted'], 200);
+        }
+    }
+
+    public function acceptPhoto(){
+        
     }
 }
