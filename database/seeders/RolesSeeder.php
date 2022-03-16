@@ -23,10 +23,14 @@ class RolesSeeder extends Seeder
         $permissions = [
             'create_account_Admin',
             'create_account',
-           // 'create_holiday',
-           // 'update_holiday',
-            //'view_holiday',
-           // 'delete_holiday'
+            'create_holiday',
+            'update_holiday',
+            'view_holiday',
+            'delete_holiday',
+            'create_shift',
+            'update_shift',
+            'view_shift',
+            'delete_shift'
 
         ];
 
@@ -45,13 +49,18 @@ class RolesSeeder extends Seeder
 
         $NormalPermissions = [
             // create user permission
+            'view_holiday',
         ];
         $HRPermissions = [
             'create_account',
-           // 'create_holiday',
-           // 'update_holiday',
-           // 'view_holiday',
-           // 'delete_holiday'
+            'create_holiday',
+            'update_holiday',
+            'view_holiday',
+            'delete_holiday',
+            'create_shift',
+            'update_shift',
+            'view_shift',
+            'delete_shift'
         ];
         $AccountantPermissions = [
             // create user permission

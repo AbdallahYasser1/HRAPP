@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 class HolidayController extends ApiController
 {
-    public function store(StoreHoliday $reqest){
+    public function store(StoreHoliday $request){
         $holiday=Holiday::create([
-            'name'=>$reqest['name'],
-            'date'=>$reqest['date']
+            'name'=>$request['name'],
+            'date'=>$request['date']
         ]);
         $response=["holiday"=>$holiday];
         return $this->showCustom($response,201);
@@ -26,14 +26,14 @@ class HolidayController extends ApiController
             return $this->showOne($holiday,200);
         }
     }
-    public function update($id,StoreHoliday $reqest){
+    public function update($id,StoreHoliday $request){
         $holiday=Holiday::find($id);
         if($holiday===null){
             return $this->errorResponse("Holiday not found",404);
         }else{
             $holiday->update([
-                'name' => $reqest['name'],
-                'date'=>$reqest['date']
+                'name' => $request['name'],
+                'date'=>$request['date']
             ]);
             return $this->showOne($holiday,200);
         }

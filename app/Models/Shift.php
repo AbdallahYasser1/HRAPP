@@ -13,7 +13,12 @@ class Shift extends Model
         'start_date',
         'end_date',
         ];
-
+        Const Validation_Rules=[
+        
+            'name' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date'
+        ];
     public function users()
     {
         return $this->hasMany(User::class);

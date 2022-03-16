@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\ShiftController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,11 @@ Route::group(['middleware' => ['role:super-admin']], function () {
 Route::middleware('auth:sanctum')->get('/Holidays/{id}',[HolidayController::class,'show']);
 Route::middleware('auth:sanctum')->get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
+    Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
+    Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
     Route::apiResources([
         'Holidays' => HolidayController::class,
+        'Shifts' =>ShiftController::class
     ]);
 });
 Route::post('/test', [AuthController::class, 'Test']);
