@@ -25,6 +25,6 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-        return User::Validation_Rules;
+        return User::Validation_Account_Rules;
     }
 }

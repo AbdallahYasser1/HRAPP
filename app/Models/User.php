@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable , HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -19,15 +19,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     public $incrementing = false;
-Const Validation_Rules=[
-    'id'=>'required|integer|unique:users,id',
-    'name' => 'required|string',
-    'birthdate' => 'required|date',
-    'phone' => 'required|string|unique:users,phone',
-    'email' => 'required|string|unique:users,email',
-    'role'=>'required|string|in:Normal,HR,Admin,Accountant',
-    'shift_id'=>'required|integer'
-];
+    const Validation_Account_Rules = [
+        'id' => 'required|integer|unique:users,id',
+        'name' => 'required|string',
+        'birthdate' => 'required|date',
+        'phone' => 'required|string|unique:users,phone',
+        'email' => 'required|string|unique:users,email',
+        'role' => 'required|string|in:Normal,HR,Admin,Accountant',
+        'shift_id' => 'required|integer'
+    ];
     protected $fillable = [
         'id',
         'name',
@@ -35,7 +35,8 @@ Const Validation_Rules=[
         'phone',
         'password',
         'birthdate',
-    'shift_id'];
+        'shift_id'
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -60,7 +61,8 @@ Const Validation_Rules=[
     {
         return $this->belongsTo(Shift::class);
     }
-    public function attendances(){
+    public function attendances()
+    {
         return $this->hasMany(Attendance::class);
     }
 }

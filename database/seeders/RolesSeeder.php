@@ -23,6 +23,7 @@ class RolesSeeder extends Seeder
         $permissions = [
             'create_account_Admin',
             'create_account',
+            'update_account',
             'create_holiday',
             'update_holiday',
             'view_holiday',
@@ -53,6 +54,7 @@ class RolesSeeder extends Seeder
         ];
         $HRPermissions = [
             'create_account',
+            'update_account', 
             'create_holiday',
             'update_holiday',
             'view_holiday',
