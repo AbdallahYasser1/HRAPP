@@ -119,4 +119,16 @@ class ShiftController extends ApiController
             return $this->showOne($shiftUser, 200);
         }
     }
+    public function updateUserShift(Request $shift_id,$id){
+        if($shift_id['id']===null){
+            return $this->errorResponse("Bad Request", 400);
+        }
+        $user =User::find($id);
+        if ($user === null) {
+            return $this->errorResponse("User not found", 404);
+        } else {
+            $user->update(['shift_id'=>$shift_id['id']]); 
+            return $this->showOne($user, 200);   
+        }
+    }
 }
