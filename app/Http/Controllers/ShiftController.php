@@ -18,12 +18,12 @@ class ShiftController extends ApiController
      */
     public function index()
     {
-        $shifts=Shift::all();
-        if($shifts===null){
-            return $this->errorResponse("shifts not found",404);
-        }else{
-            return $this->showAll($shifts,200);
-        }   
+        $shifts = Shift::all();
+        if ($shifts === null) {
+            return $this->errorResponse("shifts not found", 404);
+        } else {
+            return $this->showAll($shifts, 200);
+        }
     }
 
     /**
@@ -34,13 +34,13 @@ class ShiftController extends ApiController
      */
     public function store(StoreShiftRequest $request)
     {
-        $shift=Shift::create([
-            'name'=>$request['name'],
-            'start_date'=>$request['start_date'],
-            'end_date'=>$request['end_date']
+        $shift = Shift::create([
+            'name' => $request['name'],
+            'start_time' => $request['start_time'],
+            'end_time' => $request['end_time']
         ]);
-        $response=["Shift"=>$shift];
-        return $this->showCustom($response,201);
+        $response = ["Shift" => $shift];
+        return $this->showCustom($response, 201);
     }
 
     /**
@@ -51,11 +51,11 @@ class ShiftController extends ApiController
      */
     public function show($id)
     {
-        $shift=Shift::where('id',$id)->first();
-        if($shift===null){
-            return $this->errorResponse("shift not found",404);
-        }else{
-            return $this->showOne($shift,200);
+        $shift = Shift::where('id', $id)->first();
+        if ($shift === null) {
+            return $this->errorResponse("shift not found", 404);
+        } else {
+            return $this->showOne($shift, 200);
         }
     }
 
@@ -68,16 +68,16 @@ class ShiftController extends ApiController
      */
     public function update(StoreShiftRequest $request, $id)
     {
-        $shift=Shift::find($id);
-        if($shift===null){
-            return $this->errorResponse("shift not found",404);
-        }else{
+        $shift = Shift::find($id);
+        if ($shift === null) {
+            return $this->errorResponse("shift not found", 404);
+        } else {
             $shift->update([
-                'name'=>$request['name'],
-                'start_date'=>$request['start_date'],
-                'end_date'=>$request['end_date']
+                'name' => $request['name'],
+                'start_time' => $request['start_time'],
+                'end_time' => $request['end_time']
             ]);
-            return $this->showOne($shift,200);
+            return $this->showOne($shift, 200);
         }
     }
 
@@ -89,26 +89,34 @@ class ShiftController extends ApiController
      */
     public function destroy($id)
     {
-        $shift=Shift::find($id);
-        if($shift===null){
-            return $this->errorResponse("shift not found",404);
-        }else{
+        $shift = Shift::find($id);
+        if ($shift === null) {
+            return $this->errorResponse("shift not found", 404);
+        } else {
             $shift->delete();
-            return $this->showCustom(['shift deleted'],200);    
+            return $this->showCustom(['shift deleted'], 200);
         }
     }
 
-    public function getUsersOfShift($id){
-        return new ShiftCollection(Shift::where($id)->users()->paginate());
-    }
-    public function getUserShiftById($id){
-      
-        $user=User::where($id);
-        if($user===null){
-        return $this->errorResponse("User not found",404);
+    public function getUsersOfShift($id)
+    {
+        $usersOFShift=Shift::find($id);
+        if ($usersOFShift === null) {
+            return $this->errorResponse("users not found", 404);
         }else{
-            $shiftUser=$user->shift()->first();
-            return $this->showOne($shiftUser,200);
+            $users=$usersOFShift->users()->paginate();
+            return new ShiftCollection($users);
+        }
+        
+    }
+    public function getUserShiftById($id)
+    {
+        $user = User::find($id);
+        if ($user === null) {
+            return $this->errorResponse("User not found", 404);
+        } else {
+            $shiftUser = $user->shift()->first();
+            return $this->showOne($shiftUser, 200);
         }
     }
 }
