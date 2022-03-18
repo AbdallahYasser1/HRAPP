@@ -10,10 +10,15 @@ class Shift extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'start_date',
-        'end_date',
+        'start_time',
+        'end_time',
         ];
-
+        Const Validation_Rules=[
+        
+            'name' => 'required|string',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i'
+        ];
     public function users()
     {
         return $this->hasMany(User::class);

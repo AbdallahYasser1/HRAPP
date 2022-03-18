@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
+use App\Models\Shift;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-
-class StoreUserRequest extends FormRequest
+class StoreShiftRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +14,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->hasPermissionTo('create_account');
+        return Auth::user()->hasPermissionTo('create_shift');
     }
 
     /**
@@ -25,6 +24,6 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-        return User::Validation_Account_Rules;
+        return Shift::Validation_Rules;
     }
 }

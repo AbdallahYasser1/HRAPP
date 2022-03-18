@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-
-class StoreUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->hasPermissionTo('create_account');
+        return Auth::user()->hasPermissionTo('update_account');
     }
 
     /**
@@ -25,6 +23,6 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-        return User::Validation_Account_Rules;
+        return User::Validation_Update_Account_Rules;
     }
 }
