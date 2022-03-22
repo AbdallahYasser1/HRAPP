@@ -6,7 +6,7 @@ use App\Models\Requestdb;
 use App\Models\Wfh;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-class WfhController extends Controller
+class WfhController extends ApiController
 {
     public function store(Request $request)
     {
@@ -17,7 +17,7 @@ class WfhController extends Controller
         $requestdb->start_date=$request['start_date'];
         $requestdb->end_date=$request['start_date'];
         $wfh->requests()->save($requestdb);
-
+$response=["message"=>"WFH Request Succesfully created","Request"=>$requestdb];
 error_log($wfh);
-return 1;
+return $this->successResponse($response,201);
     }}
