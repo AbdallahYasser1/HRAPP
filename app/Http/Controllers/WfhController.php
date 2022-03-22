@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Requestdb;
 use App\Models\Wfh;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class WfhController extends Controller
 {
     public function store(Request $request)
