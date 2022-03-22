@@ -33,7 +33,7 @@ class User extends Authenticatable
         'birthdate' => 'required|date',
         'phone' => 'required|string|unique:users,phone',
         'email' => 'required|string|unique:users,email',
-        
+
     ];
     protected $fillable = [
         'id',
@@ -71,5 +71,9 @@ class User extends Authenticatable
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
+    }
+    public function requests()
+    {
+        return $this->hasMany(Requestdb::class);
     }
 }
