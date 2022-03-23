@@ -26,6 +26,7 @@ class User extends Authenticatable
         'phone' => 'required|string|unique:users,phone',
         'email' => 'required|string|unique:users,email',
         'role' => 'required|string|in:Normal,HR,Admin,Accountant',
+        'can_wfh'=>'required|boolean',
         'shift_id' => 'required|integer'
     ];
     const Validation_Update_Account_Rules = [
@@ -33,7 +34,7 @@ class User extends Authenticatable
         'birthdate' => 'required|date',
         'phone' => 'required|string|unique:users,phone',
         'email' => 'required|string|unique:users,email',
-
+        'can_wfh'=>'required|boolean',
     ];
     protected $fillable = [
         'id',

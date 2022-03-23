@@ -35,6 +35,7 @@ Route::group(['middleware' => ['role:super-admin']], function () {
 });
 Route::middleware('auth:sanctum')->get('/Holidays/{id}',[HolidayController::class,'show']);
 Route::middleware('auth:sanctum')->post('/wfh',[WfhController::class,'store']);
+Route::middleware('auth:sanctum')->put('/wfh/{id}',[WfhController::class,'update']);
 Route::middleware('auth:sanctum')->get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
 Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserController::class,'destroy']);
 

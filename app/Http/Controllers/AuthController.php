@@ -3,75 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
-use http\Env\Response;
-use Illuminate\Validation\Rules\Password;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\AuthResource;
 
 class AuthController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     *public function Create_Account(StoreUserRequest $request)
-     *{
-     *   if ($request['role'] == 'Admin' && !Auth::user()->hasPermissionTo('create_account_Admin')) return  $this->errorResponse('This is out limit', 403);
-     *  $hashed_random_password = Str::random(10);
-     * $user = User::create([
-     *      'id' => $request['id'],
-     *     'name' => $request['name'],
-     *    'email' => $request['email'],
-     *    'phone' => $request['phone'],
-     *   'birthdate' => $request['birthdate'],
-     *     'shift_id' => $request['shift_id'],
-     *    'password' => bcrypt($hashed_random_password),
-
-     * ]);
-     * $user->assignRole($request['role']);
-     * $response = ['user' => $user, 'password' => $hashed_random_password];
-     * return $this->showCustom($response, 201);
-     * }
-     */
-    public function Test(Request $request)
-    {
-        $authuser = Auth::user();
-
-        //  error_log($user);
-
-        // if(!$authuser->hasPermissionTo('create_account')) return $this->errorResponse('This is out limit',403);
-        $fields = $request->validate([
-            'id' => 'required|integer|unique:users,id',
-            'name' => 'required|string',
-            'birthdate' => 'required|date',
-            'phone' => 'required|string|unique:users,phone',
-            'email' => 'required|string|unique:users,email',
-            'role' => 'required|string|in:Normal,HR,Admin,Accountant'
-
-        ]);
-        //if($fields['role']=='Admin'&& !$authuser->hasPermissionTo('create_account_Admin')) return  $this->errorResponse('This is out limit',403);
-        $hashed_random_password = Str::random(10);
-        $user = User::create([
-            'id' => $fields['id'],
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'phone' => $fields['phone'],
-            'birthdate' => $fields['birthdate'],
-            'password' => bcrypt($hashed_random_password),
-        ]);
-        $user->assignRole($fields['role']);
-        $response = ['user' => $user, 'password' => $hashed_random_password];
-        return $this->showCustom($response, 201);
-    }
     public function credentials(Request $request)
     {
         return [
@@ -96,8 +35,9 @@ class AuthController extends ApiController
                 return response()->json($response, 200);
             }
             $token = $user->createToken('myapptoken', ['application'])->plainTextToken;
-            $response = ['user' => $user, 'token' => $token];
-            return response()->json($response, 200);
+            $response = ['user'=>new AuthResource($user), 'token' => $token];
+            return $response;
+            //return response()->json($response, 200);
         }
         return response()->json(["message" => "The given data was invalid."], 401);
     }
@@ -121,3 +61,60 @@ class AuthController extends ApiController
         return response()->json(["message" => "Logout Sucessfully"], 200);
     }
 }
+ /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     *public function Create_Account(StoreUserRequest $request)
+     *{
+     *   if ($request['role'] == 'Admin' && !Auth::user()->hasPermissionTo('create_account_Admin')) return  $this->errorResponse('This is out limit', 403);
+     *  $hashed_random_password = Str::random(10);
+     * $user = User::create([
+     *      'id' => $request['id'],
+     *     'name' => $request['name'],
+     *    'email' => $request['email'],
+     *    'phone' => $request['phone'],
+     *   'birthdate' => $request['birthdate'],
+     *     'shift_id' => $request['shift_id'],
+     *    'password' => bcrypt($hashed_random_password),
+
+     * ]);
+     * $user->assignRole($request['role']);
+     * $response = ['user' => $user, 'password' => $hashed_random_password];
+     * return $this->showCustom($response, 201);
+     * }
+
+    *public function Test(Request $request)
+    *{
+    *    $authuser = Auth::user();
+
+        *  error_log($user);
+
+        * if(!$authuser->hasPermissionTo('create_account')) return $this->errorResponse('This is out limit',403);
+     *   $fields = $request->validate([
+      *      'id' => 'required|integer|unique:users,id',
+      *      'name' => 'required|string',
+       *     'birthdate' => 'required|date',
+       *     'phone' => 'required|string|unique:users,phone',
+       *     'email' => 'required|string|unique:users,email',
+        *    'role' => 'required|string|in:Normal,HR,Admin,Accountant'
+
+        *]);
+       * //if($fields['role']=='Admin'&& !$authuser->hasPermissionTo('create_account_Admin')) return  $this->errorResponse('This is out limit',403);
+       * $hashed_random_password = Str::random(10);
+       * $user = User::create([
+        *    'id' => $fields['id'],
+        *    'name' => $fields['name'],
+        *    'email' => $fields['email'],
+        *    'phone' => $fields['phone'],
+        *    'birthdate' => $fields['birthdate'],
+        *    'password' => bcrypt($hashed_random_password),
+        *]);
+        *$user->assignRole($fields['role']);
+        *$response = ['user' => $user, 'password' => $hashed_random_password];
+        *return $this->showCustom($response, 201);
+    *}
+         */
+   

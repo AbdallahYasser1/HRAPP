@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->boolean('first_time_login')->default(true);
             $table->string("status")->default('active');
+            $table->boolean('can_wfh')->default(true);
         //   $table->unsignedInteger('supplier_id');
 
 
