@@ -21,7 +21,6 @@ class WfhController extends ApiController
         $requestdb->end_date = $startDate;
         $wfh->requests()->save($requestdb);
         $response = ["message" => "WFH Request Succesfully created", "Request" => $requestdb];
-        error_log($wfh);
         return $this->showCustom($response, 201);
     }
     public function store(Request $request)
@@ -90,9 +89,8 @@ class WfhController extends ApiController
         if ($wfh === null) {
             return $this->errorResponse("Wfh not found", 404);
         } else {
-            $wfh->requests->status = 'canceled';
-            $wfh->requests->is_approved=1;
-            return print_r($wfh->requests);
+            $wfh->delete();
+            return print_r(1);
         }
     }
 }
