@@ -31,8 +31,8 @@ class RolesSeeder extends Seeder
             'create_shift',
             'update_shift',
             'view_shift',
-            'delete_shift'
-
+            'delete_shift',
+            'Show_Wfh_Request'
         ];
 
         foreach ($permissions as $permission) {
@@ -54,7 +54,7 @@ class RolesSeeder extends Seeder
         ];
         $HRPermissions = [
             'create_account',
-            'update_account', 
+            'update_account',
             'create_holiday',
             'update_holiday',
             'view_holiday',
@@ -62,7 +62,8 @@ class RolesSeeder extends Seeder
             'create_shift',
             'update_shift',
             'view_shift',
-            'delete_shift'
+            'delete_shift',
+            'Show_Wfh_Request'
         ];
         $AccountantPermissions = [
             // create user permission

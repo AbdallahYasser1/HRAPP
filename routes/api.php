@@ -35,6 +35,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/wfh',[WfhController::class,'store']);
     Route::put('/wfh/{id}',[WfhController::class,'update']);
+    Route::get('/wfh/{wfh}',[WfhController::class,'showWfhRequest']);
+    Route::get('/wfh',[WfhController::class,'showAllWfhRequests']);
     Route::delete('/wfh/{id}',[WfhController::class,'destroy']);
     Route::get('/Holidays/{id}',[HolidayController::class,'show']);
     Route::get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
@@ -46,7 +48,7 @@ Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/UpdateUserShift/{id}',[ShiftController::class,'updateUserShift']);
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
-   
+
     Route::apiResource('Users', UserController::class)->only('index','show','update');
     Route::apiResource('WFH', WfhAdminController::class)->only('destroy','update');
     Route::apiResources([

@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -53,6 +54,9 @@ class Handler extends ExceptionHandler
 
             if ($e instanceof AuthorizationException) {
                 return $this->errorResponse($e->getMessage(), 403);
+            }
+            if ($e instanceof RouteNotFoundException) {
+                return $this->errorResponse("UnAuthorized access", 403);
             }
             if ($e instanceof AccessDeniedHttpException) {
                 return $this->errorResponse($e->getMessage(), 403);
