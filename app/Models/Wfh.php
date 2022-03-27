@@ -11,6 +11,6 @@ class Wfh extends Model
     protected $fillable=['id'];
     public function requests()
     {
-        return $this->morphOne(Requestdb::class, 'requestable');
+        return $this->morphMany(Requestdb::class, 'requestable');
     }
 }

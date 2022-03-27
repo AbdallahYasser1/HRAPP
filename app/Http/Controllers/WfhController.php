@@ -19,7 +19,7 @@ class WfhController extends ApiController
         $requestdb->user_id = Auth::id();
         $requestdb->start_date = $startDate;
         $requestdb->end_date = $startDate;
-        $wfh->requests()->save($requestdb);
+        $wfh->request()->save($requestdb);
         $response = ["message" => "WFH Request Succesfully created", "Request" => $requestdb];
         return $this->showCustom($response, 201);
     }
@@ -35,9 +35,9 @@ class WfhController extends ApiController
             $now = date('H', time());
             $timeShift = date('H', strtotime($shift->start_time));
             if ($timeOfWFH > $timeOfDate) {
-                $this->storeDB($timeOfWFH);
+                return $this->storeDB($timeOfWFH);
             } else if ($timeOfWFH == $timeOfDate && ($timeShift - $now > 0)) {
-                $this->storeDB($timeOfWFH);
+                return $this->storeDB($timeOfWFH);
             } else {
                 return $this->errorResponse("cant making wfh in past date", 400);
             }
@@ -51,9 +51,9 @@ class WfhController extends ApiController
         if ($wfh === null) {
             return $this->errorResponse("Wfh not found", 404);
         } else {
-            if ($wfh->requests->user_id == Auth::id()) {
-                $wfh->requests->status = $request['status'];
-                return print_r($wfh->requests);
+            if ($wfh->requests->first()->user_id == Auth::id()) {
+                $wfh->requests->first()->status = $request['status'];
+                return $this->showCustom($wfh->requests->first(),200);
             } else {
                 return $this->errorResponse("user update anthor user wfh", 401);
             }
@@ -65,32 +65,13 @@ class WfhController extends ApiController
         if ($wfh === null) {
             return $this->errorResponse("Wfh not found", 404);
         } else {
-            if ($wfh->requests->user_id == Auth::id()) {
-                $wfh->requests->status = 'canceled';
-                return print_r($wfh->requests);
+            if ($wfh->requests->first()->user_id == Auth::id()) {
+                $wfh->requests->first()->status = 'canceled';
+                return $this->showCustom($wfh->requests->first(),200);
             } else {
                 return $this->errorResponse("user delete anthor user wfh", 401);
             }
         }
     }
-    public function adminUpdate(Request $request, $id)
-    {
-        $wfh = Wfh::find($id);
-        if ($wfh === null) {
-            return $this->errorResponse("Wfh not found", 404);
-        } else {
-            $wfh->requests->status = 'canceled';
-            return print_r($wfh->requests);
-        }
-    }
-    public function destroyAdmin($id)
-    {
-        $wfh = Wfh::find($id);
-        if ($wfh === null) {
-            return $this->errorResponse("Wfh not found", 404);
-        } else {
-            $wfh->delete();
-            return print_r(1);
-        }
-    }
+    
 }

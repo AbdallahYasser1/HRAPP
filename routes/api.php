@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WfhAdminController;
 use App\Http\Controllers\WfhController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,14 +31,15 @@ Route::middleware(['auth:sanctum','abilities:firstlogin'])->group( function () {
     Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
 });
 Route::post('login', [AuthController::class, 'login']);
-Route::group(['middleware' => ['role:super-admin']], function () {
-    //
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/wfh',[WfhController::class,'store']);
+    Route::put('/wfh/{id}',[WfhController::class,'update']);
+    Route::delete('/wfh/{id}',[WfhController::class,'destroy']);
+    Route::get('/Holidays/{id}',[HolidayController::class,'show']);
+    Route::get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
 });
-Route::middleware('auth:sanctum')->get('/Holidays/{id}',[HolidayController::class,'show']);
-Route::middleware('auth:sanctum')->post('/wfh',[WfhController::class,'store']);
-Route::middleware('auth:sanctum')->put('/wfh/{id}',[WfhController::class,'update']);
-Route::middleware('auth:sanctum')->delete('/wfh/{id}',[WfhController::class,'destroy']);
-Route::middleware('auth:sanctum')->get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
+
 Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserController::class,'destroy']);
 
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
@@ -46,9 +48,9 @@ Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
    
     Route::apiResource('Users', UserController::class)->only('index','show','update');
+    Route::apiResource('WFH', WfhAdminController::class)->only('destroy','update');
     Route::apiResources([
         'Holidays' => HolidayController::class,
         'Shifts' =>ShiftController::class
     ]);
 });
-Route::post('/test', [AuthController::class, 'Test']);
