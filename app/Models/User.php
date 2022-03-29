@@ -77,4 +77,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Requestdb::class);
     }
+    public function supervised()
+    {
+        return $this->hasMany(User::class,'supervisor');
+    }
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class,'supervisor');
+    }
+
+
 }

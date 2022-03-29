@@ -6,6 +6,7 @@ use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WfhAdminController;
 use App\Http\Controllers\WfhController;
+use App\Http\Controllers\SupervisorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/wfh/{id}',[WfhController::class,'destroy']);
     Route::get('/Holidays/{id}',[HolidayController::class,'show']);
     Route::get('/Holidays/ofMonth/{month}',[HolidayController::class,'getAllHolidaysOfMonth']);
+
+    Route::get('supervisor',[SupervisorController::class,'showSupervisedUsers']);
+
 });
 
 Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserController::class,'destroy']);

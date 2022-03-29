@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WfhAdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WfhAdminController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WfhController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WfhController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/RolesSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/RolesSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -177,7 +178,8 @@
       <workItem from="1647966272537" duration="6510000" />
       <workItem from="1648377076534" duration="1632000" />
       <workItem from="1648379444372" duration="29000" />
-      <workItem from="1648414988165" duration="8893000" />
+      <workItem from="1648414988165" duration="8932000" />
+      <workItem from="1648504849894" duration="6146000" />
     </task>
     <servers />
   </component>

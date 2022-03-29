@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\Wfh;
+use App\Models\Requestdb;
+use Illuminate\Support\Facades\Auth;
 
 class WfhAdminController extends Controller
 {
@@ -27,5 +30,12 @@ class WfhAdminController extends Controller
             $wfh->requests->first()->status = 'canceled';
             return $this->showCustom($wfh->requests->first(),200);
         }
+    }
+    public function showAllRequestes(){
+        $request= Requestdb::whereHasMorph(
+            'requestable',
+            [Wfh::class]
+        )->get();
+
     }
 }
