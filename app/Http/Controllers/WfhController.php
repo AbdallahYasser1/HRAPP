@@ -55,6 +55,7 @@ class WfhController extends ApiController
         } else {
             if ($wfh->requests->first()->user_id == Auth::id()) {
                 $wfh->requests->first()->status = $request['status'];
+                // can mark it as accepted should be fixed
                 return $this->showCustom($wfh->requests->first(),200);
             } else {
                 return $this->errorResponse("user update anthor user wfh", 401);
