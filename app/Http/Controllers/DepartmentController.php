@@ -91,7 +91,9 @@ class DepartmentController extends ApiController
 
     public function getUsersOfDepartment(Department $department)
     {
-$users=$department->with('profile.user')->get();
+$users=Department::with('profile.user')
+    ->where("id",'=',$department['id'])
+    ->get();
 
         if ($users === null) {
             return $this->errorResponse("users not found", 404);

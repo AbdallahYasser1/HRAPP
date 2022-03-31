@@ -23,19 +23,23 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//Login
+Route::post('login', [AuthController::class, 'login']);
+//Get Auth User Data
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::middleware(['auth:sanctum','abilities:application'])->group( function () {
-    Route::post('/register', [UserController::class, 'store']);
 
 });
 Route::middleware(['auth:sanctum','abilities:firstlogin'])->group( function () {
     Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
 });
-Route::post('login', [AuthController::class, 'login']);
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+});
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/wfh',[WfhController::class,'store']);
     Route::put('/wfh/{id}',[WfhController::class,'update']);
@@ -58,6 +62,9 @@ Route::post('profile',[ProfileController::class,'store']);
 Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserController::class,'destroy']);
 
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
+    //Create New Account
+    Route::post('/register', [UserController::class, 'store']);
+    //Shift
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/UpdateUserShift/{id}',[ShiftController::class,'updateUserShift']);
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
@@ -67,4 +74,5 @@ Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
         'Holidays' => HolidayController::class,
         'Shifts' =>ShiftController::class
     ]);
+
 });

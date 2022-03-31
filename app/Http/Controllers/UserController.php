@@ -21,7 +21,7 @@ class UserController extends ApiController
     {
         $users = User::paginate();
         if($users===null){
-            return $this->errorResponse("users not found", 404);
+            return $this->errorResponse("Users are not existed", 404);
         }else{
             return new UserCollection($users);
         }
@@ -48,6 +48,7 @@ class UserController extends ApiController
             'can_wfh'=>$request['can_wfh']
 
         ]);
+
         $user->assignRole($request['role']);
         $response = ['user' => $user, 'password' => $hashed_random_password];
         return $this->showCustom($response, 201);
@@ -59,9 +60,8 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::where('id', $id)->first();
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
@@ -76,9 +76,8 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user = User::find($id);
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
@@ -100,9 +99,8 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
