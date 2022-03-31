@@ -31,11 +31,11 @@ class User extends Authenticatable
 
     ];
     const Validation_Update_Account_Rules = [
-        'name' => 'required|string',
-        'birthdate' => 'required|date',
-        'phone' => 'required|string|unique:users,phone',
-        'email' => 'required|string|unique:users,email',
-        'can_wfh'=>'required|boolean',
+        'name' => 'string',
+        'birthdate' => 'date',
+        'phone' => 'string|unique:users,phone',
+        'email' => 'string|unique:users,email',
+        'can_wfh'=>'boolean',
     ];
     protected $fillable = [
         'id',

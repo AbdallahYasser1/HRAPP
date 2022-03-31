@@ -25,22 +25,17 @@ use Illuminate\Support\Facades\Route;
 */
 //Login
 Route::post('login', [AuthController::class, 'login']);
-//Get Auth User Data
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware(['auth:sanctum','abilities:application'])->group( function () {
-
-});
 Route::middleware(['auth:sanctum','abilities:firstlogin'])->group( function () {
     Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
 });
+//Application access middleware
+Route::middleware(['auth:sanctum','abilities:application'])->group( function () {
+//Get Auth User Data
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
 
-});
-Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/wfh',[WfhController::class,'store']);
     Route::put('/wfh/{id}',[WfhController::class,'update']);
     Route::get('/wfh/{wfh}',[WfhController::class,'showWfhRequest']);
@@ -56,7 +51,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('supervisor/requests',[SupervisorController::class,'showSupervisedUsersPendingRequests']);
     Route::get('department/users/{department}',[DepartmentController::class,'getUsersOfDepartment']);
 
-});
 Route::post('profile',[ProfileController::class,'store']);
 
 Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserController::class,'destroy']);
@@ -74,5 +68,12 @@ Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
         'Holidays' => HolidayController::class,
         'Shifts' =>ShiftController::class
     ]);
+Route::patch('users/{user}',[UserController::class,'update']);
+Route::delete('users/{user}',[UserController::class,'destroy']);
+Route::get('users/{user}',[UserController::class,'show']);
+Route::get('users',[UserController::class,'index']);
 
 });
+
+
+}); // end of Application access

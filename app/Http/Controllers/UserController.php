@@ -81,14 +81,7 @@ class UserController extends ApiController
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
-            $user->update([
-                'name' => $request['name'],
-                'birthdate' => $request['birthdate'],
-                'phone' => $request['phone'],
-                'email' => $request['email'],
-                'phone' => $request['phone'],
-                'can_wfh'=>$request['can_wfh']
-            ]);
+            $user->update($request->all());
             return $this->showOne($user, 200);
         }
     }
