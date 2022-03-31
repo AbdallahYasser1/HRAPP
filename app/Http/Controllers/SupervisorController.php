@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+
 class SupervisorController extends ApiController
 {
     public function showSupervisedUsers(){
@@ -26,6 +28,19 @@ class SupervisorController extends ApiController
                    ->where('users.supervisor','=',Auth::id())
                     ->where('requestdbs.status','=','pending')
                     ->get();
+$employees=Requestdb::query()
+    ->with(['requestable' => function (MorphTo $morphTo) {
+        $morphTo->morphWith([
+            Wfh::class
+        ]);
+    },'user'=>function($query){
+        $query->where('supervisor','=',Auth::id());
+    }])->get();
+        $employees=Requestdb::with(['requestable'])
+            ->join('users','requestdbs.user_id','users.id')
+            ->where('supervisor','=',Auth::id())
+            ->where('requestdbs.status','=','pending')
+            ->get();
 
         return $this->showCustom($employees,200);
     }

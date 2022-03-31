@@ -89,27 +89,17 @@ class DepartmentController extends ApiController
         }
     }
 
-    public function getUsersOfShift($id)
+    public function getUsersOfDepartment(Department $department)
     {
-        $usersOFShift=Shift::find($id);
-        if ($usersOFShift === null) {
+$users=$department->with('profile.user')->get();
+
+        if ($users === null) {
             return $this->errorResponse("users not found", 404);
         }else{
-            $users=$usersOFShift->users()->paginate();
-            return new ShiftCollection($users);
+
+            return $this->showCustom($users,200);
         }
 
     }
-    public function updateUserShift(Request $shift_id,$id){
-        if($shift_id['id']===null){
-            return $this->errorResponse("Bad Request", 400);
-        }
-        $user =User::find($id);
-        if ($user === null) {
-            return $this->errorResponse("User not found", 404);
-        } else {
-            $user->update(['shift_id'=>$shift_id['id']]);
-            return $this->showOne($user, 200);
-        }
-    }
+
 }

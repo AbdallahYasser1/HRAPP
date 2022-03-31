@@ -13,4 +13,5 @@ class Wfh extends Model
     {
         return $this->morphMany(Requestdb::class, 'requestable');
     }
+
 }

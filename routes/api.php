@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WfhAdminController;
@@ -49,8 +50,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('supervised',[SupervisorController::class,'showSupervisedUsers']);
     Route::get('supervisor/requests',[SupervisorController::class,'showSupervisedUsersPendingRequests']);
+    Route::get('department/users/{department}',[DepartmentController::class,'getUsersOfDepartment']);
 
 });
+Route::post('profile',[ProfileController::class,'store']);
 
 Route::middleware(['auth:sanctum','role:Admin'])->delete('/Users/{id}',[UserController::class,'destroy']);
 

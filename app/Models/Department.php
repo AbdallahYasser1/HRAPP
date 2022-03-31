@@ -14,4 +14,7 @@ class Department extends Model
     {
         return $this->hasMany(Job_Title::class);
     }
+    public function profile(){
+        return $this->hasMany(Profile::class);
+    }
 }

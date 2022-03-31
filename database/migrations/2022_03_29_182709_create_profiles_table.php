@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('user_id')->unique();
             $table->foreignId('department_id')->constrained('departments');
             $table->string('image')->nullable();
             $table->boolean('image_approved')->default(false);
