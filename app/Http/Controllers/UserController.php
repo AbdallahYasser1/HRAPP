@@ -119,8 +119,4 @@ class UserController extends ApiController
         }
         return $this->showCustom($requestes,200);
     }
-
-    public function acceptPhoto(){
-
-    }
 }

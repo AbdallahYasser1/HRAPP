@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\Wfh;
 use App\Models\Requestdb;
-use Illuminate\Support\Facades\Auth;
 
 class WfhAdminController extends Controller
 {
