@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Requestdb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -100,6 +101,23 @@ class UserController extends ApiController
             $user->delete();
             return $this->showCustom(['user deleted'], 200);
         }
+    }
+
+    public function ViewAllRequests(Request $request){
+        $status=$request->query('status');
+        if($status===null){  $requestes=Requestdb::with(['requestable'])
+            ->join('users','requestdbs.user_id','users.id')
+            ->where('users.id','=',Auth::id())
+            ->get(); }
+        else{
+            $requestes=Requestdb::with(['requestable'])
+                ->join('users','requestdbs.user_id','users.id')
+                ->where('users.id','=',Auth::id())
+                ->where('requestdbs.status','=',$status)
+                ->get();
+
+        }
+        return $this->showCustom($requestes,200);
     }
 
     public function acceptPhoto(){
