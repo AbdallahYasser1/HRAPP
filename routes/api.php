@@ -54,6 +54,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('department/users/{department}', [DepartmentController::class, 'getUsersOfDepartment']);
 
     Route::post('profile', [ProfileController::class, 'store']);
+    //when play with this route specifc the data will be "form-data"->(it avialbe in postman) not json
     Route::put('profile/photo', [ProfileController::class, 'storePhoto']);
     Route::put('profile/photoDefault', [ProfileController::class, 'storeDefaultPhoto']);
     Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);

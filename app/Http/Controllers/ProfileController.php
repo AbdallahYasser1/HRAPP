@@ -18,6 +18,7 @@ class ProfileController extends ApiController
     }
     public function storeDefaultPhoto($id){
         $profile=Profile::where('user_id',$id)->first();
+        //when choose default image path var will be empty
         $path='';
         if($profile===null){
             return $this->errorResponse("profile not found",404);
