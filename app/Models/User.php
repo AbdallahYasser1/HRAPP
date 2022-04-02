@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+
+use App\Models\Salary\SalarySlip;
+use App\Models\Salary\SalaryTerm;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -86,5 +89,13 @@ class User extends Authenticatable
         return $this->belongsTo(User::class,'supervisor');
     }
 
+// Salary
+public function salaryTerm() {
+       return $this->hasOne(SalaryTerm::class);
+}
 
+public function salarySlips() {
+        return $this->hasMany(SalarySlip::class);
+}
+// Salary
 }
