@@ -33,16 +33,18 @@ class UserFactory extends Factory
             'password' => Hash::make('123456789'),
             'shift_id'=>Shift::all()->Random(),// password
             'remember_token' => Str::random(10),
+            'supervisor'=>null
         ];
     }
-    public function configure()
-    {
-        return $this->afterMaking(function (User $user) {
 
-            $user->assignRole(Role::all()->random());
+    //public function configure()
+   // {
+    //    return $this->afterMaking(function (User $user) {
 
-        });
-    }
+    //        $user->assignRole(Role::all()->random());
+
+       // });
+   // }
     /**
      * Indicate that the model's email address should be unverified.
      *
