@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Wfh;
 use App\Models\Requestdb;
-
-class WfhAdminController extends Controller
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Resources\WFHCollection;
+class WfhAdminController extends ApiController
 {
     public function update(Request $request, $id)
     {
@@ -29,11 +30,23 @@ class WfhAdminController extends Controller
             return $this->showCustom($wfh->requests->first(),200);
         }
     }
-    public function showAllRequestes(){
-        $request= Requestdb::whereHasMorph(
-            'requestable',
-            [Wfh::class]
-        )->get();
-
+    public function showAllWFHRequestes(Request $request){
+        $status = $request->query('status');
+        if ($status === null) {
+            $requestes = Requestdb::with(['requestable'])
+                ->join('users', 'requestdbs.user_id', 'users.id')
+                ->paginate()->appends(request()->query());
+        } else {
+            $requestes = Requestdb::with(['requestable'])
+                ->join('users', 'requestdbs.user_id', 'users.id')
+                ->where('requestdbs.status', '=', $status)
+                ->paginate()->appends(request()->query());
+        }
+        if ($requestes->count()==0) {
+            return $this->errorResponse("wfh not found", 404);
+        } else {
+            return new WFHCollection($requestes);
+        }
+        
     }
 }

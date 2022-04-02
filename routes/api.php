@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);
-    Route::get('supervisor/requests/{id}', [SupervisorController::class, 'supervisorApproveRequest']);
+    Route::put('supervisor/requests/{id}', [SupervisorController::class, 'supervisorApproveRequest']);
     Route::get('department/users/{department}', [DepartmentController::class, 'getUsersOfDepartment']);
 
     Route::post('profile', [ProfileController::class, 'store']);
@@ -60,6 +60,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
     Route::put('profile/photoApprove/{id}', [ProfileController::class, 'approvePhoto']);
 
+    Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->delete('/Users/{id}', [UserController::class, 'destroy']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->put('/supervisor', [SupervisorController::class, 'makeUserSupervised']);
 
