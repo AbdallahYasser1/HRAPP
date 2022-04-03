@@ -97,5 +97,10 @@ public function salaryTerm() {
 public function salarySlips() {
         return $this->hasMany(SalarySlip::class);
 }
+
+public function lastSlip() {
+        return $this->hasOne(SalarySlip::class)->latest();
+}
+
 // Salary
 }

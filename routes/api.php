@@ -81,6 +81,7 @@ Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
 
 });
 
+
 // Salary
 Route::resource('slips', SalarySlipController2::class, );
 Route::resource('slips.adjustments', SlipAdjustmentController::class, );
@@ -95,6 +96,10 @@ Route::resource('salaryAdjustmentTypes', SalaryAdjustmentTypeController::class, 
 
 Route::resource('users.slips', UserSlipController::class, );
 Route::resource('users.terms', UserTermController::class, );
+Route::get('users/{id}/lastSlip', [UserSlipController::class, 'lastSlip']);
+Route::put('users/{id}/lastSlip', [UserSlipController::class, 'updateLastSlip']);
+
 
 // Salary
 
+//});

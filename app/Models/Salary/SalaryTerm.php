@@ -10,7 +10,10 @@ class SalaryTerm extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['start, end, salary_agreed', 'user_id'];
+    protected $fillable = [
+        'salary_agreed',
+        'end'
+    ];
 
     public function user() {
         return $this->belongsTo(User::class);

@@ -98,4 +98,29 @@ class UserSlipController extends ApiController
     {
         //
     }
+
+    public function lastSlip($id) {
+        $user = User::find($id);
+        $slip = $user->lastSlip;
+        return $this->showOne($slip);
+    }
+
+    public function updateLastSlip(Request $request, $id) {
+        $user = User::find($id);
+        $slip = $user->lastSlip;
+
+        $rules = [
+            'net_salary' => 'required|integer',
+            'period' => 'required|string',
+        ];
+        $this->validate($request, $rules);
+
+        $slip->fill($request->only(['net_salary', 'period']));
+        if($slip->isClean()) {
+            return $this->errorResponse('you need to specify a different value to update', 422);
+        }
+
+        $slip->save();
+        return $this->showOne($slip);
+    }
 }

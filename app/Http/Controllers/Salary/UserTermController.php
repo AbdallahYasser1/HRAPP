@@ -37,7 +37,7 @@ class UserTermController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request, $id)
     {
         $rules = [
 //            'start' => 'required|date|date_format:Y-m-d|after:yesterday',
@@ -48,7 +48,7 @@ class UserTermController extends ApiController
         $this->validate($request, $rules);
 
         $data = $request->all();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $id;
 
         $newTerm = SalaryTerm::create($data);
         return $this->showOne($newTerm, 201);
@@ -83,9 +83,24 @@ class UserTermController extends ApiController
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, $salaryTermId)
     {
-        //
+//        $user = User::find($id);
+        $term = SalaryTerm::find($salaryTermId);
+
+        $rules = [
+            'salary_agreed' => 'integer',
+        ];
+        $this->validate($request, $rules);
+        $this->checkUser($user, $term);
+
+        $term->fill($request->only(['salary_agreed', 'end']));
+        if($term->isClean()) {
+            return $this->errorResponse('you need to specify a different value to update', 422);
+        }
+
+        $term->save();
+        return $this->showOne($term);
     }
 
     /**
@@ -97,5 +112,14 @@ class UserTermController extends ApiController
     public function destroy(User $user)
     {
         //
+    }
+
+
+
+    public function checkUser(User $user, SalaryTerm $term)
+    {
+        if ($user->id != $term->user_id) {
+            throw new HttpException(422, 'The specified seller is not the actual seller of the product');
+        }
     }
 }
