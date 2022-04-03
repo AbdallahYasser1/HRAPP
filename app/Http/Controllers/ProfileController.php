@@ -72,5 +72,9 @@ class ProfileController extends ApiController
        //return print_r($user->profile->department->name);
         return new ProfileResource($user);
     }
+    public function destroy(User $user){
+        $user->profile()->delete();
+        return $this->showCustom("profile was deleted",200);
+    }
 
 }

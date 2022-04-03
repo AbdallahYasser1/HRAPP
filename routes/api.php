@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
 
 
+    Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->delete('/Users/{id}', [UserController::class, 'destroy']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->put('/supervisor', [SupervisorController::class, 'makeUserSupervised']);
@@ -97,6 +98,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     });
 }); // end of Application access
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
+    
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/UpdateUserShift/{id}',[ShiftController::class,'updateUserShift']);
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
