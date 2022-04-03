@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             JobTitleSeeder::class,
             ShiftSeeder::class,
             RolesSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            salarySeeder::class,
+
         ]);
     }
 }

@@ -20,7 +20,7 @@ class AuthController extends ApiController
     }
     public function Login(Request $request)
     {
-        //check the credentials
+        //check the credentials  Auth::attempt($this->credentials($request))
 
         if (Auth::attempt($this->credentials($request))) {
             //first time login
@@ -117,4 +117,3 @@ class AuthController extends ApiController
         *return $this->showCustom($response, 201);
     *}
          */
-   
