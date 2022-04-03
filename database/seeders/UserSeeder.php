@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Models\Job_Title;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,20 +33,20 @@ class UserSeeder extends Seeder
                 $user->assignRole('Accountant');
             });
         $department = Department::all()->random();
-        $normalUser = User::factory(1)->has(Profile::factory()->state(['department_id' => $department->id]))->create()
+        $normalUser = User::factory(1)->has(Profile::factory()->state(['department_id' => $department->id,'job__titles_id'=>Job_Title::where('department_id','=',$department->id)->first()->id]))->create()
             ->each(function ($user) {
                 $user->assignRole('Normal');
             });
-        User::factory(10)->has(Profile::factory()->state(['department_id' => $department->id]))->state(['supervisor' => $normalUser[0]->id])->create()
+        User::factory(10)->has(Profile::factory()->state(['department_id' => $department->id,'job__titles_id'=>Job_Title::where('department_id','=',$department->id)->first()->id]))->state(['supervisor' => $normalUser[0]->id])->create()
             ->each(function ($user) {
                 $user->assignRole('Normal');
             });
         $department = Department::all()->random();
-        $normalUser2 = User::factory(1)->has(Profile::factory()->state(['department_id' => $department->id]))->create()
+        $normalUser2 = User::factory(1)->has(Profile::factory()->state(['department_id' => $department->id,'job__titles_id'=>Job_Title::where('department_id','=',$department->id)->first()->id]))->create()
             ->each(function ($user) {
                 $user->assignRole('Normal');
             });
-        User::factory(10)->has(Profile::factory()->state(['department_id' => $department->id]))->state(['supervisor' => $normalUser2[0]->id])->create()
+        User::factory(10)->has(Profile::factory()->state(['department_id' => $department->id,'job__titles_id'=>Job_Title::where('department_id','=',$department->id)->first()->id]))->state(['supervisor' => $normalUser2[0]->id])->create()
             ->each(function ($user) {
                 $user->assignRole('Normal');
             });

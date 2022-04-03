@@ -54,11 +54,12 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('department/users/{department}', [DepartmentController::class, 'getUsersOfDepartment']);
 
     Route::post('profile', [ProfileController::class, 'store']);
+    Route::get('profile', [ProfileController::class, 'getprofile']);
     //when play with this route specifc the data will be "form-data"->(it avialbe in postman) not json
-    Route::put('profile/photo', [ProfileController::class, 'storePhoto']);
+    Route::post('profile/photo', [ProfileController::class, 'storePhoto']);
     Route::put('profile/photoDefault', [ProfileController::class, 'storeDefaultPhoto']);
     Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
-    Route::put('profile/photoApprove/{id}', [ProfileController::class, 'approvePhoto']);
+
 
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->delete('/Users/{id}', [UserController::class, 'destroy']);
@@ -67,6 +68,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
         //Create New Account
         Route::post('/register', [UserController::class, 'store']);
+        Route::put('profile/photoApprove/{id}', [ProfileController::class, 'approvePhoto']);
         //Shift
         Route::get('Shifts/GetUsersShift/{id}', [ShiftController::class, 'getUsersOfShift']);
         Route::get('Shifts/UpdateUserShift/{id}', [ShiftController::class, 'updateUserShift']);
