@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->unique();
             $table->foreignId('department_id')->constrained('departments');
-            $table->foreignId('job__titles_id')->constrained('job__titles');
+            $table->foreignId('job__title_id')->constrained('job__titles');
             $table->string('image')->nullable();
             $table->boolean('image_approved')->default(false);
             $table->timestamps();

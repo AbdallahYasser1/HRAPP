@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class Profile extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'department_id', 'job__titles_id', 'image', 'image_approved'];
+    protected $fillable = ['user_id', 'department_id', 'job__title_id', 'image', 'image_approved'];
 
     public function department()
     {
@@ -17,7 +17,7 @@ class Profile extends Model
     }
     public function job_title()
     {
-        return $this->belongsTo(Job_Title::class);
+        return $this->belongsTo(Job_Title::class,'job__title_id');
     }
     public function user()
     {
@@ -26,7 +26,7 @@ class Profile extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => request()->getSchemeAndHttpHost() . '/storage/' . $value,
+            get: fn ($value) =>$value==''?null :request()->getSchemeAndHttpHost() . '/storage/' . $value,
         );
     }
 }

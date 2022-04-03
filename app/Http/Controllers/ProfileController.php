@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoRequest;
+use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class ProfileController extends ApiController
         $profile = Profile::create([
             'user_id' => $request['user_id'],
             'department_id' => $request['department_id'],
-            'job__titles_id'=>$request['job__titles_id']
+            'job__title_id'=>$request['job__title_id']
         ]);
         return $this->showCustom($profile, 201);
     }
@@ -67,7 +68,9 @@ class ProfileController extends ApiController
         }
     } 
     public function getprofile(){
-        return User::find(Auth::id())->profile;
+        $user=User::find(Auth::id());
+       //return print_r($user->profile->department->name);
+        return new ProfileResource($user);
     }
 
 }

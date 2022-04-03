@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             ShiftSeeder::class,
             RolesSeeder::class,
             UserSeeder::class,
-            salarySeeder::class,
+            //salarySeeder::class,
 
         ]);
     }
