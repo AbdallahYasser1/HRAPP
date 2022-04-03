@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Salary/UserSlipController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Salary/UserSlipController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Salary/UserTermController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Salary/UserTermController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Salary/SalaryTerm.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +195,7 @@
       <workItem from="1648560829384" duration="11547000" />
       <workItem from="1648783599526" duration="4926000" />
       <workItem from="1648797746912" duration="20718000" />
-      <workItem from="1648967341733" duration="7401000" />
+      <workItem from="1648967341733" duration="7897000" />
     </task>
     <servers />
   </component>
@@ -218,7 +213,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Salary" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>
