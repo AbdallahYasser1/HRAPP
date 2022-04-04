@@ -27,10 +27,10 @@ class salarySeeder extends Seeder
         SalaryAdjustment::truncate();
 
 
-        $salaryTermQuantity = 10;
+        $salaryTermQuantity = 27;
         $salarySlipQuantity = 100;
         $salaryAdjustmentTypeQuantity = 20;
-        $salaryAdjustmentQuantity = 10;
+        $salaryAdjustmentQuantity = 27;
         $salaryHistoryQuantity = 10;
 
         SalaryTerm::factory($salaryTermQuantity)->create();
