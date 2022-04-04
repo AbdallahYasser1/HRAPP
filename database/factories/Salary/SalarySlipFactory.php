@@ -25,7 +25,7 @@ class SalarySlipFactory extends Factory
         $terms = SalaryTerm::pluck('id');
 
         $user_id = $this->faker->randomElement($users);
-        $term_id = User::find($user_id)->salaryTerm->id;
+        $term_id = User::find($user_id)->salaryTerm;
 
         return [
             'user_id' => $user_id,
