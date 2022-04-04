@@ -13,5 +13,9 @@ class Job_Title extends Model
     {
         return $this->belongsTo(Job_Title::class);
     }
+    public function Profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
 }
 

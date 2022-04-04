@@ -11,6 +11,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 class UserController extends ApiController
 {
     /**
@@ -45,7 +46,7 @@ class UserController extends ApiController
             'phone' => $request['phone'],
             'birthdate' => $request['birthdate'],
             'shift_id' => $request['shift_id'],
-            'password' => bcrypt($hashed_random_password),
+            'password' => $hashed_random_password,
             'can_wfh'=>$request['can_wfh']
 
         ]);
