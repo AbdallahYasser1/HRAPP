@@ -68,8 +68,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     //when play with this route specifc the data will be "form-data"->(it avialbe in postman) not json
     Route::post('profile/photo', [ProfileController::class, 'storePhoto']);
     Route::put('profile/photoDefault', [ProfileController::class, 'storeDefaultPhoto']);
-    Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
-
+    
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
@@ -95,6 +94,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         Route::get('users/{user}', [UserController::class, 'show']);
         Route::get('users', [UserController::class, 'index']);
         Route::get('user/requests', [UserController::class, 'ViewAllRequests']);
+        Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
+
     });
 }); // end of Application access
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {

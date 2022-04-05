@@ -49,11 +49,11 @@ class ProfileController extends ApiController
         }
     }
     public function viewUserProfile($id){
-        $profile=Profile::where('user_id',$id)->first();
-        if($profile===null){
+        $user=User::find($id);
+        if($user===null){
             return $this->errorResponse("profile not found",404);
         }else{
-            return $this->showOne($profile,200);
+            return new ProfileResource($user);
         }
     }
     public function approvePhoto(Request $request,$id){
