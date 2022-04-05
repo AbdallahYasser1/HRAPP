@@ -19,10 +19,24 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    function genrateID() {
+        $ID = mt_rand(100000, 999999999); // better than rand()
+    
+        if ($this->IDExists($ID)) {
+            return $this->genrateID();
+        }
+    
+        return $ID;
+    }
+    
+    function IDExists($ID) {
+        return User::where('id',$ID)->exists();
+    }
     public function definition()
     {
+
         return [
-            'id'=>rand(100000,80000)+rand(1,1000),
+            'id'=>$this->genrateID(),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone'=>$this->faker->unique()->phoneNumber(),
