@@ -44,7 +44,7 @@ class UserFactory extends Factory
             'active'=>true,
             'first_time_login'=>false,
             'status'=>'active',
-            'password' => Hash::make('123456789'),
+            'password' => '123456789',
             'shift_id'=>Shift::all()->Random(),// password
             'remember_token' => Str::random(10),
             'supervisor'=>null
