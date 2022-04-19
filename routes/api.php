@@ -20,6 +20,7 @@ use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WfhAdminController;
 use App\Http\Controllers\WfhController;
+use App\Http\Controllers\MissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,12 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/wfh/{wfh}', [WfhController::class, 'showWfhRequest']);
     Route::get('/wfh', [WfhController::class, 'showAllWfhRequests']);
     Route::delete('/wfh/{id}', [WfhController::class, 'destroy']);
+    Route::post('/mission', [MissionController::class, 'store']);
+    Route::put('/mission/{id}', [MissionController::class, 'update']);
+    Route::get('/mission/{mission}', [MissionController::class, 'showMissionRequest']);
+    Route::get('/mission', [MissionController::class, 'showAllMissionRequests']);
+    Route::delete('/mission/{id}', [MissionController::class, 'destroy']);
+    
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
     Route::post('department', [DepartmentController::class, 'store']);

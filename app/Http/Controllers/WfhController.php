@@ -28,7 +28,7 @@ class WfhController extends ApiController
     }
     public function store(Request $request)
     {
-        $requestdb = DB::table('requestdbs')->where('start_date', '=', $request['start_date'])->where('user_id', Auth::id())->exists();
+        $requestdb = DB::table('requestdbs')->where('start_date', '=', $request['start_date'])->where('requestable_type','=','App\\Models\\Wfh')->where('user_id', Auth::id())->exists();
         $holiday = DB::table('holidays')->where('date', '=', $request['start_date'])->exists();
         $shift = User::find(Auth::id())->shift()->first();
         if (!$requestdb && !$holiday) {
