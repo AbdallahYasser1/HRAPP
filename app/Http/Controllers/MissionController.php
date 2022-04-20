@@ -30,17 +30,17 @@ class MissionController extends ApiController
     }
     public function store(MissionRequest $request)
     {
-        $requestdb = DB::table('requestdbs')->where('start_date', '=', $request['start_date'])->where('requestable_type','=','App\\Models\\Mission')->where('user_id', Auth::id())->exists();
+        $requestdb = DB::table('requestdbs')->where('start_date', '=', $request['start_date']) ->where('status','=','canceled')->where('requestable_type','=','App\\Models\\Mission')->where('user_id', Auth::id())->exists();
         $holiday = DB::table('holidays')->where('date', '=', $request['start_date'])->exists();
         $shift = User::find(Auth::id())->shift()->first();
         if (!$requestdb && !$holiday) {
             $timeOfDate = date('Y-m-d', time());
-            $timeOfWFH = date('Y-m-d', strtotime($request['start_date']));
+            $timeOfMission = date('Y-m-d', strtotime($request['start_date']));
             $now = date('H', time());
             $timeShift = date('H', strtotime($shift->start_time));
-            if ($timeOfWFH > $timeOfDate) {
+            if ($timeOfMission > $timeOfDate) {
                 return $this->storeDB($request);
-            } else if ($timeOfWFH == $timeOfDate && ($timeShift - $now > 0)) {
+            } else if ($timeOfMission == $timeOfDate && ($timeShift - $now > 0)) {
                 return $this->storeDB($request);
             } else {
                 return $this->errorResponse("cant making mission in past date", 400);
@@ -55,8 +55,26 @@ class MissionController extends ApiController
         if ($mission === null) {
             return $this->errorResponse("mission not found", 404);
         } else {
-            if ($mission->requests->first()->user_id == Auth::id()) {
+            if ($mission->requests->first()->user->supervisor == Auth::id()) {
                 $mission->requests->first()->status = $request['status'];
+                $mission->requests->first()->save();
+                // can mark it as accepted should be fixed
+                return $this->showCustom($mission->requests->first(),200);
+            } else {
+                return $this->errorResponse(" user mission cant be updated", 401);
+            }
+        }
+    }
+    public function updateDate(Request $request, $id)
+    {
+        $mission = Mission::find($id);
+        if ($mission === null) {
+            return $this->errorResponse("mission not found", 404);
+        } else {
+            if ($mission->requests->first()->user_id == Auth::id()) {
+                $mission->requests->first()->status = 'pending';
+                $mission->requests->first()->start_date = $request['start_date'];
+                $mission->requests->first()->end_date = $request['end_date'];
                 // can mark it as accepted should be fixed
                 return $this->showCustom($mission->requests->first(),200);
             } else {
@@ -80,9 +98,9 @@ class MissionController extends ApiController
     }
     public function showMissionRequest(Mission $mission)
 {
-    if(! $mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_mission_Request'))
+    if(! $mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Request'))
          $this->errorResponse("You do not have the permission",403);
-    return $this->showCustom(['mission'=>$mission,'updates'=>$mission->missionUpdates],200);
+    return $this->showCustom(['mission'=>$mission],200);
 
 }
 public function showAllMissionRequests()

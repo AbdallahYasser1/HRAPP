@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('mission_updates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mission_id')->constrained('missions');
+            $table->string('description');
             $table->date('date');
             $table->float('extra_cost', 8, 2);
             $table->string('approved_file');
