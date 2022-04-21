@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/salarySeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/salarySeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/HRAPP.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,6 +203,9 @@
       <workItem from="1648672037362" duration="22761000" />
       <workItem from="1649073960717" duration="327000" />
       <workItem from="1649076819545" duration="1076000" />
+      <workItem from="1649163906181" duration="909000" />
+      <workItem from="1649165034720" duration="1102000" />
+      <workItem from="1650464999899" duration="601000" />
     </task>
     <servers />
   </component>
@@ -226,5 +234,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

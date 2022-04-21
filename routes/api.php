@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
 //Application access middleware
 Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () {
     //Get Auth User Data
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
@@ -106,7 +106,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     });
 }); // end of Application access
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
-    
+
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/UpdateUserShift/{id}',[ShiftController::class,'updateUserShift']);
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
