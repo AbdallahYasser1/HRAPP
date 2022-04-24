@@ -12,12 +12,12 @@ class MissionUpdatesController extends ApiController
 {
     public function store(MissionUpdateRequest  $request){
         $mission=Mission::find($request['mission_id']);
+       
         if($mission===null){
             return $this->errorResponse("MissionUpdate not found",404);
         }
-        print_r($mission);
-        if($mission->requests()->first()->status!=='approved'){
-            return $this->errorResponse("MissionUpdate in pending status",400);
+        if($mission->requests()->first()->status!=='approved'&&$mission->end_date<$request['date']){
+            return $this->errorResponse("MissionUpdate in pending status or time of update vanished",400);
         }
         if($request->hasFile('approved_file')){
             $path=$request->file('approved_file')->store('public/missionUpdateImages');

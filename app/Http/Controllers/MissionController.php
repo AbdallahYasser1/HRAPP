@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class MissionController extends ApiController
 {
+    public function diffrenceBetweenTwoDates($newEndDate,$oldEndDate){
+        $newEndDate=date('Y-m-d',strtotime($newEndDate));
+        $oldEndDate=date('Y-m-d',strtotime($oldEndDate));
+        $diff = abs(strtotime($newEndDate) - strtotime($oldEndDate));
+        $years = floor($diff / (365*60*60*24));
+        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        return $days;
+    }
     public function storeDB($request)
     {
         $mission = new Mission;
@@ -71,14 +80,16 @@ class MissionController extends ApiController
         if ($mission === null) {
             return $this->errorResponse("mission not found", 404);
         } else {
-            if ($mission->requests->first()->user_id == Auth::id()) {
+            $diffrence=$this->diffrenceBetweenTwoDates($request['end_date'],$mission->requests->first()->end_date);
+            if ($mission->requests->first()->user_id == Auth::id()&& $diffrence<=3) {
                 $mission->requests->first()->status = 'pending';
                 $mission->requests->first()->start_date = $request['start_date'];
                 $mission->requests->first()->end_date = $request['end_date'];
+                $mission->requests->first()->save();
                 // can mark it as accepted should be fixed
                 return $this->showCustom($mission->requests->first(),200);
             } else {
-                return $this->errorResponse("user update anthor user mission", 401);
+                return $this->errorResponse("user update anthor user mission or update more than 3 days", 401);
             }
         }
     }
@@ -90,6 +101,8 @@ class MissionController extends ApiController
         } else {
             if ($mission->requests->first()->user_id == Auth::id()) {
                 $mission->requests->first()->status = 'canceled';
+                $mission->requests->first()->save();
+              
                 return $this->showCustom($mission->requests->first(),200);
             } else {
                 return $this->errorResponse("user delete anthor user mission", 401);
@@ -100,7 +113,7 @@ class MissionController extends ApiController
 {
     if(! $mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Request'))
          $this->errorResponse("You do not have the permission",403);
-    return $this->showCustom(['mission'=>$mission],200);
+    return $this->showCustom(['mission'=>$mission,'updates'=>$mission->missionUpdates],200);
 
 }
 public function showAllMissionRequests()

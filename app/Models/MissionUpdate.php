@@ -17,10 +17,11 @@ class MissionUpdate extends Model
         return $this->belongsTo(Mission::class);
     }
 
-    protected function approved_file(): Attribute
+    protected function approvedFile(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>$value==''?null :request()->getSchemeAndHttpHost() . '/storage/' . $value,
+            get: fn ($value) =>request()->getSchemeAndHttpHost() . '/storage/' . $value,
         );
     }
+    
 }

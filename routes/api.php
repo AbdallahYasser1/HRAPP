@@ -50,17 +50,17 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 
     Route::post('/wfh', [WfhController::class, 'store']);
     Route::get('/EmployeeLog', [UserController::class, 'ViewAllRequests']);
+    Route::get('/wfh', [WfhController::class, 'showAllWfhRequests']);
     Route::put('/wfh/{id}', [WfhController::class, 'update']);
     Route::get('/wfh/{wfh}', [WfhController::class, 'showWfhRequest']);
-    Route::get('/wfh', [WfhController::class, 'showAllWfhRequests']);
     Route::delete('/wfh/{id}', [WfhController::class, 'destroy']);
     Route::post('/mission', [MissionController::class, 'store']);//ok
     Route::get('/mission/{mission}', [MissionController::class, 'showMissionRequest']);//ok
-    Route::get('/mission', [MissionController::class, 'showAllMissionRequests']);
+    Route::get('/mission', [MissionController::class, 'showAllMissionRequests']);//ok
     Route::delete('/mission/{id}', [MissionController::class, 'destroy']);//ok
     Route::put('/mission/{id}', [MissionController::class, 'update']);//ok
     Route::put('/mission/updateUser/{id}', [MissionController::class, 'updateDate']);
-    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']);//ok
+    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']);
     Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']);
     Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']);
     
