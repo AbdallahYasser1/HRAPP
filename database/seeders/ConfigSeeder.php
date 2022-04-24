@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 class ConfigSeeder extends Seeder
 {
     /**
@@ -14,12 +15,16 @@ class ConfigSeeder extends Seeder
      */
     public function run()
     {
-        /*
-        $configration = [
-            ['key' => '', 'value' => ''],
-            ['key' => '', 'value' => ''],
+         $configration = [
+            ['key' => 'company_name', 'value' => 'EvaPay'],
+            ['key' => 'specifity', 'value' => 'Software'],
+            ['key' => 'company_email', 'value' => 'eva@pay.com'],
+            ['key' => 'company_phone', 'value' => '0121212'],
+            ['key' => 'country', 'value' => 'egypt'],
+            ['key' => 'branches', 'value' => '1'],
+            ['key' => 'photo', 'value' => 'location'],
         ];
-        DB::table('config_migration')->insert($configration);
-    */
+        DB::table('configs')->insert($configration);
+
     }
 }
