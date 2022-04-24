@@ -34,7 +34,9 @@ class RolesSeeder extends Seeder
             'delete_shift',
             'Show_Wfh_Request',
             'Show_Mission_Request',
-            'create_mission'
+            'create_mission',
+            'create_update_mission',
+            'Show_Mission_Update_Request'
         ];
 
         foreach ($permissions as $permission) {
@@ -54,7 +56,9 @@ class RolesSeeder extends Seeder
             // create user permission
             'view_holiday',
             'create_mission',
+            'create_update_mission',
             'Show_Mission_Request',
+            'Show_Mission_Update_Request'
         ];
         $HRPermissions = [
             'create_account',
@@ -69,10 +73,12 @@ class RolesSeeder extends Seeder
             'delete_shift',
             'Show_Wfh_Request',
             'Show_Mission_Request',
+            'Show_Mission_Update_Request'
         ];
         $AccountantPermissions = [
             
             'Show_Mission_Request',
+            'Show_Mission_Update_Request'
         ];
 
         foreach ($NormalPermissions as $permission) {
@@ -84,6 +90,10 @@ class RolesSeeder extends Seeder
 
         foreach ($permissions as $permission) {
             $role_admin->givePermissionto($permission);
+        }
+
+        foreach ($AccountantPermissions as $permission) {
+            $role_Accountant->givePermissionto($permission);
         }
     }
 }

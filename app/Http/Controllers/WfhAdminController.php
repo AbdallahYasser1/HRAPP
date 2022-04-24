@@ -16,7 +16,9 @@ class WfhAdminController extends ApiController
         if ($wfh === null) {
             return $this->errorResponse("Wfh not found", 404);
         } else {
-            $wfh->requests->first()->status = 'canceled';
+            $wfh->requests->first()->status = $request['status'];
+            $wfh->requests->first()->save();
+              
             return $this->showCustom($wfh->requests->first(),200);
         }
     }
@@ -27,6 +29,8 @@ class WfhAdminController extends ApiController
             return $this->errorResponse("Wfh not found", 404);
         } else {
             $wfh->requests->first()->status = 'canceled';
+            $wfh->requests->first()->save();
+              
             return $this->showCustom($wfh->requests->first(),200);
         }
     }

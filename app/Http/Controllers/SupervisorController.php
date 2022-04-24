@@ -37,6 +37,7 @@ class SupervisorController extends ApiController
         } else {
             if ($request->user()->supervisor == Auth::id()) {
                 $requestdb->status = $request['status'];
+                $requestdb->save();
                 return $this->showCustom($requestdb, 200);
             } else {
                 return $this->errorResponse("Not Auth User", 401);
@@ -49,6 +50,7 @@ class SupervisorController extends ApiController
             ->join('users', 'requestdbs.user_id', 'users.id')
             ->where('supervisor', '=', Auth::id())
             ->where('requestdbs.status', '=', 'pending')
+            ->select('users.id','name','requestdbs.requestable_id','requestdbs.status','requestdbs.requestable_type','requestdbs.start_date','requestdbs.end_date')
             ->get();
             if ($employees->count()==0) {
                 return $this->errorResponse("users not found", 404);
