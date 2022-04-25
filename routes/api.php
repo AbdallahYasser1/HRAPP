@@ -59,10 +59,10 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/mission', [MissionController::class, 'showAllMissionRequests']);//ok
     Route::delete('/mission/{id}', [MissionController::class, 'destroy']);//ok
     Route::put('/mission/{id}', [MissionController::class, 'update']);//ok
-    Route::put('/mission/updateUser/{id}', [MissionController::class, 'updateDate']);
-    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']);
-    Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']);
-    Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']);
+    Route::put('/mission/updateUser/{id}', [MissionController::class, 'updateDate']);//ok
+    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']);//ok
+    Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']);//ok
+    Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']);//ok
     
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
