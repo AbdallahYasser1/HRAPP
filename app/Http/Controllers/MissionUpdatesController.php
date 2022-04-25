@@ -32,7 +32,7 @@ class MissionUpdatesController extends ApiController
             return $this->errorResponse("MissionUpdate not found",404);
         }else{
             $missionUpdate->delete();
-            return $this->showCustom(['MissionUpdate deleted'],200);    
+            return $this->showCustom('MissionUpdate deleted',200);    
         }
     }
     public function show($id){
