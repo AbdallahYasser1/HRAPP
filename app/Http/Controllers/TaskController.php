@@ -4,46 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $task = new Task;
+        $task->description=$request['description'];
+        $task->save();
+        $requestdb = new Requestdb;
+        $requestdb->user_id = Auth::id();
+        $requestdb->start_date = $request['start_date'];
+        $requestdb->end_date = $request['end_date'];
+        $task->requests()->save($requestdb);
+
+        $response = ["message" => "Task Request Has Succesfully created", "Request" => $requestdb];
+        return $this->showCustom($response, 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function show(Task $task)
     {
         //

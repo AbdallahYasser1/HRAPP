@@ -57,7 +57,7 @@ class WfhController extends ApiController
             if ($wfh->requests->first()->user_id == Auth::id()) {
                 $wfh->requests->first()->status = $request['status'];
                 $wfh->requests->first()->save();
-              
+
                 // can mark it as accepted should be fixed
                 return $this->showCustom($wfh->requests->first(),200);
             } else {
@@ -74,7 +74,7 @@ class WfhController extends ApiController
             if ($wfh->requests->first()->user_id == Auth::id()) {
                 $wfh->requests->first()->status = 'canceled';
                 $wfh->requests->first()->save();
-              
+
                 return $this->showCustom($wfh->requests->first(),200);
             } else {
                 return $this->errorResponse("user delete anthor user wfh", 401);
