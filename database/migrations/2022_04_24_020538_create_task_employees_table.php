@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('task_employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('task_id')->constrained('tasks');
-            $table->foreignId('employee_id')->constrained('users');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->enum('status',['pending','completed','canceled','seen'])->default('pending');
             $table->timestamps();
         });

@@ -2,24 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Requestdb;
 use App\Models\Task;
+use App\Models\Task_employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TaskController extends Controller
+
+class TaskController extends RequestController
 {
     public function store(Request $request)
     {
+        $timeOfDate = date('Y-m-d', time());
+        $timeOfTask = date('Y-m-d', strtotime($request['start_date']));
+        if ($timeOfTask < $timeOfDate)
+            return $this->errorResponse("Cant making task in past date", 400);
+
         $task = new Task;
         $task->description=$request['description'];
         $task->save();
-        $requestdb = new Requestdb;
-        $requestdb->user_id = Auth::id();
-        $requestdb->start_date = $request['start_date'];
-        $requestdb->end_date = $request['end_date'];
+        $requestdb=$this->Create_Request($request);
         $task->requests()->save($requestdb);
+        foreach($request['employees'] as $item) {
+            $task->employees()->create(['user_id'=>$item]);
+        }
 
-        $response = ["message" => "Task Request Has Succesfully created", "Request" => $requestdb];
+        $response = ["message" => "Task Request Has Succesfully created", "Request" => $requestdb,"Task"=>$task];
         return $this->showCustom($response, 201);
     }
 

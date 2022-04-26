@@ -17,6 +17,7 @@ use App\Http\Controllers\Salary\UserSlipController;
 use App\Http\Controllers\Salary\UserTermController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\SupervisorController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WfhAdminController;
 use App\Http\Controllers\WfhController;
@@ -47,13 +48,14 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         return $request->user();
     });
 
-
+    //WFH
     Route::post('/wfh', [WfhController::class, 'store']);
     Route::get('/EmployeeLog', [UserController::class, 'ViewAllRequests']);
     Route::get('/wfh', [WfhController::class, 'showAllWfhRequests']);
     Route::put('/wfh/{id}', [WfhController::class, 'update']);
     Route::get('/wfh/{wfh}', [WfhController::class, 'showWfhRequest']);
     Route::delete('/wfh/{id}', [WfhController::class, 'destroy']);
+    //Mission
     Route::post('/mission', [MissionController::class, 'store']);//ok
     Route::get('/mission/{mission}', [MissionController::class, 'showMissionRequest']);//ok
     Route::get('/mission', [MissionController::class, 'showAllMissionRequests']);//ok
@@ -63,7 +65,9 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']);//ok
     Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']);//ok
     Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']);//ok
-    
+    //Tasks
+    Route::post('task', [TaskController::class, 'store']);
+
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
     Route::post('department', [DepartmentController::class, 'store']);
@@ -80,7 +84,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     //when play with this route specifc the data will be "form-data"->(it avialbe in postman) not json
     Route::post('profile/photo', [ProfileController::class, 'storePhoto']);
     Route::put('profile/photoDefault', [ProfileController::class, 'storeDefaultPhoto']);
-    
+
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
@@ -121,7 +125,7 @@ Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
         'Holidays' => HolidayController::class,
         'Shifts' =>ShiftController::class
     ]);
-    
+
 
 
 });

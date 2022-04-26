@@ -3,10 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MissionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaskController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaskController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WfhController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WfhController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Task.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Task.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/task_employee.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Task_employee.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Task_employee.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Task_employee.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_04_24_020538_create_task_employees_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_04_24_020538_create_task_employees_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,16 +156,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\HRAPP\app\Traits" />
@@ -206,6 +204,9 @@
       <workItem from="1650464999899" duration="601000" />
       <workItem from="1650764123480" duration="2006000" />
       <workItem from="1650839582353" duration="2774000" />
+      <workItem from="1650924407211" duration="6163000" />
+      <workItem from="1650931277930" duration="14000" />
+      <workItem from="1650983895732" duration="879000" />
     </task>
     <servers />
   </component>
@@ -234,6 +235,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

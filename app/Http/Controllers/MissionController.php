@@ -11,7 +11,7 @@ use App\Models\Mission;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-class MissionController extends ApiController
+class MissionController extends RequestController
 {
     public function diffrenceBetweenTwoDates($newEndDate,$oldEndDate){
         $newEndDate=date('Y-m-d',strtotime($newEndDate));
@@ -28,10 +28,7 @@ class MissionController extends ApiController
         $mission->description=$request['description'];
         $mission->initial_cost=$request['initial_cost'];
         $mission->save();
-        $requestdb = new Requestdb;
-        $requestdb->user_id = Auth::id();
-        $requestdb->start_date =$request['start_date'];
-        $requestdb->end_date = $request['end_date'];
+       $requestdb=$this->Create_Request($request);
         $mission->requests()->save($requestdb);
 
         $response = ["message" => "Mission Request Succesfully created", "Request" => $requestdb];
@@ -102,10 +99,10 @@ class MissionController extends ApiController
             if ($mission->requests->first()->user_id == Auth::id()) {
                 $mission->requests->first()->status = 'canceled';
                 $mission->requests->first()->save();
-              
+
                 return $this->showCustom($mission->requests->first(),200);
             } else {
-                return $this->errorResponse("user delete anthor user mission", 401);
+                return $this->errorResponse("user delete another user mission", 401);
             }
         }
     }
