@@ -11,18 +11,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class WfhController extends ApiController
+class WfhController extends RequestController
 {
-    public function storeDB($startDate)
+    public function storeDB(Request $request)
     {
         $wfh = new Wfh;
         $wfh->save();
-        $requestdb = new Requestdb;
-        $requestdb->user_id = Auth::id();
-        $requestdb->start_date = $startDate;
-        $requestdb->end_date = $startDate;
+        $requestdb=$this->Create_Request($request);
+        $requestdb->end_date = $request['start_date'];
         $wfh->requests()->save($requestdb);
-
         $response = ["message" => "WFH Request Succesfully created", "Request" => $requestdb];
         return $this->showCustom($response, 201);
     }
@@ -37,9 +34,9 @@ class WfhController extends ApiController
             $now = date('H', time());
             $timeShift = date('H', strtotime($shift->start_time));
             if ($timeOfWFH > $timeOfDate) {
-                return $this->storeDB($timeOfWFH);
+                return $this->storeDB($request);
             } else if ($timeOfWFH == $timeOfDate && ($timeShift - $now > 0)) {
-                return $this->storeDB($timeOfWFH);
+                return $this->storeDB($request);
             } else {
                 return $this->errorResponse("cant making wfh in past date", 400);
             }
@@ -90,15 +87,6 @@ public function showWfhRequest(Wfh $wfh)
 }
 public function showAllWfhRequests()
 {
-    $request= Requestdb::whereHasMorph(
-        'requestable',
-        [Wfh::class],
-        function (Builder $query) {
-            $query->where('user_id', '=', Auth::id());
-        }
-    )->get();
-
-
-return $this->showCustom($request,200);
+return $this->ShowAllUserRequests(Wfh::class);
 }
 }

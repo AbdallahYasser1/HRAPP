@@ -34,6 +34,7 @@ class RolesSeeder extends Seeder
             'delete_shift',
             'Show_Wfh_Request',
             'Show_Mission_Request',
+            'Show_Task_Request',
             'create_mission',
             'create_update_mission',
             'Show_Mission_Update_Request'
@@ -73,10 +74,11 @@ class RolesSeeder extends Seeder
             'delete_shift',
             'Show_Wfh_Request',
             'Show_Mission_Request',
-            'Show_Mission_Update_Request'
+            'Show_Mission_Update_Request',
+            'Show_Task_Request'
         ];
         $AccountantPermissions = [
-            
+
             'Show_Mission_Request',
             'Show_Mission_Update_Request'
         ];

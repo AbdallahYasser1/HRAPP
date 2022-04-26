@@ -17,7 +17,6 @@ class TaskController extends RequestController
         $timeOfTask = date('Y-m-d', strtotime($request['start_date']));
         if ($timeOfTask < $timeOfDate)
             return $this->errorResponse("Cant making task in past date", 400);
-
         $task = new Task;
         $task->description=$request['description'];
         $task->save();
@@ -31,17 +30,21 @@ class TaskController extends RequestController
         return $this->showCustom($response, 201);
     }
 
-    public function show(Task $task)
+    public function ShowTask(Task $task)
     {
-        //
-    }
+        if ($task === null)
+            return $this->errorResponse("Task not found", 404);
+        if($task->id!=Auth::id() || ! Auth::user()->hasPermissionTo('Show_Task_Request')){
+            $this->errorResponse("You do not have the permission",403);
+        }
+        return $this->showOne($task,200);
+        }
+  public function ShowAllTasks()
+    {
+    return $this->ShowAllUserRequests(Task::class);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Task $task)
     {
         //
@@ -56,7 +59,16 @@ class TaskController extends RequestController
      */
     public function update(Request $request, Task $task)
     {
-        //
+        if ($task === null) {
+            return $this->errorResponse("Task is not found", 404);
+        } else {
+            if ($task->requests->first()->user_id == Auth::id()) {
+                $task->update($request->all());
+                return $this->showCustom($task->requests->first(),200);
+            } else {
+                return $this->errorResponse("You don't have the permision to update", 401);
+            }
+        }
     }
 
     /**
