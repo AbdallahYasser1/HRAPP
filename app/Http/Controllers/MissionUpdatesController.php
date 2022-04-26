@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MissionUpdateRequest;
 use App\Models\Mission;
 use App\Models\MissionUpdate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+//Show_Mission_Update_Request
 class MissionUpdatesController extends ApiController
 {
     public function store(MissionUpdateRequest  $request){
@@ -16,7 +17,8 @@ class MissionUpdatesController extends ApiController
         if($mission===null){
             return $this->errorResponse("MissionUpdate not found",404);
         }
-        if($mission->requests()->first()->status!=='approved'&&$mission->end_date<$request['date']){
+        if($mission->requests()->first()->status!=='approved'||strtotime($mission->requests()->first()->end_date)<strtotime($request['date'])||$mission->requests()->first()->user_id!=Auth::id()){
+          // print_r($mission->requests()->first()->status!='approved');
             return $this->errorResponse("MissionUpdate in pending status or time of update vanished",400);
         }
         if($request->hasFile('approved_file')){
@@ -31,6 +33,9 @@ class MissionUpdatesController extends ApiController
         if($missionUpdate===null){
             return $this->errorResponse("MissionUpdate not found",404);
         }else{
+             if(! $missionUpdate->mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Update_Request'))
+            return  $this->errorResponse("You do not have the permission",403);
+      
             $missionUpdate->delete();
             return $this->showCustom('MissionUpdate deleted',200);    
         }
@@ -40,6 +45,9 @@ class MissionUpdatesController extends ApiController
         if($missionUpdate===null){
             return $this->errorResponse("MissionUpdate not found",404);
         }else{
+            if(! $missionUpdate->mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Update_Request'))
+            return  $this->errorResponse("You do not have the permission",403);
+      
             return $this->showOne($missionUpdate, 200);    
         }
     }
