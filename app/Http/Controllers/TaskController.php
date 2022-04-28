@@ -15,7 +15,8 @@ class TaskController extends RequestController
     {
         $timeOfDate = date('Y-m-d', time());
         $timeOfTask = date('Y-m-d', strtotime($request['start_date']));
-        if ($timeOfTask < $timeOfDate)
+        $endtimeOfTask = date('Y-m-d', strtotime($request['end_date']));
+        if ($timeOfTask < $timeOfDate|| $endtimeOfTask<$timeOfDate)
             return $this->errorResponse("Cant making task in past date", 400);
         $task = new Task;
         $task->description=$request['description'];

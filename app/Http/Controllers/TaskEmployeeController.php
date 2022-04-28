@@ -65,8 +65,17 @@ class TaskEmployeeController extends RequestController
         }
     }
     public function MarkTheTask(Task $task,Request $request){
+        if ($task === null) {
+            return $this->errorResponse("Request is not found", 404);
+        }
         if($task->employees()->where('user_id',Auth::id())){
-            $task->employees()->update(["status"=>$request['status']]);
+            $task->employees()->where('user_id',Auth::id())->update(["status"=>$request['status']]);
+            return $this->showCustom($task->employees()->where('user_id',Auth::id())->get(),200);
+
+        }
+        else{
+            return $this->errorResponse("You don't have the permission", 401);
+
         }
 
     }
