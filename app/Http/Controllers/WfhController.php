@@ -62,21 +62,9 @@ class WfhController extends RequestController
             }
         }
     }
-    public function destroy($id)
+    public function destroy(Wfh $wfh)
     {
-        $wfh = Wfh::find($id);
-        if ($wfh === null) {
-            return $this->errorResponse("Wfh not found", 404);
-        } else {
-            if ($wfh->requests->first()->user_id == Auth::id()) {
-                $wfh->requests->first()->status = 'canceled';
-                $wfh->requests->first()->save();
-
-                return $this->showCustom($wfh->requests->first(),200);
-            } else {
-                return $this->errorResponse("user delete anthor user wfh", 401);
-            }
-        }
+     return $this->CancelRequest($wfh);
     }
 public function showWfhRequest(Wfh $wfh)
 {

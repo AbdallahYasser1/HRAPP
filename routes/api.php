@@ -68,6 +68,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     //Tasks
     Route::post('task', [TaskController::class, 'store']);
     Route::get('tasks', [TaskController::class, 'ShowAllTasks']);
+    Route::put('tasks/{task}', [TaskController::class, 'CancelTask']);
 
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);

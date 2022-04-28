@@ -78,7 +78,12 @@ class Handler extends ExceptionHandler
                 $errorCode = $e->errorInfo[1];
                 if ($errorCode == 1451) {
                     return $this->errorResponse("Cannot remove this resource. It is related to other resource", 409);
-                }}
+                }
+                if ($errorCode == 1265) {
+                    return $this->errorResponse("Please enter valid data type", 409);
+                }
+
+            }
 
             if (!config('app.debug')) {
                 return $this->errorResponse("Unexpected error", 500);

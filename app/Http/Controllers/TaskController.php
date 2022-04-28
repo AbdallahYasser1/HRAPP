@@ -77,8 +77,19 @@ class TaskController extends RequestController
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function CancelTask(Task $task)
     {
-        //
+//        if ($task === null)
+//            return $this->errorResponse("Task is not found", 404);
+//        else
+//            if ($task->requests->first()->user_id == Auth::id()) {
+//                $task->requests()->status='canceled';
+//                $task->requests()->save();
+//                return $this->showCustom($task->requests->first(),200);
+//            } else {
+//                return $this->errorResponse("You don't have the permision to update", 401);
+//            }
+ return $this->CancelRequest($task);
+
     }
 }

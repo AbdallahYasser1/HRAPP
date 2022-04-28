@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\WFHCollection;
 use App\Models\Requestdb;
+use App\Models\Task;
 use App\Models\Wfh;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -51,4 +52,36 @@ class RequestController extends ApiController
         }
 
     }
+    public function CancelRequest(Model $model)
+    {
+        if ($model === null){
+            return $this->errorResponse("Request is not found", 404);}
+        else{
+            if ($model->requests()->first()->user_id == Auth::id()) {
+                $model->requests()->update(['status'=>'canceled']);
+
+                return $this->showCustom($model->requests->first(),200);
+            } else {
+                return $this->errorResponse("You don't have the permision to update", 401);
+            }
+        }
+
+    }
+    public function UpdateRequest(Model $model,Request $request) // missing request validation 
+    {
+        if ($model === null){
+            return $this->errorResponse("Request is not found", 404);}
+        else{
+            if ($model->requests()->first()->user_id == Auth::id()) {
+                $model->requests()->update($request->all());
+
+                return $this->showCustom($model->requests->first(),200);
+            } else {
+                return $this->errorResponse("You don't have the permision to update", 401);
+            }
+        }
+
+    }
+
 }
+
