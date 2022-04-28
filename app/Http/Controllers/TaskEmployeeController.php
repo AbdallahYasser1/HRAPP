@@ -2,84 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\task_employee;
+use App\Models\Task_employee;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TaskEmployeeController extends Controller
+class TaskEmployeeController extends RequestController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function AddEmployee(Task $task, Request $request)
     {
-        //
-    }
+        if ($task === null) {
+            return $this->errorResponse("Request is not found", 404);
+        }
+        $message='';
+        if ($task->requests()->first()->user_id == Auth::id()) {
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+            foreach ($request['employees'] as $item) {
+                if(!$task->employees()->where('user_id',$item)->exists()){
+                $task->employees()->create(['user_id' => $item]);}
+                else  $message=$message.''.$item." ";
+            }
+            if($message=='')
+            return $this->showCustom($task->employees()->get(),201);
+            else{
+              $response= ["message"=>$message."Already Exist","Employees"=>$task->employees()->get()];
+                return $this->showCustom($response,201);}
+        } else {
+            return $this->errorResponse("You don't have the permission", 401);
+        }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function DeleteEmployee(Task $task, Request $request)
     {
-        //
+        if ($task === null) {
+            return $this->errorResponse("Request is not found", 404);
+        }
+
+        if ($task->requests()->first()->user_id == Auth::id()) {
+        if($task->employees()->first()===null)  return $this->showCustom("There is No Employee to delete",404);
+            foreach ($request['employees'] as $item) {
+                $task->employees()->where('user_id' , $item)->delete();
+            }
+           if( $task->employees()->first()===null){
+               return $this->showCustom("There is no Employees assigned to this task ",200);
+
+           }
+            return $this->showCustom($task->employees()->first(),200);
+        } else {
+            return $this->errorResponse("You don't have the permission", 401);
+        }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\task_employee  $task_employee
-     * @return \Illuminate\Http\Response
-     */
-    public function show(task_employee $task_employee)
+    public function ShowEmployees(Task $task)
     {
-        //
+        if ($task === null) {
+            return $this->errorResponse("Request is not found", 404);
+        }
+        if ($task->requests()->first()->user_id == Auth::id() || $task->employees()->where('user_id',Auth::id())) {
+            $response= ["Employees"=>$task->employees()->get()];
+            return $this->showCustom($response,200);
+            }
+         else {
+            return $this->errorResponse("You don't have the permission", 401);
+        }
     }
+    public function MarkTheTask(Task $task,Request $request){
+        if($task->employees()->where('user_id',Auth::id())){
+            $task->employees()->update(["status"=>$request['status']]);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\task_employee  $task_employee
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(task_employee $task_employee)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\task_employee  $task_employee
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, task_employee $task_employee)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\task_employee  $task_employee
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(task_employee $task_employee)
-    {
-        //
     }
 }

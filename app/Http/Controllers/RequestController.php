@@ -67,7 +67,7 @@ class RequestController extends ApiController
         }
 
     }
-    public function UpdateRequest(Model $model,Request $request) // missing request validation 
+    public function UpdateRequest(Model $model,Request $request) // missing request validation
     {
         if ($model === null){
             return $this->errorResponse("Request is not found", 404);}

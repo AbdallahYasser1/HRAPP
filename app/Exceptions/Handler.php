@@ -81,6 +81,10 @@ class Handler extends ExceptionHandler
                 }
                 if ($errorCode == 1265) {
                     return $this->errorResponse("Please enter valid data type", 409);
+                }    if ($errorCode == 1452) {
+                    return $this->errorResponse("Please enter valid data", 409);
+                }   if ($errorCode == 1264) {
+                    return $this->errorResponse("Please enter valid data", 409);
                 }
 
             }

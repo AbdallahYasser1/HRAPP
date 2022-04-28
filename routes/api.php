@@ -18,6 +18,7 @@ use App\Http\Controllers\Salary\UserTermController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskEmployeeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WfhAdminController;
 use App\Http\Controllers\WfhController;
@@ -69,6 +70,9 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::post('task', [TaskController::class, 'store']);
     Route::get('tasks', [TaskController::class, 'ShowAllTasks']);
     Route::put('tasks/{task}', [TaskController::class, 'CancelTask']);
+    Route::delete('tasks/{task}/employees', [TaskEmployeeController::class, 'DeleteEmployee']);
+    Route::post('tasks/{task}/employees', [TaskEmployeeController::class, 'AddEmployee']);
+    Route::get('tasks/{task}/employees', [TaskEmployeeController::class, 'ShowEmployees']);
 
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);

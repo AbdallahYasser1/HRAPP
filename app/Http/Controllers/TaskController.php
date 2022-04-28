@@ -23,7 +23,8 @@ class TaskController extends RequestController
         $requestdb=$this->Create_Request($request);
         $task->requests()->save($requestdb);
         foreach($request['employees'] as $item) {
-            $task->employees()->create(['user_id'=>$item]);
+            if(!$task->employees()->where('user_id',$item)->exists()){
+                $task->employees()->create(['user_id'=>$item]);}
         }
 
         $response = ["message" => "Task Request Has Succesfully created", "Request" => $requestdb,"Task"=>$task];
@@ -34,7 +35,7 @@ class TaskController extends RequestController
     {
         if ($task === null)
             return $this->errorResponse("Task not found", 404);
-        if($task->id!=Auth::id() || ! Auth::user()->hasPermissionTo('Show_Task_Request')){
+        if($task->id!=Auth::id() || ! Auth::user()->hasPermissionTo('Show_Task_Request'||!$task->employees()->where('user_id',Auth::id()))){
             $this->errorResponse("You do not have the permission",403);
         }
         return $this->showOne($task,200);
@@ -44,19 +45,6 @@ class TaskController extends RequestController
     return $this->ShowAllUserRequests(Task::class);
         }
 
-
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Task $task)
     {
         if ($task === null) {
@@ -70,26 +58,8 @@ class TaskController extends RequestController
             }
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function CancelTask(Task $task)
     {
-//        if ($task === null)
-//            return $this->errorResponse("Task is not found", 404);
-//        else
-//            if ($task->requests->first()->user_id == Auth::id()) {
-//                $task->requests()->status='canceled';
-//                $task->requests()->save();
-//                return $this->showCustom($task->requests->first(),200);
-//            } else {
-//                return $this->errorResponse("You don't have the permision to update", 401);
-//            }
  return $this->CancelRequest($task);
-
     }
 }
