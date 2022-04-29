@@ -13,18 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shifts', function (Blueprint $table) {
+        Schema::create('leaves', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->time("start_time");
-            $table->time("end_time");
-            $table->time("midday");
+            $table->string("description");
+            $table->enum('leave_time',['first_half','second_half']);
             $table->timestamps();
-        });
-        Schema::table('users',function(Blueprint $table){
-            $table->foreignId('shift_id')->constrained('shifts');
-
-
         });
     }
 
@@ -35,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shift');
+        Schema::dropIfExists('leaves');
     }
 };
