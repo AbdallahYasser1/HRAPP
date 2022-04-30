@@ -35,8 +35,10 @@ class SupervisorController extends ApiController
         if ($requestdb === null) {
             return $this->errorResponse("User is not existed", 404);
         } else {
-            if ($request->user()->supervisor == Auth::id()) {
+            //print_r(Auth::id());
+            if ($requestdb->user->supervisor == Auth::id()) {
                 $requestdb->status = $request['status'];
+                $requestdb->bywhom =Auth::id();
                 $requestdb->save();
                 return $this->showCustom($requestdb, 200);
             } else {

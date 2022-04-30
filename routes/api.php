@@ -97,6 +97,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
+    Route::middleware(['role:Admin'])->get('/admin/mission', [MissionController::class, 'showAllMissionRequestsAdmin']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->delete('/Users/{id}', [UserController::class, 'destroy']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->put('/supervisor', [SupervisorController::class, 'makeUserSupervised']);
 

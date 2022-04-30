@@ -58,8 +58,7 @@ class RolesSeeder extends Seeder
             'view_holiday',
             'create_mission',
             'create_update_mission',
-            'Show_Mission_Request',
-            'Show_Mission_Update_Request'
+            'Show_Mission_Request'
         ];
         $HRPermissions = [
             'create_account',
