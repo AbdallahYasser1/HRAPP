@@ -28,10 +28,14 @@ class MissionController extends ApiController
         $mission->description=$request['description'];
         $mission->initial_cost=$request['initial_cost'];
         $mission->save();
+<<<<<<< Updated upstream
         $requestdb = new Requestdb;
         $requestdb->user_id = Auth::id();
         $requestdb->start_date =$request['start_date'];
         $requestdb->end_date = $request['end_date'];
+=======
+        $requestdb=$this->Create_Request($request);
+>>>>>>> Stashed changes
         $mission->requests()->save($requestdb);
 
         $response = ["message" => "Mission Request Succesfully created", "Request" => $requestdb];
@@ -82,7 +86,7 @@ class MissionController extends ApiController
         } else {
             $diffrence=$this->diffrenceBetweenTwoDates($request['end_date'],$mission->requests->first()->end_date);
             if ($mission->requests->first()->user_id == Auth::id()&& $diffrence<=3) {
-                $mission->requests->first()->status = 'pending';
+                $mission->requests->first()->status = 'closed';
                 $mission->requests->first()->start_date = $request['start_date'];
                 $mission->requests->first()->end_date = $request['end_date'];
                 $mission->requests->first()->save();
@@ -96,6 +100,7 @@ class MissionController extends ApiController
     public function destroy($id)
     {
         $mission = Mission::find($id);
+<<<<<<< Updated upstream
         if ($mission === null) {
             return $this->errorResponse("mission not found", 404);
         } else {
@@ -108,6 +113,9 @@ class MissionController extends ApiController
                 return $this->errorResponse("user delete anthor user mission", 401);
             }
         }
+=======
+        return $this->CancelRequest($mission);
+>>>>>>> Stashed changes
     }
     public function showMissionRequest(Mission $mission)
 {
@@ -118,15 +126,10 @@ class MissionController extends ApiController
 }
 public function showAllMissionRequests()
 {
-    $request= Requestdb::whereHasMorph(
-        'requestable',
-        [Mission::class],
-        function (Builder $query) {
-            $query->where('user_id', '=', Auth::id());
-        }
-    )->get();
-
-
+    $request=$this->ShowAllUserRequests(Mission::class);
 return $this->showCustom($request,200);
+}
+public function showAllMissionRequestsAdmin(Request $request){
+    return $this->ShowAllRequests($request,'App\\Models\\Mission');
 }
 }

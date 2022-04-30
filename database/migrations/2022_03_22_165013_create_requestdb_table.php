@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('bywhom')->nullable();
+            $table->foreign('bywhom')->references('id')->on('users');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('status',['pending','approved','canceled'])->default('pending');
+            $table->enum('status',['pending','approved','canceled','in-progress','complete'])->default('pending');
             $table->boolean('is_approved')->default(false);
             $table->morphs('requestable');
             $table->timestamps();

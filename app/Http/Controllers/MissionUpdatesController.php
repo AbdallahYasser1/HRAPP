@@ -16,7 +16,13 @@ class MissionUpdatesController extends ApiController
         if($mission===null){
             return $this->errorResponse("MissionUpdate not found",404);
         }
+<<<<<<< Updated upstream
         if($mission->requests()->first()->status!=='approved'&&$mission->end_date<$request['date']){
+=======
+
+        if(!in_array($mission->requests()->first()->status, ['approved','closed'])||strtotime($mission->requests()->first()->end_date)<strtotime($request['date'])||$mission->requests()->first()->user_id!=Auth::id()){
+          // print_r($mission->requests()->first()->status!='approved');
+>>>>>>> Stashed changes
             return $this->errorResponse("MissionUpdate in pending status or time of update vanished",400);
         }
         if($request->hasFile('approved_file')){
