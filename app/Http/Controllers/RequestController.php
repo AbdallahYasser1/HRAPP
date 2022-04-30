@@ -40,11 +40,17 @@ class RequestController extends ApiController
         if ($status === null) {
             $requestes = Requestdb::with(['requestable'])
                 ->join('users', 'requestdbs.user_id', 'users.id')
+
+                ->where('requestdbs.requestable_type','=',$class)
+
                 ->paginate()->appends(request()->query());
         } else {
             $requestes = Requestdb::with(['requestable'])
                 ->join('users', 'requestdbs.user_id', 'users.id')
                 ->where('requestdbs.status', '=', $status)
+
+                ->where('requestdbs.requestable_type','=',$class)
+
                 ->paginate()->appends(request()->query());
         }
         if ($requestes->count()==0) {
