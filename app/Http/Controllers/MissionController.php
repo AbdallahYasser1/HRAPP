@@ -106,6 +106,7 @@ class MissionController extends RequestController
             }
         }
     }
+
     public function showMissionRequest(Mission $mission)
 {
     if(! $mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Request'))
@@ -115,15 +116,10 @@ class MissionController extends RequestController
 }
 public function showAllMissionRequests()
 {
-    $request= Requestdb::whereHasMorph(
-        'requestable',
-        [Mission::class],
-        function (Builder $query) {
-            $query->where('user_id', '=', Auth::id());
-        }
-    )->get();
-
-
+    $request=$this->ShowAllUserRequests(Mission::class);
 return $this->showCustom($request,200);
+}
+public function showAllMissionRequestsAdmin(Request $request){
+    return $this->ShowAllRequests($request,'App\\Models\\Mission');
 }
 }

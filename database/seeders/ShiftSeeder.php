@@ -15,7 +15,7 @@ class ShiftSeeder extends Seeder
      */
     public function run()
     {
-        Shift::create(['name'=>'morning','start_time'=>'09:00','end_time'=>'17:00']);
-        Shift::create(['name'=>'morning','start_time'=>'10:00','end_time'=>'18:00']);
+        Shift::create(['name'=>'morning','start_time'=>'09:00','midday'=>'13:00','end_time'=>'17:00']);
+        Shift::create(['name'=>'morning','start_time'=>'10:00','midday'=>'14:00','end_time'=>'18:00']);
     }
 }

@@ -74,10 +74,13 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::post('task', [TaskController::class, 'store']);
     Route::get('tasks', [TaskController::class, 'ShowAllTasks']);
     Route::put('tasks/{task}', [TaskController::class, 'CancelTask']);
+    Route::get('tasks/{task}', [TaskController::class, 'ShowTask']);
     Route::delete('tasks/{task}/employees', [TaskEmployeeController::class, 'DeleteEmployee']);
     Route::post('tasks/{task}/employees', [TaskEmployeeController::class, 'AddEmployee']);
     Route::get('tasks/{task}/employees', [TaskEmployeeController::class, 'ShowEmployees']);
+    Route::put('tasks/{task}/employee', [TaskEmployeeController::class, 'MarkTheTask']);
 
+    //Holidays
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
     Route::post('department', [DepartmentController::class, 'store']);
@@ -98,6 +101,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
+    Route::middleware(['role:Admin'])->get('/admin/mission', [MissionController::class, 'showAllMissionRequestsAdmin']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->delete('/Users/{id}', [UserController::class, 'destroy']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->put('/supervisor', [SupervisorController::class, 'makeUserSupervised']);
 

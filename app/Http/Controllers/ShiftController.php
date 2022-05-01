@@ -37,7 +37,8 @@ class ShiftController extends ApiController
         $shift = Shift::create([
             'name' => $request['name'],
             'start_time' => $request['start_time'],
-            'end_time' => $request['end_time']
+            'end_time' => $request['end_time'],
+            'midday' => $request['midday']
         ]);
         $response = ["Shift" => $shift];
         return $this->showCustom($response, 201);
@@ -75,7 +76,8 @@ class ShiftController extends ApiController
             $shift->update([
                 'name' => $request['name'],
                 'start_time' => $request['start_time'],
-                'end_time' => $request['end_time']
+                'end_time' => $request['end_time'],
+                'midday'=> $request['midday']
             ]);
             return $this->showOne($shift, 200);
         }
@@ -107,7 +109,7 @@ class ShiftController extends ApiController
             $users=$usersOFShift->users()->paginate();
             return new ShiftCollection($users);
         }
-        
+
     }
     public function getUserShiftById($id)
     {
@@ -127,8 +129,8 @@ class ShiftController extends ApiController
         if ($user === null) {
             return $this->errorResponse("User not found", 404);
         } else {
-            $user->update(['shift_id'=>$shift_id['id']]); 
-            return $this->showOne($user, 200);   
+            $user->update(['shift_id'=>$shift_id['id']]);
+            return $this->showOne($user, 200);
         }
     }
 }
