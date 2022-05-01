@@ -9,7 +9,7 @@ class SalaryAdjustment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['salary_slip_id', 'salary_adjustment_type_id', 'amount', 'percent'];
+    protected $fillable = ['salary_slip_id', 'salary_adjustment_type_id', 'amount', 'percent', 'date'];
 
     public function adjustmentType() {
         return $this->belongsTo(SalaryAdjustmentType::class);

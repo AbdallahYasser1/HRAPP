@@ -26,6 +26,10 @@ use App\Http\Controllers\MissionController;
 use App\Http\Controllers\MissionUpdatesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Attendance\AttendanceController;
+use App\Http\Controllers\Attendance\UserAttendanceController;
+use App\Http\Controllers\Salary\UserSlipAdjustmentController;
+use App\Http\Controllers\Salary\CalculateNetSalaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -144,17 +148,23 @@ Route::resource('slips.adjustments', SlipAdjustmentController::class, );
 Route::resource('salaryTerms', SalaryTermController::class, );
 Route::resource('salaryTerms.slips', TermSlipController::class, );
 
-
 Route::resource('salaryAdjustments', SalaryAdjustmentController::class, );
 Route::resource('salaryAdjustmentTypes', SalaryAdjustmentTypeController::class, );
-
 
 Route::resource('users.slips', UserSlipController::class, );
 Route::resource('users.terms', UserTermController::class, );
 Route::get('users/{id}/lastSlip', [UserSlipController::class, 'lastSlip']);
 Route::put('users/{id}/lastSlip', [UserSlipController::class, 'updateLastSlip']);
+Route::delete('users/{id}/lastSlip', [UserSlipController::class, 'destroyLastSlip']);
+Route::resource('users.slips.adjustments', UserSlipAdjustmentController::class, );
+Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
 
+Route::get('users/{id}/slips/{id}/calc', [CalculateNetSalaryController::class, 'calculateNetSalary']);
 
-// Salary
+// Attendance
+Route::resource('attendances', AttendanceController::class, );
+Route::resource('users.attendances', UserAttendanceController::class, );
+Route::post('users/{id}/attendances',[UserAttendanceController::class, 'attendEmployee']);
+
 
 //});

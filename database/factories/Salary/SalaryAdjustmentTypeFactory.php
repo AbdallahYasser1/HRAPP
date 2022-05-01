@@ -22,8 +22,8 @@ class SalaryAdjustmentTypeFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'percent' => $this->faker->randomFloat(2, 0, 99),
-            'is_working_hours' => $this->faker->boolean(),
-            'is_other' => $this->faker->boolean(),
+            'amount' => $this->faker->randomFloat(2, 0, ),
+
         ];
     }
 }

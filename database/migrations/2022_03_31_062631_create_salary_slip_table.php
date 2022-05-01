@@ -19,9 +19,10 @@ return new class extends Migration
             $table->integer('user_id');
             $table->foreignId('salary_term_id')->constrained();
 //            $table->foreignId('salary_adjustment_id')->constrained();
-            $table->double('net_salary', 8, 2);
-            $table->string('period');
+            $table->double('net_salary', 8, 2)->nullable();
+            $table->date('date',$format='Y-m-d');
             $table->timestamps();
+            $table->string('status')->default('pending');
             $table->foreign('user_id')->references('id')->on('users');
 //            $table->foreign('salary_term_id')->references('id')->on('salary_terms');
 //            $table->foreign('salary_adjustment_id')->references('id')->on('salary_adjustments');

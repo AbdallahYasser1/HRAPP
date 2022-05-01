@@ -27,6 +27,7 @@ class SalaryAdjustmentFactory extends Factory
             'salary_adjustment_type_id' => SalaryAdjustmentType::all()->random()->id,
             'amount' => $this->faker->numberBetween(1000, 100000),
             'percent' => $this->faker->randomFloat(2, 0, 99),
+            'date' => $this->faker->dateTimeBetween('-1 year', 'now'),
 
         ];
     }

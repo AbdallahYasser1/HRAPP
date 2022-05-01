@@ -32,7 +32,8 @@ class SalarySlipFactory extends Factory
             'salary_term_id' => $term_id,
 //            'salary_adjustment_id' => SalaryAdjustment::all()->random()->id,
             'net_salary' => $this->faker->randomFloat(2, 1000, 100000),
-            'period' => $this->faker->randomElement(['daily', 'monthly', 'yearly']),
+            'date' => $this->faker->date(),
+            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
         ];
     }
 }

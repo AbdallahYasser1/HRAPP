@@ -9,5 +9,5 @@ class SalaryAdjustmentType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['percent', 'name', 'is_working_hours', 'is_other'];
+    protected $fillable = ['percent', 'name', 'amount'];
 }

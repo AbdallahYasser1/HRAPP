@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->double('percent', 4, 2);
-            $table->boolean('is_working_hours');
-            $table->boolean('is_other');
+            $table->double('amount');
             $table->timestamps();
         });
     }

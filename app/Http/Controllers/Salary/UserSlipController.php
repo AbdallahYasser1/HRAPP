@@ -40,10 +40,7 @@ class UserSlipController extends ApiController
     public function store(Request $request, User $user)
     {
         $rules = [
-            'net_salary' => 'required|integer',
-            'period' => 'required|string',
-
-
+            'date' => 'required|string',
         ];
         $this->validate($request, $rules);
 
@@ -60,9 +57,10 @@ class UserSlipController extends ApiController
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, $id)
     {
-        //
+        $slip = $user->salarySlips()->findOrFail($id);
+        return $this->showOne($slip);
     }
 
     /**
@@ -83,9 +81,17 @@ class UserSlipController extends ApiController
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, $slip_id)
     {
-        //
+        $slip = $user->salarySlips()->findOrFail($slip_id);
+        // $rules = [
+        //     'date' => 'required|string',
+        // ];
+        // $this->validate($request, $rules);
+
+        $data = $request->all();
+        $slip->update($data);
+        return $this->showOne($slip);
     }
 
     /**
@@ -94,9 +100,11 @@ class UserSlipController extends ApiController
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $user, $slip_id)
     {
-        //
+        $slip = $user->salarySlips()->findOrFail($slip_id);
+        $slip->delete();
+        return $this->showOne($slip);
     }
 
     public function lastSlip($id) {
@@ -109,18 +117,26 @@ class UserSlipController extends ApiController
         $user = User::find($id);
         $slip = $user->lastSlip;
 
-        $rules = [
-            'net_salary' => 'required|integer',
-            'period' => 'required|string',
-        ];
-        $this->validate($request, $rules);
+        // $rules = [
+        //     'net_salary' => 'required|integer',
+        //     'period' => 'required|string',
+        // ];
+        // $this->validate($request, $rules);
 
-        $slip->fill($request->only(['net_salary', 'period']));
+        $slip->fill($request);
         if($slip->isClean()) {
             return $this->errorResponse('you need to specify a different value to update', 422);
         }
 
         $slip->save();
+        return $this->showOne($slip);
+    }
+
+    public function destroyLastSlip($id)
+    {
+        $user = User::find($id);
+        $slip = $user->lastSlip;
+        $slip->delete();
         return $this->showOne($slip);
     }
 }
