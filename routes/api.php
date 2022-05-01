@@ -159,7 +159,9 @@ Route::delete('users/{id}/lastSlip', [UserSlipController::class, 'destroyLastSli
 Route::resource('users.slips.adjustments', UserSlipAdjustmentController::class, );
 Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
 
-Route::get('users/{id}/slips/{id}/calc', [CalculateNetSalaryController::class, 'calculateNetSalary']);
+Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class, );
+// Route::resource('users.slips.calc', CalculateNetSalaryController::class, );
+
 
 // Attendance
 Route::resource('attendances', AttendanceController::class, );

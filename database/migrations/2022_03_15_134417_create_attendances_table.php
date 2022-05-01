@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->id();
             $table->date("date");
             $table->integer('user_id');
-            $table->time("start_time");
+            $table->time("start_time")->nullable();
             $table->time("leave_time")->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->primary(['user_id', 'date']);

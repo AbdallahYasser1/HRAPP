@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Salary\SalarySlip;
 use App\Http\Controllers\ApiController;
+use App\Models\Salary\SalaryTerm;
 use App\Traits\SalaryAdjustment;
 
 class CalculateNetSalaryController extends ApiController
@@ -20,9 +21,12 @@ class CalculateNetSalaryController extends ApiController
     public function __invoke(Request $request, $user_id, $slip_id)
     {
         $this->addHalfDayAdjustment($user_id);
+        $this->makeFullDayAdjustment($user_id);
 
         $salarySlip = SalarySlip::find($slip_id);
-        $salary = $salarySlip->term->salary_agreed;
+        $term = SalaryTerm::find($salarySlip->salary_term_id);
+
+        $salary = $term->salary_agreed;
         $adjustments = $salarySlip->adjustments;
         $adjustments->each(function ($adjustment) use (&$salary) {
             $salary = $this->calculateAdjustment($adjustment, $salary);
