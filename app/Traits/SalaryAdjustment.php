@@ -22,8 +22,9 @@ trait SalaryAdjustment
         $half_day = ($end_hour - $start_hour) / 2;
         return $half_day;
     }
-    
+
     public function makeHalfDayAdjustment($user, $half_day) {
+        // handle one month only
         $attendances = $user->attendances;
         $count = 0;
         foreach($attendances as $attendance) {
@@ -51,6 +52,7 @@ trait SalaryAdjustment
     }
 
     public function makeFullDayAdjustment($id) {
+        // only one month
         $user = User::find($id);
         $attendances = Attendance::where('user_id', $id)->get();
         $count = 0;
@@ -71,7 +73,7 @@ trait SalaryAdjustment
     public function calculateAdjustment($adjustment, $salary)
     {
         $amount = $adjustment->amount ? $adjustment->amount : $adjustment->percent * $salary;
-        
+
         $salary = $salary + $amount;
         return $salary;
     }

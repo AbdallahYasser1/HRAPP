@@ -3,11 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RequestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ShiftController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ShiftController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Shift.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Shift.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_15_124857_create_shifts_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_15_124857_create_shifts_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/ShiftSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/ShiftSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Attendance/UserAttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Attendance/UserAttendanceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/SalaryAdjustment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/SalaryAdjustment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_22_164743_create_vacation_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_22_164743_create_vacation_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_04_24_014954_create_configs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_04_24_014954_create_configs_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/ConfigSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/ConfigSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
@@ -212,7 +212,8 @@
       <workItem from="1651068895439" duration="1413000" />
       <workItem from="1651102563658" duration="959000" />
       <workItem from="1651104398539" duration="10738000" />
-      <workItem from="1651187490661" duration="5741000" />
+      <workItem from="1651187490661" duration="5911000" />
+      <workItem from="1652185459308" duration="4912000" />
     </task>
     <servers />
   </component>

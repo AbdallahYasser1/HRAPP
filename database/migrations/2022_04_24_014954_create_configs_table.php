@@ -15,8 +15,16 @@ return new class extends Migration
     {
         Schema::create('configs', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
-            $table->string('value');
+            $table->string('company_name');
+            $table->string('specifity');
+            $table->string('company_email');
+            $table->string('company_phone');
+            $table->string('branches');
+            $table->string('location');
+            $table->string('photo');
+            $table->string('latiude');
+            $table->string('longtiude');
+            $table->string('distance');
             $table->timestamps();
         });
     }

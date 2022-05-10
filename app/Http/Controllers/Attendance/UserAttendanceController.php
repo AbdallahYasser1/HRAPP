@@ -15,8 +15,12 @@ class UserAttendanceController extends ApiController
     use CheckLocation;
 
     public function attendEmployee(Request $request, $id)
-    {    
-
+    {
+        // if holiday or fixed weekend
+        // Check Shift start time -> Attendance
+        // error time passed
+        // Scheduler shift + 15 min -> absent table
+        //
         $rules = [
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
@@ -34,7 +38,7 @@ class UserAttendanceController extends ApiController
             return $this->update($request, $id);
     } else
         return $this->errorResponse('You are not on premies, you are away by '. $premise['distance']. ' meters', 401);
-    
+
 }
 
     /**

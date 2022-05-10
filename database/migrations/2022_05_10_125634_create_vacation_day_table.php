@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vacations', function (Blueprint $table) {
+        Schema::create('vacation_day', function (Blueprint $table) {
             $table->id();
-            $table->integer("count");
-            $table->enum('type',['scheduled','unscheduled'])->default('scheduled');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer("scheduled");
+            $table->integer("unscheduled");
+            $table->primary('user_id');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vacation');
+        Schema::dropIfExists('vacation_day');
     }
 };

@@ -16,13 +16,16 @@ class ConfigSeeder extends Seeder
     public function run()
     {
          $configration = [
-            ['key' => 'company_name', 'value' => 'EvaPay'],
-            ['key' => 'specifity', 'value' => 'Software'],
-            ['key' => 'company_email', 'value' => 'eva@pay.com'],
-            ['key' => 'company_phone', 'value' => '0121212'],
-            ['key' => 'country', 'value' => 'egypt'],
-            ['key' => 'branches', 'value' => '1'],
-            ['key' => 'photo', 'value' => 'location'],
+            'company_name'=> 'EvaPay'
+            , 'specifity'=> 'Software'
+            , 'company_email'=> 'eva@pay.com'
+            , 'company_phone'=> '0121212'
+           ,'country'=> 'egypt' ,
+            'branches' => '1',
+ 'location' => 'alex',
+ 'longtiude' => 'long',
+ 'latiude' => 'lat',
+ 'distance' => 'lat',
         ];
         DB::table('configs')->insert($configration);
 
