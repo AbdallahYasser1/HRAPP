@@ -31,8 +31,8 @@ class RequestController extends ApiController
                 $query->where('user_id', '=', Auth::id());
             }
         )->get();
-
-
+error_log($request);
+if(count($request)==0) return $this->showCustom("There is no requests",200);
         return $this->showCustom($request,200);
     }
     public function ShowAllRequests(Request $request,$class){

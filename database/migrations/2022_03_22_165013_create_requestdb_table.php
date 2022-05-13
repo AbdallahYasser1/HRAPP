@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('bywhom')->references('id')->on('users');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('status',['pending','approved','canceled','in-progress','complete'])->default('pending');
+            $table->enum('status',['pending','approved','canceled','in-progress','completed'])->default('pending');
             $table->boolean('is_approved')->default(false);
             $table->morphs('requestable');
             $table->timestamps();

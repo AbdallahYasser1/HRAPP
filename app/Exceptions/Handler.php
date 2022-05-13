@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
-
+use Illuminate\Support\Str;
 class Handler extends ExceptionHandler
 {
     use ApiResponser;
@@ -49,7 +50,11 @@ class Handler extends ExceptionHandler
         $this->renderable(function (Throwable $e, $request) {
             if ($e->getPrevious() instanceof ModelNotFoundException) {
                 $model_name = strtolower(class_basename($e->getPrevious() ->getModel()));
+                $model_name=ucwords($model_name);
                 return $this->errorResponse("Does not exists any {$model_name} with the specified identifier", 404);
+            }
+            if ($e instanceof UnauthorizedException) {
+                return $this->errorResponse($e->getMessage(), 403);
             }
 
             if ($e instanceof AuthorizationException) {

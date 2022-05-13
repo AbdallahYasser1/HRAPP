@@ -23,6 +23,7 @@ class AuthResource extends JsonResource
             'first_time_login'=>$this->first_time_login==1?true:false,
             'status'=>$this->status,
             'can_wfh'=>$this->can_wfh==1?true:false,
+            'roles'=>$this->roles->pluck('name')[0]
         ];
     }
 }

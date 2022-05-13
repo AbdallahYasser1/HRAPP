@@ -30,7 +30,7 @@ use App\Http\Controllers\Attendance\AttendanceController;
 use App\Http\Controllers\Attendance\UserAttendanceController;
 use App\Http\Controllers\Salary\UserSlipAdjustmentController;
 use App\Http\Controllers\Salary\CalculateNetSalaryController;
-
+use App\Http\Resources\AuthResource;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -50,14 +50,14 @@ Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
 Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () {
     //Get Auth User Data
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        return new AuthResource($request->user());
     });
 
     //WFH
     Route::post('/wfh', [WfhController::class, 'store']);
     Route::get('/EmployeeLog', [UserController::class, 'ViewAllRequests']);
     Route::get('/wfh', [WfhController::class, 'showAllWfhRequests']);
-    Route::put('/wfh/{id}', [WfhController::class, 'update']);
+    Route::put('/wfh/{wfh}', [WfhController::class, 'update']);
     Route::get('/wfh/{wfh}', [WfhController::class, 'showWfhRequest']);
     Route::delete('/wfh/{id}', [WfhController::class, 'destroy']);
     //Mission

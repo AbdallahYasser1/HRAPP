@@ -21,25 +21,24 @@ class WfhAdminController extends RequestController
             $wfh->requests->first()->status = $request['status'];
             $wfh->requests->first()->bywhom=Auth::id();
             $wfh->requests->first()->save();
-              
+
             return $this->showCustom($wfh->requests->first(),200);
         }
     }
-    public function destroy($id)
+    public function destroy(Wfh $wfh)
     {
-        $wfh = Wfh::find($id);
         if ($wfh === null) {
             return $this->errorResponse("Wfh not found", 404);
         } else {
             $wfh->requests->first()->status = 'canceled';
             $wfh->requests->first()->bywhom=Auth::id();
             $wfh->requests->first()->save();
-              
+
             return $this->showCustom($wfh->requests->first(),200);
         }
     }
     public function showAllWFHRequestes(Request $request){
         return $this->ShowAllRequests($request,'App\\Models\\Wfh');
-        
+
     }
 }

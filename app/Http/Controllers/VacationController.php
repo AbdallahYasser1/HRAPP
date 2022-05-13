@@ -7,7 +7,7 @@ use App\Models\Vacation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class VacationController extends Controller
+class '/;.VacationController extends Controller
 {
     public function store(Request $request)
     {

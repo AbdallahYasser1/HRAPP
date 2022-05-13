@@ -32,14 +32,13 @@ class AuthController extends ApiController
             if ($user->first_time_login) {
                 $token = $user->createToken('first', ['firstlogin'])->plainTextToken;
                 $response = ['message' => "First Time login please Change your Password to use application", 'token' => $token];
-                return response()->json($response, 200);
+                return response()->json($response, 203);
             }
             $token = $user->createToken('myapptoken', ['application'])->plainTextToken;
             $response = ['user'=>new AuthResource($user), 'token' => $token];
             return $response;
-            //return response()->json($response, 200);
         }
-        return response()->json(["message" => "The given data was invalid."], 401);
+        return response()->json(["message" => "The user was not found or the password was incorrect."], 401);
     }
 
     public function reset_password(LoginUserRequest   $request)
@@ -48,8 +47,8 @@ class AuthController extends ApiController
         //               'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()->mixedCase()->symbols()],]
         //       );
         $user = Auth::user();
-        error_log($user);
-        $user->password = bcrypt($request->password);
+        //error_log($user);
+        $user->password = $request->password;
         $user->first_time_login = false;
         $user->save();
         auth()->user()->tokens()->delete();
