@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\WfhResource;
+use App\Http\Resources\WFHRequestResource;
 
 class WfhController extends RequestController
 {
@@ -20,7 +22,7 @@ class WfhController extends RequestController
         $requestdb=$this->Create_Request($request);
         $requestdb->end_date = $request['start_date'];
         $wfh->requests()->save($requestdb);
-        $response = ["message" => "WFH Request Succesfully created", "Request" => $requestdb];
+        $response = ["message" => "WFH Request Succesfully created", "Request" => new WFHRequestResource($requestdb)];
         return $this->showCustom($response, 201);
     }
     public function store(Request $request)
@@ -38,10 +40,10 @@ class WfhController extends RequestController
             } else if ($timeOfWFH == $timeOfDate && ($timeShift - $now > 0)) {
                 return $this->storeDB($request);
             } else {
-                return $this->errorResponse("cant making wfh in past date", 400);
+                return $this->errorResponse("Date must not be in the past", 400);
             }
         } else {
-            return $this->errorResponse("this time is holiday or request is in under status", 400);
+            return $this->errorResponse("Either Request under review or this day is a holiday ", 400);
         }
     }
     //question on update method 1111
@@ -51,14 +53,15 @@ class WfhController extends RequestController
         if ($wfh === null) {
             return $this->errorResponse("Wfh not found", 404);
         } else {
-            if ($wfh->requests->first()->user_id == Auth::id()) {
-                $wfh->requests->first()->status = $request['status'];
+            if ($wfh->requests->first()->user_id == Auth::id() &&  $wfh->requests->first()->status=='pending') {
+
+                $wfh->requests->first()->start_date = $request['date'];
+                $wfh->requests->first()->end_date = $request['date'];
                 $wfh->requests->first()->save();
 
-                // can mark it as accepted should be fixed
                 return $this->showCustom($wfh->requests->first(),200);
             } else {
-                return $this->errorResponse("user update anthor user wfh", 401);
+                return $this->errorResponse(" The authenticated user is not permitted to perform the requested operation", 401);
             }
         }
     }
@@ -68,9 +71,11 @@ class WfhController extends RequestController
     }
 public function showWfhRequest(Wfh $wfh)
 {
-    if(! $wfh->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Wfh_Request'))
-         $this->errorResponse("You do not have the permission",403);
-    return $this->showCustom($wfh,200);
+
+    if( $wfh->requests->first()->user_id != Auth::id() || !Auth::user()->hasPermissionTo('Show_Wfh_Request'))
+    {   return $this->errorResponse("The authenticated user is not permitted to perform the requested operation ",403);}
+
+    return $this->showCustom(new WfhResource($wfh),200);
 
 }
 public function showAllWfhRequests()

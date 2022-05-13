@@ -19,7 +19,8 @@ class UserAttendanceController extends ApiController
         // if holiday or fixed weekend
         // Check Shift start time -> Attendance
         // error time passed
-        // Scheduler shift + 15 min -> absent table
+        // Scheduler shift + 15 min ->
+        //\ absent table
         //
         $rules = [
             'latitude' => 'required|numeric',

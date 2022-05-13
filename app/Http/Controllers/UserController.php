@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthResource;
 use App\Models\Requestdb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -37,7 +38,7 @@ class UserController extends ApiController
      */
     public function store(StoreUserRequest $request)
     {
-        if ($request['role'] == 'Admin' && !Auth::user()->hasPermissionTo('create_account_Admin')) return  $this->errorResponse('This is out limit', 403);
+        if ($request['role'] == 'Admin' && !Auth::user()->hasPermissionTo('create_account_Admin')) return  $this->errorResponse(' The authenticated user is not permitted to perform the requested operation.', 403);
         $hashed_random_password = Str::random(10);
         $user = User::create([
             'id' => $request['id'],
@@ -52,7 +53,7 @@ class UserController extends ApiController
         ]);
 
         $user->assignRole($request['role']);
-        $response = ['user' => $user, 'password' => $hashed_random_password];
+        $response = ['user' => new AuthResource($user), 'password' => $hashed_random_password];
         return $this->showCustom($response, 201);
     }
 
