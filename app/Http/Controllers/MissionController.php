@@ -36,7 +36,7 @@ class MissionController extends RequestController
     }
     public function store(MissionRequest $request)
     {
-        $requestdb = DB::table('requestdbs')->where('start_date', '=', $request['start_date']) ->where('status','=','canceled')->where('requestable_type','=','App\\Models\\Mission')->where('user_id', Auth::id())->exists();
+        $requestdb = DB::table('requestdbs')->where('start_date', '=', $request['start_date'])->where('requestable_type','=','App\\Models\\Mission')->where('user_id', Auth::id())->exists();
         $holiday = DB::table('holidays')->where('date', '=', $request['start_date'])->exists();
         $shift = User::find(Auth::id())->shift()->first();
         if (!$requestdb && !$holiday) {
