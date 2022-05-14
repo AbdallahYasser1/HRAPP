@@ -139,6 +139,7 @@ class RequestController extends ApiController
         if ($status === null && $class===null) {
             $requestes = Requestdb::with(['requestable'])
                 ->join('users', 'requestdbs.user_id', 'users.id')
+            //    ->join('profiles','requestdbs.user_id','users_id')
            ->select('requestdbs.id as request_id','requestdbs.requestable_id as class_id','requestdbs.requestable_type as class','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' )
                 ->paginate()->appends(request()->query());
 

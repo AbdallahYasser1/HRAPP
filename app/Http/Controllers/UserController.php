@@ -22,7 +22,7 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::paginate();
+        $users = User::all();
         if($users===null){
             return $this->errorResponse("Users are not existed", 404);
         }else{
@@ -121,5 +121,8 @@ class UserController extends ApiController
 
         }
         return $this->showCustom($requestes,200);
+    }
+    function showAllUsersAdmin(Request $request){
+        return $this->showAll(User::all(),200);
     }
 }
