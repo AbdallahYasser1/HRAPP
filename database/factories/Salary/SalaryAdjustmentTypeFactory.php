@@ -20,7 +20,6 @@ class SalaryAdjustmentTypeFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->unique()->numberBetween(2, ),
             'name' => $this->faker->name(),
             'percent' => $this->faker->randomFloat(2, 0, 99),
             'amount' => $this->faker->randomFloat(2, 0, ),

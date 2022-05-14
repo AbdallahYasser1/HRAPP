@@ -172,8 +172,8 @@ Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class
 
 // Attendance
 Route::resource('attendances', AttendanceController::class, );
-// Route::resource('users.attendances', UserAttendanceController::class, );
-Route::post('users/{id}/attendances',[UserAttendanceController::class, 'attendEmployee']);
+Route::resource('users.attendances', UserAttendanceController::class, );
+Route::post('users/{id}/attend',[UserAttendController::class, 'attendEmployee']);
 
 
 //});

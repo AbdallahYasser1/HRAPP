@@ -82,8 +82,10 @@ class SalaryAdjustmentTypeController extends ApiController
      * @param  \App\Models\Salary\SalaryAdjustmentType  $salaryAdjustmentType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SalaryAdjustmentType $salaryAdjustmentType)
+    public function destroy($id)
     {
-        //
+        $salaryAdjustmentType = SalaryAdjustmentType::findOrFail($id);
+        $salaryAdjustmentType->delete();
+        return $this->showOne($salaryAdjustmentType);
     }
 }

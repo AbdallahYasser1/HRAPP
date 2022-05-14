@@ -28,11 +28,14 @@ class CalculateNetSalaryController extends ApiController
 
         $salary = $term->salary_agreed;
         $adjustments = $salarySlip->adjustments;
+
         $adjustments->each(function ($adjustment) use (&$salary) {
             $salary = $this->calculateAdjustment($adjustment, $salary);
         });
         $salarySlip->net_salary = $salary;
+
         $salarySlip->save();
+        
         return $this->showOne($salarySlip);
     }
 }

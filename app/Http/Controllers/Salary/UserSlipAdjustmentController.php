@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Salary\SalarySlip;
 use App\Http\Controllers\ApiController;
 use App\Models\Salary\SalaryAdjustment;
+use App\Models\User;
 
 class UserSlipAdjustmentController extends ApiController
 {
@@ -98,5 +99,12 @@ class UserSlipAdjustmentController extends ApiController
         $adjustment = SalaryAdjustment::find($adjustment_id);
         $adjustment->delete();
         return $this->showOne($adjustment);
+    }
+
+    public function lastSlipAdjustments($user_id) {
+        $user = User::find($user_id);
+        $slip = $user->lastSlip;
+        $adjustments = $slip->adjustments;
+        return $this->showAll($adjustments);
     }
 }
