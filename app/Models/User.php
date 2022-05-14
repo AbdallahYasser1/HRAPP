@@ -100,6 +100,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+    public function vacationday(){
+        return $this->hasOne(Vacationday::class);
+    }
 
 // Salary
 public function salaryTerm() {
