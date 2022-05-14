@@ -13,7 +13,7 @@ class SupervisorController extends ApiController
     {
         $employees = User::where("supervisor", '=', Auth::id())->get();
         if ($employees->count()==0) {
-            return $this->errorResponse("users not found", 404);
+            return $this->errorResponse("You are not assigned to users at this moment", 404);
         } else {
             return $this->showCustom($employees, 200);
         }
@@ -52,10 +52,10 @@ class SupervisorController extends ApiController
             ->join('users', 'requestdbs.user_id', 'users.id')
             ->where('supervisor', '=', Auth::id())
             ->where('requestdbs.status', '=', 'pending')
-            ->select('users.id','name','requestdbs.requestable_id','requestdbs.status','requestdbs.requestable_type','requestdbs.start_date','requestdbs.end_date')
+          ->select('users.id as user_id','name','requestdbs.requestable_id','requestdbs.status','requestdbs.requestable_type','requestdbs.start_date','requestdbs.end_date')
             ->get();
             if ($employees->count()==0) {
-                return $this->errorResponse("users not found", 404);
+                return $this->errorResponse("There is no pending requests", 404);
             } else {
                 return $this->showCustom($employees, 200);
             }

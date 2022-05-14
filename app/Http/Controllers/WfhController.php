@@ -78,8 +78,10 @@ public function showWfhRequest(Wfh $wfh)
     return $this->showCustom(new WfhResource($wfh),200);
 
 }
-public function showAllWfhRequests()
+public function showAllWfhRequests(Request $request)
 {
-return $this->ShowAllUserRequests(Wfh::class);
+    //return $this->ShowAllUserRequests(Wfh::class);
+return $this->ShowRequestsUserClass($request,Wfh::class);
 }
+
 }

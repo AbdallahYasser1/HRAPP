@@ -48,7 +48,8 @@ class UserController extends ApiController
             'birthdate' => $request['birthdate'],
             'shift_id' => $request['shift_id'],
             'password' => $hashed_random_password,
-            'can_wfh'=>$request['can_wfh']
+            'can_wfh'=>$request['can_wfh'],
+            'supervisor'=>$request['supervisor'],
 
         ]);
 
