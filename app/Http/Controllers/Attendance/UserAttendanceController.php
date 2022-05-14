@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Attendance;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\Holiday;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
@@ -32,14 +33,23 @@ class UserAttendanceController extends ApiController
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
 
-        if ($isOnPremies) {
+
+        $allHolidays = Holiday::all()->date;
+        $isTodayHoliday = in_array(date("Y-m-d"), $allHolidays);
+
+        $isOnTime = $this->checkTime();
+
+        $outerConditions = $isOnPremies && !$isTodayHoliday;
+
+        if ($outerConditions) {
+
         if ($request['status'] == 'start')
            return  $this->store($request, $id);
         else
             return $this->update($request, $id);
-    } else
+    } else {
         return $this->errorResponse('You are not on premies, you are away by '. $premise['distance']. ' meters', 401);
-
+    }
 }
 
     /**
@@ -137,4 +147,17 @@ class UserAttendanceController extends ApiController
     {
         //
     }
+
+    public function checkTime()
+    {
+        $time = date('H:i:s');
+        $startTime = '08:00:00';
+        $endTime = '17:00:00';
+        if ($time >= $startTime && $time <= $endTime) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
