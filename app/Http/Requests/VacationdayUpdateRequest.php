@@ -14,7 +14,7 @@ class VacationdayUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->hasPermissionTo('update_Vacationday');
+        return Auth::user()->hasPermissionTo('Update_Vacationday');
     }
 
     /**

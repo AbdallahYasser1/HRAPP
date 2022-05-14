@@ -20,7 +20,7 @@ class VacationdayController extends ApiController
      */
     public function index()
     {
-        $users = User::with(['vacationday'])->paginate();
+        $users = User::with(['vacationday','profile'])->paginate();
         if($users===null){
             return $this->errorResponse("Users are not existed", 404);
         }else{
@@ -36,10 +36,16 @@ class VacationdayController extends ApiController
      */
     public function store(VacationdayRequest $request)
     {
-        $vacationday=Vacationday::create( ['user_id' => $request['user_id'],
-        'scheduled' => $request['scheduled'],
-        'unscheduled'=>$request['unscheduled']]);
-        return $this->showCustom($vacationday, 201);
+        $user=User::find( $request['user_id']);
+        if($user->vacationday==null){
+            $vacationday=Vacationday::create( ['user_id' => $request['user_id'],
+            'scheduled' => $request['scheduled'],
+            'unscheduled'=>$request['unscheduled']]);
+            return $this->showCustom($vacationday, 201);
+        }else{
+            return $this->errorResponse("user vacationday is already in database", 400);
+        }
+        
     }
 
     /**
@@ -51,7 +57,7 @@ class VacationdayController extends ApiController
     public function show($id)
     {
         $user=User::find($id);
-        if($user==null){
+        if($user==null||$user->vacationday==null){
             return $this->errorResponse("user not found", 404);
         }else{
             return new VacationdayResource($user);
@@ -70,7 +76,7 @@ class VacationdayController extends ApiController
      */
     public function update(VacationdayUpdateRequest $request, $id)
     {
-        $vacationday=Vacationday::find($id);
+        $vacationday=Vacationday::where('user_id',$id);
         if($vacationday==null){
             return $this->errorResponse("user not found", 404);
         }else{
@@ -78,7 +84,7 @@ class VacationdayController extends ApiController
                 'scheduled' => $request['scheduled'],
                 'unscheduled' => $request['unscheduled'],
                 ]);
-            $this->showCustom($vacationday,200);
+            return $this->showCustom($vacationday->get(),200);
         }
     }
 
@@ -90,12 +96,12 @@ class VacationdayController extends ApiController
      */
     public function destroy($id)
     {
-        $vacationday=Vacationday::find($id);
-        if($vacationday==null){
+        $vacationday=User::find($id);
+        if($vacationday==null||$vacationday->vacationday==null){
             return $this->errorResponse("user not found", 404);
         }else{
-            $vacationday->delete();
-            $this->showCustom("vacation day of that user deleted",200);
+            $vacationday->vacationday()->delete();
+            return $this->showCustom("vacation day of that user deleted",200);
         }
     }
 }
