@@ -1,27 +1,23 @@
 <?php
 
 namespace App\Http\Controllers\Attendance;
+date_default_timezone_set ("Africa/Cairo");
 
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\Holiday;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\CheckLocation;
-
 class UserAttendanceController extends ApiController
 {
     use CheckLocation;
 
     public function attendEmployee(Request $request, $id)
     {
-        // if holiday or fixed weekend
-        // Check Shift start time -> Attendance
-        // error time passed
-        // Scheduler shift + 15 min ->
-        //\ absent table
-        //
+        // absent table
         $rules = [
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
@@ -29,17 +25,33 @@ class UserAttendanceController extends ApiController
         ];
         $this->validate($request, $rules);
 
+        $user = User::find($id);
+
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
 
-        if ($isOnPremies) {
-        if ($request['status'] == 'start')
-           return  $this->store($request, $id);
-        else
-            return $this->update($request, $id);
-    } else
-        return $this->errorResponse('You are not on premies, you are away by '. $premise['distance']. ' meters', 401);
 
+        $Holiday = Holiday::where('date', '=', date('Y-m-d'))->get()->first()->date;
+        $isTodayHoliday = date("Y-m-d") == $Holiday;
+
+        $isWeekend = date('N') >= 6;
+
+        $isOnTime = $this->checkTime($user);
+
+        $isLate = $this->checkLate($user);
+
+        $outerConditions = $isOnPremies && !$isTodayHoliday && $isOnTime && !$isLate && !$isWeekend;
+
+        if ($outerConditions) {
+
+        if ($request['status'] == 'start')
+           return  $this->store($request, $user);
+        else
+            return $this->update($request, $user);
+    } else {
+        $error = 'You are not allowed to work today';
+        return $this->errorResponse($error, 401);
+    }
 }
 
     /**
@@ -70,10 +82,9 @@ class UserAttendanceController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, $user)
     {
 
-        $user = User::findOrFail($id);
         $data = $request->all();
 
         $data['user_id'] = $user->id;
@@ -114,13 +125,9 @@ class UserAttendanceController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $user)
     {
-        // $user = Auth::user();
-        $user = User::findOrFail($id);
         $attend = $user->attendances->last();
-        // $attend->leave_time = new DateTime();
-        // $attend->save();
         $attend->update([
             'leave_time' => new DateTime(),
         ]);
@@ -137,4 +144,29 @@ class UserAttendanceController extends ApiController
     {
         //
     }
+
+    public function checkTime($user)
+    {
+        $time = date('H:i:s');
+        $startTime = $user->shift->start_time;
+        $endTime = $user->shift->end_time;
+        if ($time >= $startTime && $time <= $endTime) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function checkLate($user)
+    {
+        $time = date('H:i:s');
+        $startTime = $user->shift->start_time;
+        $endTime = date('H:i:s', strtotime("+15 minutes", strtotime($startTime)));
+        if ($time > $endTime) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
