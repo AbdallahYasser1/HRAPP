@@ -30,7 +30,7 @@ class salarySeeder extends Seeder
         $salaryTermQuantity = 27;
         $salarySlipQuantity = 150;
         $salaryAdjustmentTypeQuantity = 20;
-        $salaryAdjustmentQuantity = 500;
+        $salaryAdjustmentQuantity = 200;
 
         SalaryTerm::factory($salaryTermQuantity)->create();
         SalaryAdjustmentType::factory($salaryAdjustmentTypeQuantity)->create();
