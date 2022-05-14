@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Requestdb;
 use App\Models\Task;
 use App\Models\Task_employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,19 @@ class TaskController extends RequestController
         $endtimeOfTask = date('Y-m-d', strtotime($request['end_date']));
         if ($timeOfTask < $timeOfDate|| $endtimeOfTask<$timeOfDate)
             return $this->errorResponse("Cant making task in past date", 400);
-        $task = new Task;
+        foreach($request['employees'] as $item) {
+           $check= User::where('id', '=',$item)->exists();
+           if (!$check){
+               return $this->errorResponse("User{{$item}} is not found ", 404);
+
+           }
+           if(Auth::id()==$item){
+               return $this->errorResponse("Can't Assign Task to yourself ", 404);
+
+           }
+        }
+
+            $task = new Task;
         $task->description=$request['description'];
         $task->save();
         $requestdb=$this->Create_Request($request);

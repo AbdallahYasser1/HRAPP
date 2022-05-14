@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task_employee;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,9 +17,20 @@ class TaskEmployeeController extends RequestController
         }
         $message='';
         if ($task->requests()->first()->user_id == Auth::id()) {
+            foreach($request['employees'] as $item) {
+                $check= User::where('id', '=',$item)->exists();
+                if (!$check){
+                    return $this->errorResponse("User{{$item}} is not found ", 404);
 
+                }
+                if(Auth::id()==$item){
+                    return $this->errorResponse("Can't Assign Task to yourself ", 404);
+
+                }
+            }
             foreach ($request['employees'] as $item) {
                 if(!$task->employees()->where('user_id',$item)->exists()){
+
                 $task->employees()->create(['user_id' => $item]);}
                 else  $message=$message.''.$item." ";
             }
@@ -32,12 +44,26 @@ class TaskEmployeeController extends RequestController
         }
     }
     public function DeleteEmployee(Task $task, Request $request)
-    {
+    { // add permissions
         if ($task === null) {
             return $this->errorResponse("Request is not found", 404);
         }
+if($request['employees']==null){
+    return $this->errorResponse("Please provide data", 404);
 
+}
         if ($task->requests()->first()->user_id == Auth::id()) {
+            foreach($request['employees'] as $item) {
+                $check= User::where('id', '=',$item)->exists();
+                if (!$check){
+                    return $this->errorResponse("User{{$item}} is not found ", 404);
+
+                }
+                if (!$task->employees()->where('user_id',$item)->exists()){
+                    return $this->errorResponse("User{{$item}} is not assigned to this task ", 404);
+
+                }
+            }
         if($task->employees()->first()===null)  return $this->showCustom("There is No Employee to delete",404);
             foreach ($request['employees'] as $item) {
                 $task->employees()->where('user_id' , $item)->delete();
@@ -46,7 +72,7 @@ class TaskEmployeeController extends RequestController
                return $this->showCustom("There is no Employees assigned to this task ",200);
 
            }
-            return $this->showCustom($task->employees()->first(),200);
+            return $this->showCustom($task->employees()->get(),200);
         } else {
             return $this->errorResponse("You don't have the permission", 401);
         }
