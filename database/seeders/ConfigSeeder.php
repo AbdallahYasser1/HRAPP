@@ -26,6 +26,7 @@ class ConfigSeeder extends Seeder
  'longtiude' => 'long',
  'latiude' => 'lat',
  'distance' => 'lat',
+ 'photo' => 'lat',
         ];
         DB::table('configs')->insert($configration);
 

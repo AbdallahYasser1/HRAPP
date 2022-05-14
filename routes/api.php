@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobTitleController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\Salary\SalaryAdjustmentController;
 use App\Http\Controllers\Salary\SalaryAdjustmentTypeController;
 use App\Http\Controllers\Salary\SalarySlipControl;
@@ -52,6 +53,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/user', function (Request $request) {
         return new AuthResource($request->user());
     });
+    //Requests
+    Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
 
     //WFH
     Route::post('/wfh', [WfhController::class, 'store']);

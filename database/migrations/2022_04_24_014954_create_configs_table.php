@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('company_phone');
             $table->string('branches');
             $table->string('location');
+            $table->string('country');
             $table->string('photo');
             $table->string('latiude');
             $table->string('longtiude');
