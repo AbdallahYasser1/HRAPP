@@ -15,10 +15,9 @@ class MissionUpdatesController extends ApiController
         $mission=Mission::find($request['mission_id']);
        
         if($mission===null){
-            return $this->errorResponse("MissionUpdate not found",404);
+            return $this->errorResponse("Mission not found",404);
         }
-
-        if(!in_array($mission->requests()->first()->status, ['approved','closed'])||strtotime($mission->requests()->first()->end_date)<strtotime($request['date'])||$mission->requests()->first()->user_id!=Auth::id()){
+        if(!in_array($mission->requests()->first()->status, ['approved','closed'])||(strtotime($mission->requests()->first()->end_date)<strtotime($request['date'])||strtotime($mission->requests()->first()->start_date)>strtotime($request['date']))||$mission->requests()->first()->user_id!=Auth::id()){
           // print_r($mission->requests()->first()->status!='approved');
 
             return $this->errorResponse("MissionUpdate in pending status or time of update vanished",400);
@@ -35,11 +34,13 @@ class MissionUpdatesController extends ApiController
         if($missionUpdate===null){
             return $this->errorResponse("MissionUpdate not found",404);
         }else{
-             if(! $missionUpdate->mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Update_Request'))
+             if( $missionUpdate->mission->requests->first()->user_id == Auth::id() ||  Auth::user()->hasPermissionTo('Show_Mission_Update_Request')){
+                 $missionUpdate->delete();
+            return $this->showCustom('MissionUpdate deleted',200);   
+             }else
             return  $this->errorResponse("You do not have the permission",403);
       
-            $missionUpdate->delete();
-            return $this->showCustom('MissionUpdate deleted',200);    
+             
         }
     }
     public function show($id){
@@ -47,10 +48,12 @@ class MissionUpdatesController extends ApiController
         if($missionUpdate===null){
             return $this->errorResponse("MissionUpdate not found",404);
         }else{
-            if(! $missionUpdate->mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Update_Request'))
-            return  $this->errorResponse("You do not have the permission",403);
+            if( $missionUpdate->mission->requests->first()->user_id == Auth::id() ||  Auth::user()->hasPermissionTo('Show_Mission_Update_Request')){
+                return $this->showOne($missionUpdate, 200);
+            }
+            else return  $this->errorResponse("You do not have the permission",403);
       
-            return $this->showOne($missionUpdate, 200);    
+               
         }
     }
 
