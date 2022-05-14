@@ -132,6 +132,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     });
 }); // end of Application access
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
+    Route::get('admin/requests', [RequestController::class, 'ShowAllRequestsAdmin']);
 
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/UpdateUserShift/{id}',[ShiftController::class,'updateUserShift']);
