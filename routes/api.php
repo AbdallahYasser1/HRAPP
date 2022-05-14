@@ -31,6 +31,7 @@ use App\Http\Controllers\Attendance\AttendanceController;
 use App\Http\Controllers\Attendance\UserAttendanceController;
 use App\Http\Controllers\Salary\UserSlipAdjustmentController;
 use App\Http\Controllers\Salary\CalculateNetSalaryController;
+use App\Http\Controllers\VacationdayController;
 use App\Http\Resources\AuthResource;
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/user', function (Request $request) {
         return new AuthResource($request->user());
     });
+    Route::get('vacationdayuser',[VacationdayController::class,'showVacationdayAuth']);
     //Requests
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
 
@@ -120,7 +122,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         Route::apiResource('WFH', WfhAdminController::class)->only('destroy', 'update');
         Route::apiResources([
             'Holidays' => HolidayController::class,
-            'Shifts' => ShiftController::class
+            'Shifts' => ShiftController::class,
+            'Vacationday'=>VacationdayController::class
         ]);
         Route::patch('users/{user}', [UserController::class, 'update']);
         Route::delete('users/{user}', [UserController::class, 'destroy']);
