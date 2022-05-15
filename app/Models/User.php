@@ -13,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Absence;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -80,10 +81,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Shift::class);
     }
-    public function attendances()
-    {
-        return $this->hasMany(Attendance::class);
-    }
+
     public function requests()
     {
         return $this->hasMany(Requestdb::class);
@@ -117,5 +115,13 @@ public function lastSlip() {
         return $this->hasOne(SalarySlip::class)->latest();
 }
 
-// Salary
+public function attendances()
+{
+    return $this->hasMany(Attendance::class);
+}
+
+public function absences()
+{
+    return $this->hasMany(Absence::class);
+}
 }

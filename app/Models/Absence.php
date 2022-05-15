@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;
 class Absence extends Model
 {
     use HasFactory;
@@ -17,5 +17,10 @@ class Absence extends Model
             ->where('date', '=', $this->getAttribute('date'));
 
         return $query;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

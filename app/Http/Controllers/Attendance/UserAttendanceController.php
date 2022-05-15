@@ -63,10 +63,12 @@ class UserAttendanceController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($user_id, $attend_id)
     {
-        $user = User::findOrFail($id);
-        
+        $user = User::findOrFail($user_id);
+        $attend = $user->attendances()->findOrFail($attend_id);
+        $attend->delete();
+        return $this->showOne($attend);
     }
 
 }

@@ -32,6 +32,12 @@ use App\Http\Controllers\Salary\CalculateNetSalaryController;
 use App\Http\Controllers\VacationdayController;
 use App\Http\Resources\AuthResource;
 use App\Http\Controllers\Attendance\UserAttendController;
+use App\Http\Controllers\Absence\AbsenceController;
+use App\Http\Controllers\Absence\UserAbsenceController;
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -178,5 +184,7 @@ Route::resource('attendances', AttendanceController::class, );
 Route::resource('users.attendances', UserAttendanceController::class, );
 Route::put('users/{id}/attend',[UserAttendController::class, 'attendEmployee']);
 
-
+// absence
+Route::resource('absences', AbsenceController::class, );
+Route::resource('users.absences', UserAbsenceController::class, );
 //});
