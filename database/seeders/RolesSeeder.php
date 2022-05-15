@@ -37,7 +37,11 @@ class RolesSeeder extends Seeder
             'Show_Task_Request',
             'create_mission',
             'create_update_mission',
-            'Show_Mission_Update_Request'
+            'Show_Mission_Update_Request',
+            'Create_Vacationday',
+            'Delete_Vacationday',
+            'Update_Vacationday',
+            'View_Vacationday',
         ];
 
         foreach ($permissions as $permission) {
@@ -74,7 +78,11 @@ class RolesSeeder extends Seeder
             'Show_Wfh_Request',
             'Show_Mission_Request',
             'Show_Mission_Update_Request',
-            'Show_Task_Request'
+            'Show_Task_Request',
+            'Create_Vacationday',
+            'Delete_Vacationday',
+            'Update_Vacationday',
+            'View_Vacationday',
         ];
         $AccountantPermissions = [
 
