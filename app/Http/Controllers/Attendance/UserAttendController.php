@@ -32,9 +32,7 @@ class UserAttendController extends ApiController
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
 
-
-        $Holiday = Holiday::where('date', '=', date('Y-m-d'))->get()->first()->date;
-        $isTodayHoliday = date("Y-m-d") == $Holiday;
+        $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
         $isWeekend = date('N') >= 6;
 
@@ -42,18 +40,20 @@ class UserAttendController extends ApiController
 
         $isLate = $this->checkLate($user);
 
-        $outerConditions = $isOnPremies && !$isTodayHoliday && $isOnTime && !$isLate && !$isWeekend;
-        // $outerConditions = true;
+        $isUserOnVacation = false;
+
+        $outerConditions = $isOnPremies && !$isTodayHoliday && $isOnTime && !$isWeekend && !$isUserOnVacation;
+        $outerConditions = true;
 
         if ($outerConditions) {
 
             if ($request['status'] == 'start') {
-                return  $this->store($request, $user);
-            } elseif ($request['status'] == 'out') {
-                $attend = $user->attendances->last()->date;
-                if ($attend == date('Y-m-d')) {
+                if (!$isLate)
                     return $this->update($request, $user);
-                }
+                else
+                    return $this->errorResponse('You are late', 422);
+            } elseif ($request['status'] == 'out') {
+                return $this->update($request, $user);
             }
         } else {
             $error = 'You are not allowed to work today';
@@ -61,7 +61,7 @@ class UserAttendController extends ApiController
         }
     }
 
-   
+
     /**
      * Store a newly created resource in storage.
      *
@@ -70,16 +70,7 @@ class UserAttendController extends ApiController
      */
     public function store(Request $request, $user)
     {
-
-        $data = $request->all();
-
-        $data['user_id'] = $user->id;
-        $data['start_time'] = new DateTime();
-        $data['date'] = date('Y-m-d');
-        $data['leave_time'] = null;
-
-        $attend = Attendance::create($data);
-        return $this->showOne($attend);
+        //
     }
 
     /**
@@ -92,9 +83,15 @@ class UserAttendController extends ApiController
     public function update(Request $request, $user)
     {
         $attend = $user->attendances->last();
-        $attend->update([
-            'leave_time' => new DateTime(),
-        ]);
+        if ($request['status'] == 'start') {
+            $attend->update([
+                'start_time' => new DateTime(),
+            ]);
+        } elseif ($request['status'] == 'out') {
+            $attend->update([
+                'leave_time' => new DateTime(),
+            ]);
+        }
         return $this->showOne($attend);
     }
 

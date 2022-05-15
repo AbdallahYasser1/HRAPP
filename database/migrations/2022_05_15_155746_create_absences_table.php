@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('absent', function (Blueprint $table) {
+        Schema::create('absences', function (Blueprint $table) {
             $table->date("date");
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('absent');
+        Schema::dropIfExists('absences');
     }
 };
