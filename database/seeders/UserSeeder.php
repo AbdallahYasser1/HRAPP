@@ -21,15 +21,16 @@ class UserSeeder extends Seeder
     public function run()
     {
         //User::factory(10)->create();
-        User::factory(1)->has(Vacationday::factory()->state([]))->create()
+        User::factory(1)->has(Vacationday::factory()->state([]))->has(Profile::factory()->state(['department_id' => 1,'job__title_id'=>Job_Title::where('department_id','=',1)->first()->id]))->create()
             ->each(function ($user) {
                 $user->assignRole('Admin');
             });
-        User::factory(1)->has(Vacationday::factory()->state([]))->create()
+            
+        User::factory(1)->has(Vacationday::factory()->state([]))->has(Profile::factory()->state(['department_id' => 2,'job__title_id'=>Job_Title::where('department_id','=',2)->first()->id]))->create()
             ->each(function ($user) {
                 $user->assignRole('HR');
             });
-        User::factory(3)->has(Vacationday::factory()->state([]))->create()
+        User::factory(3)->has(Vacationday::factory()->state([]))->has(Profile::factory()->state(['department_id' => 3,'job__title_id'=>Job_Title::where('department_id','=',3)->first()->id]))->create()
             ->each(function ($user) {
                 $user->assignRole('Accountant');
             });
