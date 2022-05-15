@@ -37,13 +37,13 @@ class VacationdayController extends ApiController
     public function store(VacationdayRequest $request)
     {
         $user=User::find( $request['user_id']);
-        if($user->vacationday==null){
+        if($user!=null&&$user->vacationday==null){
             $vacationday=Vacationday::create( ['user_id' => $request['user_id'],
             'scheduled' => $request['scheduled'],
             'unscheduled'=>$request['unscheduled']]);
             return $this->showCustom($vacationday, 201);
         }else{
-            return $this->errorResponse("user vacationday is already in database", 400);
+            return $this->errorResponse("user vacationday is already in database or user not fond", 400);
         }
         
     }
