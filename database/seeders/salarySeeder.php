@@ -20,17 +20,17 @@ class salarySeeder extends Seeder
     {
         // DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 
-        // SalaryTerm::truncate();
-        // SalarySlip::truncate();
-        // SalaryAdjustmentType::truncate();
 
         // SalaryAdjustment::truncate();
+        // SalarySlip::truncate();
+        // SalaryAdjustmentType::truncate();
+        // SalaryTerm::truncate();
 
 
         $salaryTermQuantity = 27;
         $salarySlipQuantity = 150;
         $salaryAdjustmentTypeQuantity = 20;
-        $salaryAdjustmentQuantity = 200;
+        $salaryAdjustmentQuantity = 150;
 
         SalaryTerm::factory($salaryTermQuantity)->create();
         SalaryAdjustmentType::factory($salaryAdjustmentTypeQuantity)->create();

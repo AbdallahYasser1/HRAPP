@@ -31,6 +31,7 @@ use App\Http\Controllers\Salary\UserSlipAdjustmentController;
 use App\Http\Controllers\Salary\CalculateNetSalaryController;
 use App\Http\Controllers\VacationdayController;
 use App\Http\Resources\AuthResource;
+use App\Http\Controllers\Attendance\UserAttendController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -175,7 +176,7 @@ Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class
 // Attendance
 Route::resource('attendances', AttendanceController::class, );
 Route::resource('users.attendances', UserAttendanceController::class, );
-Route::post('users/{id}/attend',[UserAttendController::class, 'attendEmployee']);
+Route::put('users/{id}/attend',[UserAttendController::class, 'attendEmployee']);
 
 
 //});
