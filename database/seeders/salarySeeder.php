@@ -18,13 +18,13 @@ class salarySeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        // DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 
-        SalaryTerm::truncate();
-        SalarySlip::truncate();
-        SalaryAdjustmentType::truncate();
+        // SalaryTerm::truncate();
+        // SalarySlip::truncate();
+        // SalaryAdjustmentType::truncate();
 
-        SalaryAdjustment::truncate();
+        // SalaryAdjustment::truncate();
 
 
         $salaryTermQuantity = 27;

@@ -8,8 +8,6 @@ use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\Salary\SalaryAdjustmentController;
 use App\Http\Controllers\Salary\SalaryAdjustmentTypeController;
-use App\Http\Controllers\Salary\SalarySlipControl;
-use App\Http\Controllers\salary\SalarySlipController;
 use App\Http\Controllers\Salary\SalarySlipController2;
 use App\Http\Controllers\Salary\TermSlipController;
 use App\Http\Controllers\Salary\SalaryTermController;
