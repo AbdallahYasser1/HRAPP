@@ -15,7 +15,7 @@ class DepartmentSeeder extends Seeder
      */
     public function run()
     {
-        $departments=[['name'=>"Department 1"],['name'=>"Department 2"],['name'=>"Department 3"],['name'=>"Department 4"]];
+        $departments=[['name'=>"ceo"],['name'=>"Hr"],['name'=>'Accountant'],['name'=>"Department 1"],['name'=>"Department 2"],['name'=>"Department 3"],['name'=>"Department 4"]];
         Department::insert($departments);
     }
 }
