@@ -19,6 +19,7 @@ use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskEmployeeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VacationController;
 use App\Http\Controllers\WfhAdminController;
 use App\Http\Controllers\WfhController;
 use App\Http\Controllers\MissionController;
@@ -107,7 +108,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     //when play with this route specifc the data will be "form-data"->(it avialbe in postman) not json
     Route::post('profile/photo', [ProfileController::class, 'storePhoto']);
     Route::put('profile/photoDefault', [ProfileController::class, 'storeDefaultPhoto']);
-
+Route::get('/test',[VacationController::class,'CheckVacationBalance']);
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);

@@ -45,7 +45,7 @@ class VacationdayController extends ApiController
         }else{
             return $this->errorResponse("user vacationday is already in database or user not fond", 400);
         }
-        
+
     }
 
     /**

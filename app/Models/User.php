@@ -35,6 +35,8 @@ class User extends Authenticatable
         'shift_id' => 'required|integer',
         'department_id' => 'required|integer',
         'job__title_id' => 'required|integer',
+        'scheduled' => 'required|integer',
+        'unscheduled' => 'required|integer',
 
     ];
     const Validation_Update_Account_Rules = [

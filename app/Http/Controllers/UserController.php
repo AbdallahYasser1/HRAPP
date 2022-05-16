@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AuthResource;
 use App\Models\Profile;
 use App\Models\Requestdb;
+use App\Models\Vacationday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -52,6 +53,9 @@ class UserController extends ApiController
             'can_wfh'=>$request['can_wfh'],
             'supervisor'=>$request['supervisor'],
         ]);
+        $vacationday=Vacationday::create( ['user_id' => $request['id'],
+            'scheduled' => $request['scheduled'],
+            'unscheduled'=>$request['unscheduled']]);
         $profile = Profile::create([
             'user_id' => $request['id'],
             'department_id' => $request['department_id'],
