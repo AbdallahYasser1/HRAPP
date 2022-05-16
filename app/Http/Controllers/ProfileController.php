@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use PhpOption\Option;
+
 class ProfileController extends ApiController
 {
     public function store(Request $request)
@@ -35,11 +37,12 @@ class ProfileController extends ApiController
     }
     public function storePhoto(PhotoRequest $request){
         if($request->hasFile('photo')){
-            $path=$request->file('photo')->store('public/images');
+           
+            $path=cloudinary()->upload($request->file('photo')->getRealPath(),$options = ['folder'=>'profile_images'])->getSecurePath();
             //if(Storage::disk('images')->exists($path)){
                 $userProfile=Profile::where('user_id','=',Auth::id());
                 $userProfile->update([
-                    'image' => str_replace("public","",$path)
+                    'image' =>$path
                 ]);
                 return $this->showCustom("image saved", 200);
            // }else{
