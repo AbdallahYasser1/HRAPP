@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             UserSeeder::class,
             salarySeeder::class,
+            VacationSeeder::class
 
         ]);
     }
