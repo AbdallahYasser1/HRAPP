@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
@@ -39,6 +40,24 @@ class AuthController extends ApiController
             return $response;
         }
         return response()->json(["message" => "The user was not found or the password was incorrect."], 401);
+    }
+    public function Deactivate_user(User $user){
+        if($user==null) return $this->errorResponse('user not found','404');
+        if(!$user->active)return $this->errorResponse('user is already deactivated','400');
+        else{
+        $user->active=false;
+        $user->save();
+        }
+        return $this->showCustom("User {$user->id} has deactivated",200);
+    }
+    public function Activate_user(User $user){
+        if($user==null) return $this->errorResponse('user not found','404');
+        if($user->active)return $this->errorResponse('user is already active','400');
+        else{
+            $user->active=true;
+            $user->save();
+        }
+        return $this->showCustom("User {$user->id} has Activated",200);
     }
 
     public function reset_password(LoginUserRequest   $request)

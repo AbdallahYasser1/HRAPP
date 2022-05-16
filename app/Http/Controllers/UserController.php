@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AuthResource;
+use App\Models\Profile;
 use App\Models\Requestdb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -50,9 +51,12 @@ class UserController extends ApiController
             'password' => $hashed_random_password,
             'can_wfh'=>$request['can_wfh'],
             'supervisor'=>$request['supervisor'],
-
         ]);
-
+        $profile = Profile::create([
+            'user_id' => $request['id'],
+            'department_id' => $request['department_id'],
+            'job__title_id'=>$request['job__title_id']
+        ]);
         $user->assignRole($request['role']);
         $response = ['user' => new AuthResource($user), 'password' => $hashed_random_password];
         return $this->showCustom($response, 201);
@@ -124,5 +128,8 @@ class UserController extends ApiController
     }
     function showAllUsersAdmin(Request $request){
         return $this->showAll(User::all(),200);
+    }
+    function UserStatus(){
+        return $this->showCustom(Auth::user()->status,200);
     }
 }

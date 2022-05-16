@@ -134,14 +134,17 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         Route::delete('users/{user}', [UserController::class, 'destroy']);
         Route::get('users/{user}', [UserController::class, 'show']);
         Route::get('users', [UserController::class, 'index']);
+        Route::patch('user/changepassword', [AuthController::class, 'reset_password']);
         Route::get('user/requests', [UserController::class, 'ViewAllRequests']);
+        Route::get('user/status', [UserController::class, 'UserStatus']);
         Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
 
     });
 }); // end of Application access
 Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
     Route::get('admin/requests', [RequestController::class, 'ShowAllRequestsAdmin']);
-
+Route::patch('admin/users/{user}/deactivate',[AuthController::class,'Deactivate_user']);
+Route::patch('admin/users/{user}/activate',[AuthController::class,'Activate_user']);
     Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
     Route::get('Shifts/UpdateUserShift/{id}',[ShiftController::class,'updateUserShift']);
     Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
