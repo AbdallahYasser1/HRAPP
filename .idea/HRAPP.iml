@@ -153,6 +153,10 @@
       <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/f1" />
       <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/f7" />
       <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/fe" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/shrikeh/teapot" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cloudinary-labs/cloudinary-laravel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/teapot/status-code" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cloudinary/cloudinary_php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
