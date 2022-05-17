@@ -80,7 +80,6 @@ else{
     {
         if($this->CheckPendingRequests($request['type'])>0) return $this->errorResponse("There is pending Vacation Requests",400);
         $duration=$this->VacationDuration($request);
-        error_log($duration);
         if(!$duration){
            return $this->errorResponse("Vacation can only be done during the same year",400);
         }
@@ -94,14 +93,11 @@ else{
         $vacation = new Vacation();
         $vacation->type=$request['type'];
         $vacation->count=$duration;
-        // if vacation was unscheduled then it should be at time in past
-        // so it removes any salary deducation
         $vacation->save();
         $requestdb= $this->Create_Request($request);
         $vacation->requests()->save($requestdb);
 
     $response = ["message" => "Vacation Request Succesfully created", "Request" => $requestdb];
-        error_log($vacation);
         return $this->showCustom($response, 201);
     }}
     public function UnscheduledVacation(VacationRequest $request,Absence $absence)

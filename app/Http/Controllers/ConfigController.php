@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Config;
 use Illuminate\Http\Request;
 
-class ConfigController extends Controller
+class ConfigController extends RequestController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,8 @@ class ConfigController extends Controller
      */
     public function index()
     {
-        //
+        $config=Config::all();
+       return $this->showCustom($config,200);
     }
 
     /**
