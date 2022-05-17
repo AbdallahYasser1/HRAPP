@@ -20,7 +20,7 @@ class MissionUpdate extends Model
     protected function approvedFile(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>request()->getSchemeAndHttpHost() . '/storage/' . $value,
+            get: fn ($value) =>$value,
         );
     }
     
