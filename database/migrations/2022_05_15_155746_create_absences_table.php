@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('absences', function (Blueprint $table) {
+            $table->id();
             $table->date("date");
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->primary(['user_id', 'date']);
             $table->enum('status',['wfh','vacation','leave','absent'])->default('absent');
             $table->timestamps();
         });

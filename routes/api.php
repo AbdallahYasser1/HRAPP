@@ -108,7 +108,11 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     //when play with this route specifc the data will be "form-data"->(it avialbe in postman) not json
     Route::post('profile/photo', [ProfileController::class, 'storePhoto']);
     Route::put('profile/photoDefault', [ProfileController::class, 'storeDefaultPhoto']);
-Route::post('/test',[VacationController::class,'ScheduledVacation']);
+    //Vacation
+    Route::post('/{absence}/vacation',[VacationController::class,'UnscheduledVacation']);
+    Route::post('/vacation',[VacationController::class,'ScheduledVacation']);
+    Route::get('/vacation/{vacation}',[VacationController::class,'ShowVacationRequest']);
+    Route::get('/vacationbalance',[VacationController::class,'RemainingVacationBalance']);
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);

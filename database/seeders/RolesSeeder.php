@@ -42,6 +42,7 @@ class RolesSeeder extends Seeder
             'Delete_Vacationday',
             'Update_Vacationday',
             'View_Vacationday',
+            'Show_Vacation_Request'
         ];
 
         foreach ($permissions as $permission) {
@@ -83,6 +84,7 @@ class RolesSeeder extends Seeder
             'Delete_Vacationday',
             'Update_Vacationday',
             'View_Vacationday',
+            'Show_Vacation_Request'
         ];
         $AccountantPermissions = [
 

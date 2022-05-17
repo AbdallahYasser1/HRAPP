@@ -22,19 +22,24 @@ class VacationController extends RequestController
 
 return $days;
     }
+    public function takendays($type){
+        $yearnow = Carbon::parse(date('Y-m-d', strtotime(Carbon::today())))->year;
+        $takendays= Requestdb::with(['requestable'])
+            ->join('users', 'requestdbs.user_id', 'users.id')
+            ->where('requestdbs.status', '=', "approved")
+            ->whereYear("requestdbs.start_date",$yearnow)
+            ->join('vacations','requestdbs.requestable_id','vacations.id')
+            ->where("user_id",'=',Auth::id())
+            ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords("vacation"))
+            ->where('type',$type)
+            ->sum('count');
+        return $takendays;
+    }
     public function CheckVacationBalance($type,$duration){
 
   $vacationbalance=$this->VacationBalance($type);
-        $yearnow = Carbon::parse(date('Y-m-d', strtotime(Carbon::today())))->year;
-$takendays= Requestdb::with(['requestable'])
-    ->join('users', 'requestdbs.user_id', 'users.id')
-    ->where('requestdbs.status', '=', "approved")
-    ->whereYear("requestdbs.start_date",$yearnow)
-    ->join('vacations','requestdbs.requestable_id','vacations.id')
-    ->where("user_id",'=',Auth::id())
-    ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords("vacation"))
-    ->where('type',$type)
-    ->sum('count');
+
+$takendays=$this->takendays($type);
 error_log($vacationbalance);
 error_log($takendays);
 if($vacationbalance<=$takendays) return 'You have reached the maximum vacation days';
@@ -49,6 +54,7 @@ else{
 
     }
     public function VacationDuration(Request $request){
+
         if(Carbon::parse(date('Y-m-d', strtotime($request['end_date'])))<Carbon::parse(date('Y-m-d', strtotime($request['start_date'])))) return $this->errorResponse('invalid data',400);
         $from_date = Carbon::parse(date('Y-m-d', strtotime($request['start_date'])));
         $through_date = Carbon::parse(date('Y-m-d', strtotime($request['end_date'])));
@@ -72,7 +78,7 @@ else{
     }
     public function ScheduledVacation(VacationRequest $request)
     {
-        if($this->CheckPendingRequests($request['type']>0)) return $this->errorResponse("There is pending Vacation Requests",400);
+        if($this->CheckPendingRequests($request['type'])>0) return $this->errorResponse("There is pending Vacation Requests",400);
         $duration=$this->VacationDuration($request);
         error_log($duration);
         if(!$duration){
@@ -80,7 +86,11 @@ else{
         }
       $check=  $this->CheckVacationBalance($request['type'],$duration);
       if (is_string($check)) return $this->errorResponse($check,400);
-else{
+        if ( $request['type']=='scheduled') if( $this->CheckRequestDate($request['start_date'])) return  $this->CheckRequestDate($request['start_date']);
+
+      else{
+
+
         $vacation = new Vacation();
         $vacation->type=$request['type'];
         $vacation->count=$duration;
@@ -94,15 +104,30 @@ else{
         error_log($vacation);
         return $this->showCustom($response, 201);
     }}
-    public function UnscheduledVacation(Request $request,Absence $absence)
+    public function UnscheduledVacation(VacationRequest $request,Absence $absence)
     {
-
-        if($absence==null || $absence->user_id==Auth::id()){
-            $this->errorResponse("There is no absent on this day ",404);
+error_log($absence);
+        if($absence==null || $absence->user_id!=Auth::id()){
+          return   $this->errorResponse("There is no absent on this day ",404);
         }
         $request['start_date']=$absence->date;
         $request['end_date']=$absence->date;
-        $this->ScheduledVacation($request);
+     return   $this->ScheduledVacation($request);
 
+    }
+    public function ShowVacationRequest(Vacation $vacation)
+    {
+
+        if( $vacation->requests->first()->user_id != Auth::id() || !Auth::user()->hasPermissionTo('Show_Vacation_Request'))
+        {   return $this->errorResponse("The authenticated user is not permitted to perform the requested operation ",403);}
+
+        return $this->showCustom($vacation,200);
+
+    }
+    public function RemainingVacationBalance(){
+        $scheduled=$this->VacationBalance('scheduled')-$this->takendays('scheduled');
+        $unscheduled=$this->VacationBalance('unscheduled')-$this->takendays('unscheduled');
+        $response=["scheduled"=>$scheduled,"unscheduled"=>$unscheduled];
+        return $this->showCustom($response,200);
     }
 }
