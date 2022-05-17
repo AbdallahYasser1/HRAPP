@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->primary(['user_id', 'date']);
+            $table->enum('status',['wfh','vacation','leave','absent'])->default('absent');
             $table->timestamps();
         });
     }
