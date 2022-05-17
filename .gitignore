@@ -23,7 +23,11 @@ yarn-error.log
 .idea/modules.xml
 >>>>>>> Stashed changes
 .idea/workspace.xml
+.idea/HRAPP.iml
+*.iml
 *.iml
 .idea/HRAPP.iml
+.idea/php.xml
+vendor/composer/InstalledVersions.php
 vendor/composer/installed.php
 vendor/composer/autoload_classmap.php
