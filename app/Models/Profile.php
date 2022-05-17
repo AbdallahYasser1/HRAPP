@@ -26,7 +26,7 @@ class Profile extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>$value==''?null :request()->getSchemeAndHttpHost() . '/storage/' . $value,
+            get: fn ($value) =>$value==''?null :$value,
         );
     }
 }
