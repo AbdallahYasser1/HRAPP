@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /node_modules
 /public/hot
 /public/storage
@@ -13,3 +14,11 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+=======
+.idea/HRAPP.iml
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/phpunit.xml
+.idea/php.xml
+.idea/modules.xml
+>>>>>>> Stashed changes
