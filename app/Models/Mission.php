@@ -18,4 +18,16 @@ class Mission extends Model
     {
         return $this->hasMany(MissionUpdate::class);
     }
+    public function missionUpdatesGroup(){
+        $groupTheResult=[];
+        $result=$this->hasMany(MissionUpdate::class)->orderBy('date')->get();
+        foreach ($result as $res) {
+            if(isset($groupTheResult[$res['date']]))
+            $groupTheResult[$res['date']]=array_merge($groupTheResult[$res['date']],[$res]);
+            else{
+                $groupTheResult[$res['date']]=[$res];
+            }
+        }
+        return $groupTheResult;
+    }
 }

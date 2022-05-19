@@ -36,6 +36,7 @@ use App\Http\Resources\AuthResource;
 use App\Http\Controllers\Attendance\UserAttendController;
 use App\Http\Controllers\Absence\AbsenceController;
 use App\Http\Controllers\Absence\UserAbsenceController;
+use App\Http\Controllers\GetCompanyStstistics;
 
 
 
@@ -122,6 +123,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::middleware(['auth:sanctum', 'role:Admin'])->put('/supervisor', [SupervisorController::class, 'makeUserSupervised']);
 
     Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
+        Route::get('/getCompanyStstistics',GetCompanyStstistics::class);
         //Create New Account
         Route::post('/register', [UserController::class, 'store']);
         Route::put('profile/photoApprove/{id}', [ProfileController::class, 'approvePhoto']);
