@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/user', function (Request $request) {
         return new AuthResource($request->user());
     });
-    Route::get('vacationdayuser',[VacationdayController::class,'showVacationdayAuth']);
+    Route::get('vacationdayuser', [VacationdayController::class, 'showVacationdayAuth']);
     //Requests
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
 
@@ -74,15 +74,15 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/wfh/{wfh}', [WfhController::class, 'showWfhRequest']);
     Route::delete('/wfh/{id}', [WfhController::class, 'destroy']);
     //Mission
-    Route::post('/mission', [MissionController::class, 'store']);//ok
-    Route::get('/mission/{mission}', [MissionController::class, 'showMissionRequest']);//ok
-    Route::get('/mission', [MissionController::class, 'showAllMissionRequests']);//ok
-    Route::delete('/mission/{id}', [MissionController::class, 'destroy']);//ok
-    Route::put('/mission/{id}', [MissionController::class, 'update']);//ok
-    Route::put('/mission/updateUser/{id}', [MissionController::class, 'updateDate']);//ok
-    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']);//ok
-    Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']);//ok
-    Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']);//ok
+    Route::post('/mission', [MissionController::class, 'store']); //ok
+    Route::get('/mission/{mission}', [MissionController::class, 'showMissionRequest']); //ok
+    Route::get('/mission', [MissionController::class, 'showAllMissionRequests']); //ok
+    Route::delete('/mission/{id}', [MissionController::class, 'destroy']); //ok
+    Route::put('/mission/{id}', [MissionController::class, 'update']); //ok
+    Route::put('/mission/updateUser/{id}', [MissionController::class, 'updateDate']); //ok
+    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']); //ok
+    Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']); //ok
+    Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']); //ok
     //Tasks
     Route::post('task', [TaskController::class, 'store']);
     Route::get('tasks', [TaskController::class, 'ShowAllTasks']);
@@ -136,7 +136,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         Route::apiResources([
             'Holidays' => HolidayController::class,
             'Shifts' => ShiftController::class,
-            'Vacationday'=>VacationdayController::class
+            'Vacationday' => VacationdayController::class
         ]);
         Route::patch('users/{user}', [UserController::class, 'update']);
         Route::delete('users/{user}', [UserController::class, 'destroy']);
@@ -146,57 +146,67 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         Route::get('user/requests', [UserController::class, 'ViewAllRequests']);
         Route::get('user/status', [UserController::class, 'UserStatus']);
         Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
-
     });
 }); // end of Application access
-Route::middleware(['auth:sanctum','role:Admin|HR'])->group( function () {
+Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
     Route::get('admin/requests', [RequestController::class, 'ShowAllRequestsAdmin']);
-    Route::get('admin/config', [ConfigController::class, 'index']);
-Route::patch('admin/users/{user}/deactivate',[AuthController::class,'Deactivate_user']);
-Route::patch('admin/users/{user}/activate',[AuthController::class,'Activate_user']);
-    Route::get('Shifts/GetUsersShift/{id}',[ShiftController::class,'getUsersOfShift']);
-    Route::get('Shifts/UpdateUserShift/{id}',[ShiftController::class,'updateUserShift']);
-    Route::get('Shifts/GetUserShift/{id}',[ShiftController::class,'getUserShiftById']);
-    Route::apiResource('Users', UserController::class)->only('index','show','update');
-    Route::apiResource('WFH', WfhAdminController::class)->only('destroy','update');
+
+    Route::get('Shifts/GetUsersShift/{id}', [ShiftController::class, 'getUsersOfShift']);
+    Route::get('Shifts/UpdateUserShift/{id}', [ShiftController::class, 'updateUserShift']);
+    Route::get('Shifts/GetUserShift/{id}', [ShiftController::class, 'getUserShiftById']);
+    Route::apiResource('Users', UserController::class)->only('index', 'show', 'update');
+    Route::apiResource('WFH', WfhAdminController::class)->only('destroy', 'update');
     Route::apiResources([
         'Holidays' => HolidayController::class,
-        'Shifts' =>ShiftController::class
+        'Shifts' => ShiftController::class
     ]);
+});
+Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
+
+    Route::resource('slips', SalarySlipController2::class,);
+    Route::resource('slips.adjustments', SlipAdjustmentController::class,);
+
+    Route::resource('salaryTerms', SalaryTermController::class,);
+    Route::resource('salaryTerms.slips', TermSlipController::class,);
+
+    Route::resource('salaryAdjustments', SalaryAdjustmentController::class,);
+    Route::resource('salaryAdjustmentTypes', SalaryAdjustmentTypeController::class,);
+
+    Route::get('users/{id}/lastSlip', [UserSlipController::class, 'lastSlip']);
+    Route::put('users/{id}/lastSlip', [UserSlipController::class, 'updateLastSlip']);
+    Route::delete('users/{id}/lastSlip', [UserSlipController::class, 'destroyLastSlip']);
+    Route::resource('users.slips.adjustments', UserSlipAdjustmentController::class,);
+    Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
+    Route::resource('attendances', AttendanceController::class,);
+    Route::resource('users.attendances', UserAttendanceController::class,);
+    Route::resource('absences', AbsenceController::class,);
+    Route::resource('users.absences', UserAbsenceController::class,);
+});
+
+Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(function () {
+    Route::get('/user/slips', [UserSlipController::class, 'index']);
+    Route::get('/user/slips/{slip}', [UserSlipController::class, 'show']);
 
 
+    Route::get('/user/term', [UserTermController::class, 'index']);
+
+    Route::get('user/slips/{slip}/adjustments', [UserSlipAdjustmentController::class, 'index']);
+    Route::get('user/slips/{slip}/adjustments/{adjustment}', [UserSlipAdjustmentController::class, 'show']);
+
+
+    Route::get('users/{id}/lastSlip', [UserSlipController::class, 'lastSlip']);
+    Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
+
+    Route::get('/user/attendances', [UserAttendanceController::class,  'index']);
+    Route::get('/user/attendances/{attendance}', [UserAttendanceController::class,  'show']);
+
+    Route::put('user/attend', [UserAttendController::class, 'attendEmployee']);
+
+    Route::get('user/absences', [UserAbsenceController::class, 'index']);
 
 });
 
 
-// Salary
-Route::resource('slips', SalarySlipController2::class, );
-Route::resource('slips.adjustments', SlipAdjustmentController::class, );
-
-Route::resource('salaryTerms', SalaryTermController::class, );
-Route::resource('salaryTerms.slips', TermSlipController::class, );
-
-Route::resource('salaryAdjustments', SalaryAdjustmentController::class, );
-Route::resource('salaryAdjustmentTypes', SalaryAdjustmentTypeController::class, );
-
-Route::resource('users.slips', UserSlipController::class, );
-Route::resource('users.terms', UserTermController::class, );
-Route::get('users/{id}/lastSlip', [UserSlipController::class, 'lastSlip']);
-Route::put('users/{id}/lastSlip', [UserSlipController::class, 'updateLastSlip']);
-Route::delete('users/{id}/lastSlip', [UserSlipController::class, 'destroyLastSlip']);
-Route::resource('users.slips.adjustments', UserSlipAdjustmentController::class, );
-Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
-
-Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class, );
-// Route::resource('users.slips.calc', CalculateNetSalaryController::class, );
 
 
-// Attendance
-Route::resource('attendances', AttendanceController::class, );
-Route::resource('users.attendances', UserAttendanceController::class, );
-Route::put('users/{id}/attend',[UserAttendController::class, 'attendEmployee']);
-
-// absence
-Route::resource('absences', AbsenceController::class, );
-Route::resource('users.absences', UserAbsenceController::class, );
-//});
+Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class,);

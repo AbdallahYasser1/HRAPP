@@ -15,7 +15,7 @@ class UserSlipAdjustmentController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($user_id, $slip_id)
+    public function index($slip_id)
     {
         $adjustments = SalarySlip::find($slip_id)->adjustments;
         return  $this->showAll($adjustments);
@@ -59,7 +59,7 @@ class UserSlipAdjustmentController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_id, $slip_id, $adjustment_id)
+    public function show($slip_id, $adjustment_id)
     {
         $adjustment = SalarySlip::find($slip_id)->adjustments->find($adjustment_id);
         return $this->showOne($adjustment);
