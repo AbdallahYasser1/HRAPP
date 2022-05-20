@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Absence;
 use App\Http\Controllers\ApiController;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserAbsenceController extends ApiController
 {
@@ -15,9 +16,10 @@ class UserAbsenceController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        $user = User::findOrFail($id);
+        $user= Auth::user();
+        // $user = User::findOrFail($id);
         $absences = $user->absences;
         return $this->showAll($absences);
     }

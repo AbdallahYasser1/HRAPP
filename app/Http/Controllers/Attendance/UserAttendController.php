@@ -17,7 +17,7 @@ class UserAttendController extends ApiController
 {
     use CheckLocation;
 
-    public function attendEmployee(Request $request, $id)
+    public function attendEmployee(Request $request, )
     {
         // absent table
         $rules = [
@@ -27,23 +27,26 @@ class UserAttendController extends ApiController
         ];
         $this->validate($request, $rules);
 
-        $user = User::find($id);
+        // $user = User::find($id);
+        $user= Auth::user();
+
 
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
 
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
-        $isWeekend = date('N') >= 6;
+        $isWeekend = date('N') == 5 || date('N') == 6;
 
         $isOnTime = $this->checkTime($user);
 
         $isLate = $this->checkLate($user);
+        // $isLate=false;
 
         $isUserOnVacation = false;
 
         $outerConditions = $isOnPremies && !$isTodayHoliday && $isOnTime && !$isWeekend && !$isUserOnVacation;
-        $outerConditions = true;
+        // $outerConditions = true;
 
         if ($outerConditions) {
 

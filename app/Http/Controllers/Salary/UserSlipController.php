@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Salary\SalarySlip;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserSlipController extends ApiController
 {
@@ -15,8 +16,12 @@ class UserSlipController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
+        // var_dump("here");
+
+        $user = Auth::user();
+        // var_dump($user);
         $slips = $user->salarySlips;
         return $this->showAll($slips);
     }
@@ -37,8 +42,10 @@ class UserSlipController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request, $_)
     {
+        $user = Auth::user();
+
         $rules = [
             'date' => 'required|string',
         ];
@@ -57,8 +64,9 @@ class UserSlipController extends ApiController
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, $id)
+    public function show($id)
     {
+        $user= Auth::user();
         $slip = $user->salarySlips()->findOrFail($id);
         return $this->showOne($slip);
     }
@@ -83,6 +91,8 @@ class UserSlipController extends ApiController
      */
     public function update(Request $request, User $user, $slip_id)
     {
+        $user= Auth::user();
+
         $slip = $user->salarySlips()->findOrFail($slip_id);
         // $rules = [
         //     'date' => 'required|string',
@@ -102,6 +112,8 @@ class UserSlipController extends ApiController
      */
     public function destroy(User $user, $slip_id)
     {
+        // $user= Auth::user();
+
         $slip = $user->salarySlips()->findOrFail($slip_id);
         $slip->delete();
         return $this->showOne($slip);

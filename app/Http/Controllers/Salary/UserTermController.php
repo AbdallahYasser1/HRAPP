@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Salary\SalaryTerm;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserTermController extends ApiController
 {
@@ -15,8 +16,9 @@ class UserTermController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(User $user)
+    public function index()
     {
+        $user= Auth::user();
         $term = $user->salaryTerm;
         return $this->showOne($term);
     }
@@ -37,7 +39,7 @@ class UserTermController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request,)
     {
         $rules = [
 //            'start' => 'required|date|date_format:Y-m-d|after:yesterday',
@@ -46,9 +48,10 @@ class UserTermController extends ApiController
 
         ];
         $this->validate($request, $rules);
+        $user= Auth::user();
 
         $data = $request->all();
-        $data['user_id'] = $id;
+        $data['user_id'] = $user->id;
 
         $newTerm = SalaryTerm::create($data);
         return $this->showOne($newTerm, 201);

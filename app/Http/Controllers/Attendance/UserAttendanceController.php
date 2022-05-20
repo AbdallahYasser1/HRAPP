@@ -16,11 +16,14 @@ class UserAttendanceController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        $user = User::findOrFail($id);
-        $attend = $user->attendances;
-        return $this->showAll($attend);
+        print('index');
+        $user= Auth::user();
+
+        // $user = User::findOrFail($id);
+        $attends = $user->attendances;
+        return $this->showAll($attends);
     }
 
     /**
@@ -42,7 +45,8 @@ class UserAttendanceController extends ApiController
      */
     public function show($id)
     {
-        //
+        $attend = Attendance::findOrFail($id);
+        return $this->showOne($attend);                 
     }
 
     /**
@@ -65,10 +69,10 @@ class UserAttendanceController extends ApiController
      */
     public function destroy($user_id, $attend_id)
     {
-        $user = User::findOrFail($user_id);
-        $attend = $user->attendances()->findOrFail($attend_id);
-        $attend->delete();
-        return $this->showOne($attend);
+        // $user = User::findOrFail($user_id);
+        // $attend = $user->attendances()->findOrFail($attend_id);
+        // $attend->delete();
+        // return $this->showOne($attend);
     }
 
 }
