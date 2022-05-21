@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 /node_modules
 /public/hot
 /public/storage
@@ -14,14 +13,12 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-=======
 .idea/HRAPP.iml
 .idea/workspace.xml
 .idea/vcs.xml
 .idea/phpunit.xml
 .idea/php.xml
 .idea/modules.xml
->>>>>>> Stashed changes
 .idea/workspace.xml
 .idea/HRAPP.iml
 *.iml
@@ -32,3 +29,37 @@ vendor/composer/InstalledVersions.php
 vendor/composer/installed.php
 vendor/composer/autoload_classmap.php
 *.xml
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+composer.phar
+
+/vendor
+composer.phar
+composer.lock
+.DS_Store
+Thumbs.db
+/phpunit.xml
+/.idea
+/.vscode
+.phpunit.result.cache
