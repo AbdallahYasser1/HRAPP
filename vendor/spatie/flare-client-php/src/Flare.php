@@ -12,6 +12,7 @@ use Spatie\FlareClient\Concerns\HasContext;
 use Spatie\FlareClient\Context\BaseContextProviderDetector;
 use Spatie\FlareClient\Context\ContextProviderDetector;
 use Spatie\FlareClient\Enums\MessageLevels;
+use Spatie\FlareClient\FlareMiddleware\AddEnvironmentInformation;
 use Spatie\FlareClient\FlareMiddleware\AddGlows;
 use Spatie\FlareClient\FlareMiddleware\CensorRequestBodyFields;
 use Spatie\FlareClient\FlareMiddleware\FlareMiddleware;
@@ -194,7 +195,10 @@ class Flare
 
     protected function registerDefaultMiddleware(): self
     {
-        return $this->registerMiddleware(new AddGlows($this->recorder));
+        return $this->registerMiddleware([
+            new AddGlows($this->recorder),
+            new AddEnvironmentInformation(),
+        ]);
     }
 
     /**
@@ -207,7 +211,6 @@ class Flare
         if (! is_array($middleware)) {
             $middleware = [$middleware];
         }
-
 
         $this->middleware = array_merge($this->middleware, $middleware);
 
@@ -275,13 +278,13 @@ class Flare
         return $this;
     }
 
-    public function report(Throwable $throwable, callable $callback = null): ?Report
+    public function report(Throwable $throwable, callable $callback = null, Report $report = null): ?Report
     {
         if (! $this->shouldSendReport($throwable)) {
             return null;
         }
 
-        $report = $this->createReport($throwable);
+        $report ??= $this->createReport($throwable);
 
         if (! is_null($callback)) {
             call_user_func($callback, $report);
