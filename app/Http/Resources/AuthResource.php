@@ -24,6 +24,10 @@ class AuthResource extends JsonResource
             'status'=>$this->status,
             'can_wfh'=>$this->can_wfh==1?true:false,
             'roles'=>$this->roles->pluck('name')[0],
+            'has_subordinates'=>$this->GetSupervisedCount()!=0?true:false,
+            'supervisor'=>$this->supervisor==null?'Not assigned to supervisor':$this->supervisor,
+            'active_request_id'=>$this->when( $this->GetActiveMission()->isNotEmpty(),$this->GetActiveMission()[0]->id??'not found'),
+           'active_requestable'=>$this->when( $this->GetActiveMission()->isNotEmpty(),$this->GetActiveMission()[0]->requestable??'not found')
 
         ];
     }
