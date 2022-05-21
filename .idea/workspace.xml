@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MissionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SupervisorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SupervisorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/AuthResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/AuthResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/UserCollection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/UserCollection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_22_165013_create_requestdb_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_22_165013_create_requestdb_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +223,7 @@
       <workItem from="1653046018241" duration="263000" />
       <workItem from="1653052795832" duration="665000" />
       <workItem from="1653133233351" duration="488000" />
-      <workItem from="1653145109712" duration="10172000" />
+      <workItem from="1653145109712" duration="12019000" />
     </task>
     <servers />
   </component>
