@@ -33,3 +33,4 @@ vendor/composer/InstalledVersions.php
 vendor/composer/installed.php
 vendor/composer/autoload_classmap.php
 *.xml
+.idea/workspace.xml
