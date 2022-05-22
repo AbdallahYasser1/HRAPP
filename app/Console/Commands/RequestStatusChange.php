@@ -35,11 +35,15 @@ foreach ($Requests as $request){
     $count++;
     $request->status='in-progress';
     $type=$request->requestable_type;
+    error_log($type);
     $type=substr($type,11);
-    if(!$type=='Task'){
+    error_log($type);
+    if($type!='Task'){
     $user=User::find($request->user_id);
     $user->status=strtolower($type);
     $user->save();
+
+        error_log($user);
     }
     $request->save();
     }
