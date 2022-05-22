@@ -80,7 +80,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::delete('/mission/{id}', [MissionController::class, 'destroy']); //ok
     Route::put('/mission/{id}', [MissionController::class, 'update']); //ok
     Route::put('/mission/updateUser/{id}', [MissionController::class, 'updateDate']); //ok
-    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']); //ok
+    Route::post('/missionUpdate/{mission}', [MissionUpdatesController::class, 'store']); //ok
     Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']); //ok
     Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']); //ok
     //Tasks

@@ -35,6 +35,10 @@ class TaskController extends RequestController
         $task->description=$request['description'];
         $task->save();
         $requestdb=$this->Create_Request($request);
+        if($timeOfDate==$timeOfTask)
+        $requestdb->status='in-progress';
+        else
+        $requestdb->status='approved';
         $task->requests()->save($requestdb);
         foreach($request['employees'] as $item) {
             if(!$task->employees()->where('user_id',$item)->exists()){

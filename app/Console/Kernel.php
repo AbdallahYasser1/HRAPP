@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('generate:attendance')->dailyAt('00:00');
         $schedule->command('absent:employee')->dailyAt('11:59');
+        $schedule->command('StatusChange')->everyMinute();
 
     }
 
