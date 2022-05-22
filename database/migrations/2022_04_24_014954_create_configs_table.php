@@ -29,7 +29,8 @@ return new class extends Migration
             $table->string('timezone');
             $table->string('fullDayAbsenceDeduction');
             $table->string('halfDayAbsenceDeduction');
-            
+            $table->string('fullDayAbsenceDeductionName');
+            $table->string('halfDayAbsenceDeductionName');
             $table->timestamps();
         });
     }
