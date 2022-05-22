@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
                 return $this->errorResponse($e->getMessage(), 403);
             }
             if ($e instanceof RouteNotFoundException) {
-                return $this->errorResponse("Unauthorized Access", 403);
+                return $this->errorResponse("Unauthorized Access  ".$e->getMessage(), 403);
             }
             if ($e instanceof AccessDeniedHttpException) {
                 return $this->errorResponse($e->getMessage(), 403);

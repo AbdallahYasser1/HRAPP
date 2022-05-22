@@ -11,9 +11,14 @@ class SupervisorController extends ApiController
 {
     public function showSupervisedUsers()
     {
-        $employees = User::where("supervisor", '=', Auth::id())->get();
+        $employees = User::where("supervisor", '=', Auth::id())
+            ->join('profiles','users.id','profiles.user_id')
+            ->join('job__titles','profiles.job__title_id','job__titles.id')
+            ->join('departments','profiles.department_id','departments.id')
+            ->select('users.id as id','users.name','users.email','profiles.image','users.status','job__titles.job_name as job_title','users.active','departments.name as department ')
+            ->get();
         if ($employees->count()==0) {
-            return $this->errorResponse("You are not assigned to users at this moment", 404);
+            return $this->errorResponse("You are not assigned to users at this moment", 200);
         } else {
             return $this->showCustom($employees, 200);
         }

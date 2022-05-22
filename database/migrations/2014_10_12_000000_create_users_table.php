@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('active')->default(true);
             $table->boolean('first_time_login')->default(true);
-            $table->enum('status',['active','wfh','mission','vacation','leave'])->default('active');
+            $table->enum('status',['active','wfh','mission','vacation','leave','available'])->default('available');
             $table->boolean('can_wfh')->default(true);
 
             $table->rememberToken();

@@ -13,7 +13,7 @@ class MissionUpdatesController extends ApiController
 {
     public function store(MissionUpdateRequest  $request){
         $mission=Mission::find($request['mission_id']);
-       
+
         if($mission===null){
             return $this->errorResponse("Mission not found",404);
         }
@@ -25,11 +25,11 @@ class MissionUpdatesController extends ApiController
         if($request->hasFile('approved_file')){
             //$path=$request->file('approved_file')->store('public/missionUpdateImages');
             $path=cloudinary()->upload($request->file('approved_file')->getRealPath(),$options=["folder"=>"missionUpdateImages"])->getSecurePath();
-            
+
             $missionUpdate=new MissionUpdate(['description'=>$request['description'],'date'=>$request['date'],'extra_cost'=>$request['extra_cost'],'approved_file'=>$path]);
             $mission->missionUpdates()->save($missionUpdate);
-            return $this->showCustom("mission update saved", 200);
-        }   
+            return $this->showCustom(["message"=>"mission update saved",$mission], 200);
+        }
     }
     public function destroy($id){
         $missionUpdate=MissionUpdate::find($id);
@@ -38,11 +38,11 @@ class MissionUpdatesController extends ApiController
         }else{
              if( $missionUpdate->mission->requests->first()->user_id == Auth::id() ||  Auth::user()->hasPermissionTo('Show_Mission_Update_Request')){
                  $missionUpdate->delete();
-            return $this->showCustom('MissionUpdate deleted',200);   
+            return $this->showCustom('MissionUpdate deleted',200);
              }else
             return  $this->errorResponse("You do not have the permission",403);
-      
-             
+
+
         }
     }
     public function show($id){
@@ -54,8 +54,8 @@ class MissionUpdatesController extends ApiController
                 return $this->showOne($missionUpdate, 200);
             }
             else return  $this->errorResponse("You do not have the permission",403);
-      
-               
+
+
         }
     }
 

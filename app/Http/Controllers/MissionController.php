@@ -46,7 +46,7 @@ class MissionController extends RequestController
             $timeShift = date('H', strtotime($shift->start_time));
             if ($timeOfMission > $timeOfDate) {
                 return $this->storeDB($request);
-            } else if ($timeOfMission == $timeOfDate && ($timeShift - $now > 0)) {
+            } else if ($timeOfMission == $timeOfDate /*&& ($timeShift - $now > 0)*/) {
                 return $this->storeDB($request);
             } else {
                 return $this->errorResponse("cant making mission in past date", 400);

@@ -94,6 +94,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class,'supervisor');
     }
+    public function GetSupervisedCount(){
+        return $this->supervised()->count();
+
+    }
+    public function GetActiveMission(){
+        return $this->requests()->with(['requestable'])->where('status','in-progress')->where('requestable_type','App\Models\Mission')->get();
+    }
     public function supervisor()
     {
         return $this->belongsTo(User::class,'supervisor');
@@ -101,6 +108,9 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+    public function profile_data(){
+        return profile()->job_title;
     }
     public function vacationday(){
         return $this->hasOne(Vacationday::class);
