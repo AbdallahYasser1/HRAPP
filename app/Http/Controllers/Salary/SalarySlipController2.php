@@ -38,7 +38,7 @@ class SalarySlipController2 extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

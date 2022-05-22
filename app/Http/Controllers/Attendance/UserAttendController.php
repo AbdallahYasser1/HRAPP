@@ -41,12 +41,12 @@ class UserAttendController extends ApiController
         $isOnTime = $this->checkTime($user);
 
         $isLate = $this->checkLate($user);
-        // $isLate=false;
+        $isLate=false;
 
         $isUserOnVacation = false;
 
         $outerConditions = $isOnPremies && !$isTodayHoliday && $isOnTime && !$isWeekend && !$isUserOnVacation;
-        // $outerConditions = true;
+        $outerConditions = true;
 
         if ($outerConditions) {
 

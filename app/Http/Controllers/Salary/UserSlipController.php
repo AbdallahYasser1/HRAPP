@@ -42,10 +42,10 @@ class UserSlipController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $_)
+    public function store(Request $request, $id)
     {
-        $user = Auth::user();
-
+        $user = User::find($id);
+        
         $rules = [
             'date' => 'required|string',
         ];

@@ -181,6 +181,10 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::resource('users.attendances', UserAttendanceController::class,);
     Route::resource('absences', AbsenceController::class,);
     Route::resource('users.absences', UserAbsenceController::class,);
+    Route::post('users/{id}/slips', [UserSlipController::class, 'store']);
+
+Route::put('users/{user}/slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateUserSlip']);
+
 });
 
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(function () {
@@ -204,9 +208,11 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 
     Route::get('user/absences', [UserAbsenceController::class, 'index']);
 
+    Route::put('user/slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateMySlip']);
+
 });
 
 
 
 
-Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class,);
+// Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class,);

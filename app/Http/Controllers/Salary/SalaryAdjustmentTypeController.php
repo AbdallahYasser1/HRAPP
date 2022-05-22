@@ -38,7 +38,19 @@ class SalaryAdjustmentTypeController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required',
+            'amount' => 'required',
+            'type' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $data = $request->all();
+
+        $type = SalaryAdjustmentType::create($data);
+
+        return $this->showOne($type, 201);
     }
 
     /**
