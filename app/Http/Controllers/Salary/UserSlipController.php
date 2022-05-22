@@ -151,4 +151,16 @@ class UserSlipController extends ApiController
         $slip->delete();
         return $this->showOne($slip);
     }
+
+public function getSlipByMonth(Request $request) {
+    $rules = [
+        'date' => 'required|regex:/^\d{4}-\d{2}$/',
+    ];
+    $this->validate($request, $rules);
+
+    $user = Auth::user();
+    $slip = $user->salarySlips()->where('date', 'like', '%'.$request['date'].'%')->get();
+    return $this->showAll($slip);
+}
+
 }

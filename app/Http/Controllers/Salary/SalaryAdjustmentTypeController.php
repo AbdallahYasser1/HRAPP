@@ -39,9 +39,11 @@ class SalaryAdjustmentTypeController extends ApiController
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required',
-            'amount' => 'required',
-            'type' => 'required',
+            'name' => 'required|string|max:255',
+            'amount' => 'required|numeric',
+            'percent' => 'required|numeric',
+            'isAll' => 'required|boolean',
+
         ];
 
         $this->validate($request, $rules);

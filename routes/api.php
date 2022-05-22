@@ -190,6 +190,8 @@ Route::put('users/{user}/slips/{slip}/calc', [CalculateNetSalaryController::clas
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(function () {
     Route::get('/user/slips', [UserSlipController::class, 'index']);
     Route::get('/user/slips/{slip}', [UserSlipController::class, 'show']);
+    Route::get('/user/slipByDate', [UserSlipController::class, 'getSlipByMonth']);
+
 
 
     Route::get('/user/term', [UserTermController::class, 'index']);
@@ -215,4 +217,5 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 
 
 
-// Route::put('users/{user}/slips/{slip}/calc', CalculateNetSalaryController::class,);
+// Route::resource('slips', SalarySlipController2::class,);
+

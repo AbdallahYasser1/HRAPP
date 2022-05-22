@@ -28,25 +28,25 @@ class salarySeeder extends Seeder
 
 
         $salaryTermQuantity = 27;
-        $salarySlipQuantity = 150;
+        // $salarySlipQuantity = 150;
         $salaryAdjustmentTypeQuantity = 20;
-        $salaryAdjustmentQuantity = 150;
+        // $salaryAdjustmentQuantity = 150;
 
         SalaryTerm::factory($salaryTermQuantity)->create();
         SalaryAdjustmentType::factory($salaryAdjustmentTypeQuantity)->create();
-        SalarySlip::factory($salarySlipQuantity)->create();
-        SalaryAdjustment::factory($salaryAdjustmentQuantity)->create();
+        // SalarySlip::factory($salarySlipQuantity)->create();
+        // SalaryAdjustment::factory($salaryAdjustmentQuantity)->create();
 
-        SalaryAdjustmentType::factory(1)->create([
-            'name' => 'Half Day Absence Deduction',
-            'percent' => 1.665,
-            'amount' => 0,
-        ]);
-        SalaryAdjustmentType::factory(1)->create([
-            'name' => 'Full Day Absence Deduction',
-            'percent' => 3.333,
-            'amount' => 0,
-        ]);
+        // SalaryAdjustmentType::factory(1)->create([
+        //     'name' => 'Half Day Absence Deduction',
+        //     'percent' => 1.665,
+        //     'amount' => 0,
+        // ]);
+        // SalaryAdjustmentType::factory(1)->create([
+        //     'name' => 'Full Day Absence Deduction',
+        //     'percent' => 3.333,
+        //     'amount' => 0,
+        // ]);
 
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->double('percent', 4, 2);
             $table->double('amount');
+            $table->string('isAll')->default('0');
             $table->timestamps();
         });
     }

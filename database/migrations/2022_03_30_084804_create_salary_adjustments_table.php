@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('salary_slip_id')->nullable();
             $table->foreignId('salary_adjustment_type_id')->nullable();
-            $table->double('amount', 8, 2)->nullable();
+            $table->double('amount')->nullable();
             $table->double('percent', 4, 2)->nullable();
             $table->dateTime('date')->default(now());
             $table->timestamps();
