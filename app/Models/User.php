@@ -43,9 +43,16 @@ class User extends Authenticatable
     const Validation_Update_Account_Rules = [
         'name' => 'string',
         'birthdate' => 'date',
-        'phone' => 'string|unique:users,phone',
+        'phone' => 'unique:users,phone',
         'email' => 'string|unique:users,email',
+        'role' => 'string|in:Normal,HR,Admin,Accountant',
         'can_wfh'=>'boolean',
+        'shift_id' => 'integer|exists:shifts,id',
+        'department_id' => 'integer|exists:departments,id',
+        'job__title_id' => 'integer|exists:job__titles,id',
+        'scheduled' => 'integer',
+        'unscheduled' => 'integer',
+        'salary'=>'numeric'
     ];
     protected $fillable = [
         'id',

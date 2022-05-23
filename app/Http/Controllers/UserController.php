@@ -95,11 +95,31 @@ class UserController extends ApiController
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        if ($request['role'] == 'Admin' && !Auth::user()->hasPermissionTo('create_account_Admin')) return  $this->errorResponse(' The authenticated user is not permitted to perform the requested operation.', 403);
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
-            $user->update($request->all());
-            return $this->showOne($user, 200);
+$User_Request= new Request([
+    'name' => $request['name'],
+    'email' => $request['email'],
+    'phone' => $request['phone'],
+    'birthdate' => $request['birthdate'],
+    'shift_id' => $request['shift_id'],
+    'password' => $request['password'],
+    'can_wfh'=>$request['can_wfh'],
+    'supervisor'=>$request['supervisor']
+]);
+$Profile_Request=new Request([
+    'department_id' => $request['department_id'],
+    'job__title_id'=>$request['job__title_id']
+]);
+$Salary_Request=new Request(['salary_agreed'=>$request['salary']]);
+            $user->update($User_Request->all());
+            $user->profile()->update($Profile_Request->all());
+            $user->salaryTerm()->update($Salary_Request);
+      //      $user->assignRole($request['role']);
+            $response=['User'=>$user,'profile'=>$user->profile(),'salary'=>$user->salaryTerm()];
+            return $this->showCustom($user, 200);
         }
     }
 
@@ -111,6 +131,7 @@ class UserController extends ApiController
      */
     public function destroy(User $user)
     {
+        if($user->id==Auth::id() )  return $this->errorResponse("Can't Delete your account", 403);
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {

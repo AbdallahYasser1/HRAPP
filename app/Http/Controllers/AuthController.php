@@ -43,11 +43,11 @@ class AuthController extends ApiController
     }
     public function Deactivate_user(User $user){
         if($user==null) return $this->errorResponse('user not found','404');
-        if(!$user->active)return $this->errorResponse('user is already deactivated','400');
+        if(!$user->active)$user->active=true;
         else{
         $user->active=false;
-        $user->save();
         }
+        $user->save();
         return $this->showCustom("User {$user->id} has deactivated",200);
     }
     public function Activate_user(User $user){
