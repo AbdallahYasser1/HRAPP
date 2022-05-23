@@ -17,7 +17,7 @@ class ConfigSeeder extends Seeder
     public function run()
     {
         $configuration = [
-            'company_name' => 'EvaPay', 'specificity' => 'Software', 'company_email' => 'eva@pay.com', 'company_phone' => '0121212', 'country' => 'egypt',
+            'company_name' => 'EvaPay', 'specifity' => 'Software', 'company_email' => 'eva@pay.com', 'company_phone' => '0121212', 'country' => 'egypt',
             'branches' => '1',
             'location' => 'alex',
             'longitude' => '29.955596923828125',
