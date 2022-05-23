@@ -26,7 +26,7 @@ return $days;
         $yearnow = Carbon::parse(date('Y-m-d', strtotime(Carbon::today())))->year;
         $takendays= Requestdb::with(['requestable'])
             ->join('users', 'requestdbs.user_id', 'users.id')
-            ->where('requestdbs.status', '=', "approved")
+            ->whereIn('requestdbs.status', ["approved","finished","in-progress"])
             ->whereYear("requestdbs.start_date",$yearnow)
             ->join('vacations','requestdbs.requestable_id','vacations.id')
             ->where("user_id",'=',Auth::id())
@@ -36,12 +36,8 @@ return $days;
         return $takendays;
     }
     public function CheckVacationBalance($type,$duration){
-
   $vacationbalance=$this->VacationBalance($type);
-
 $takendays=$this->takendays($type);
-error_log($vacationbalance);
-error_log($takendays);
 if($vacationbalance<=$takendays) return 'You have reached the maximum vacation days';
 if($vacationbalance>$takendays){
     $days=$vacationbalance-$takendays;
@@ -78,18 +74,18 @@ else{
     }
     public function ScheduledVacation(VacationRequest $request)
     {
+
         if($this->CheckPendingRequests($request['type'])>0) return $this->errorResponse("There is pending Vacation Requests",400);
         $duration=$this->VacationDuration($request);
         if(!$duration){
-           return $this->errorResponse("Vacation can only be done during the same year",400);
+            return $this->errorResponse("Vacation can only be done during the same year",400);
         }
       $check=  $this->CheckVacationBalance($request['type'],$duration);
-      if (is_string($check)) return $this->errorResponse($check,400);
-        if ( $request['type']=='scheduled') if( $this->CheckRequestDate($request['start_date'])) return  $this->CheckRequestDate($request['start_date']);
 
+if (is_string($check)) return $this->errorResponse($check,400);
+        if ( $request['type']=='scheduled')
+            if( !$this->CheckRequestDate($request['start_date']))  return $this->errorResponse("Cant make request in a holiday or in a time in the past",400);
       else{
-
-
         $vacation = new Vacation();
         $vacation->type=$request['type'];
         $vacation->count=$duration;

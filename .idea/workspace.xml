@@ -3,16 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Salary/SalaryTerm.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Salary/SalaryTerm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_29_182709_create_profiles_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_29_182709_create_profiles_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_30_083147_create_salary_terms_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_30_083147_create_salary_terms_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_31_062631_create_salary_slip_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_31_062631_create_salary_slip_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_05_10_125634_create_vacation_day_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_05_10_125634_create_vacation_day_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/UserSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/VacationSeeder.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/salarySeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/salarySeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/DeductAttendanceDeduction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/DeductAttendanceDeduction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VacationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VacationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/Utils.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,7 +226,7 @@
       <workItem from="1653052795832" duration="665000" />
       <workItem from="1653133233351" duration="488000" />
       <workItem from="1653145109712" duration="29005000" />
-      <workItem from="1653310441527" duration="5464000" />
+      <workItem from="1653310441527" duration="9494000" />
     </task>
     <servers />
   </component>

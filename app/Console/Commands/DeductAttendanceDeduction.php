@@ -2,12 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Requestdb;
+use App\Models\Vacation;
 use Illuminate\Console\Command;
 use App\Models\User;
 use App\Models\Absence;
 use App\Models\Salary\SalaryAdjustment;
 use App\Models\Salary\SalaryAdjustmentType;
 use App\Traits\Utils;
+use Illuminate\Support\Facades\Auth;
 
 class DeductAttendanceDeduction extends Command
 {
@@ -39,16 +42,32 @@ class DeductAttendanceDeduction extends Command
         $fullDayAbsenceAdjustment = $salaryAdjustmentTypes->getFullDayAbsenceAdjustment();
         foreach($absences as $absence) {
             $user = User::find($absence->user_id);
-            $salarySlip = $user->lastSlip;
-            $term = $user->salaryTerm;
-            SalaryAdjustment::create([
-                'salary_slip_id' => $salarySlip->id,
-                'salary_adjustment_type_id' => $fullDayAbsenceAdjustment->id,
-                'amount' => $fullDayAbsenceAdjustment->percent * $term->salary_agreed,
-                'date' => $absence->date,
+            $taken_days=$this->takendays('unscheduled',$user->id);
+            $vacation_balance=$this->VacationBalance('unscheduled',$user);
+            $remaining=$vacation_balance-$taken_days;
+            if($remaining>0){
+                $vacation = new Vacation();
+                $vacation->type='unscheduled';
+                $vacation->count=1;
+                $vacation->save();
+                $requestdb = new Requestdb;
+                $requestdb->user_id = $user->id;
+                $requestdb->start_date = $absence->date;
+                $requestdb->end_date =$absence->date;
+                $requestdb->status='finished';
+                $vacation->requests()->save($requestdb);
+            }
+      else {
+          $salarySlip = $user->lastSlip;
+          $term = $user->salaryTerm;
+          SalaryAdjustment::create([
+              'salary_slip_id' => $salarySlip->id,
+              'salary_adjustment_type_id' => $fullDayAbsenceAdjustment->id,
+              'amount' => $fullDayAbsenceAdjustment->percent * $term->salary_agreed,
+              'date' => $absence->date,
 
-            ]);
-        }
+          ]);
+      }  }
         return 0;
     }
 }
