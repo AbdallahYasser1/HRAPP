@@ -11,6 +11,7 @@ class SalaryTerm extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'salary_agreed',
         'end',
         'start',

@@ -16,6 +16,7 @@ class VacationSeeder extends Seeder
      */
     public function run()
     {
+<<<<<<< Updated upstream
         // $user = User::role('Normal')->whereNotNull('supervisor')->get()->random();  
         // $requestdb = new Requestdb;
         // $requestdb->user_id = $user->id;
@@ -24,5 +25,15 @@ class VacationSeeder extends Seeder
         // $Vacation = new Vacation;
         // $Vacation->save();
         // $Vacation->requests()->save($requestdb); 
+=======
+//        $user = User::role('Normal')->whereNotNull('supervisor')->get()->random();
+//        $requestdb = new Requestdb;
+//        $requestdb->user_id = $user->id;
+//        $requestdb->start_date = "";
+//        $requestdb->end_date = "";
+//        $Vacation = new Vacation;
+//        $Vacation->save();
+//        $Vacation->requests()->save($requestdb);
+>>>>>>> Stashed changes
     }
 }

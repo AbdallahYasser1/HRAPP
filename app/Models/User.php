@@ -32,11 +32,12 @@ class User extends Authenticatable
         'email' => 'required|string|unique:users,email',
         'role' => 'required|string|in:Normal,HR,Admin,Accountant',
         'can_wfh'=>'required|boolean',
-        'shift_id' => 'required|integer',
-        'department_id' => 'required|integer',
-        'job__title_id' => 'required|integer',
+        'shift_id' => 'required|integer|exists:shifts,id',
+        'department_id' => 'required|integer|exists:departments,id',
+        'job__title_id' => 'required|integer|exists:job__titles,id',
         'scheduled' => 'required|integer',
         'unscheduled' => 'required|integer',
+        'salary'=>'required|numeric'
 
     ];
     const Validation_Update_Account_Rules = [
