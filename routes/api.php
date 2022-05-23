@@ -164,7 +164,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
     ]);
 });
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
-Route::patch('admin/users/{user}/activate');
+Route::patch('admin/users/{user}/activate',[AuthController::class,'Deactivate_user']);
     Route::resource('slips', SalarySlipController2::class,);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
 
