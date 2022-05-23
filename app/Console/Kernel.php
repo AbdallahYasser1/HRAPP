@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('generate:slips')->monthlyOn(1, '00:00');
         $schedule->command('makerequestcanceled')->dailyAt('00:00');
         $schedule->command('generate:attendance')->dailyAt('00:00');
         $schedule->command('deduct:absence')->dailyAt('11:59');
