@@ -88,4 +88,24 @@ class AbsenceController extends ApiController
         $absence->delete();
         return $this->showOne($absence);
     }
+
+    public function getAbsenceByDay(Request $request)
+    {
+        $rules = [
+            'date' => 'required|date|date_format:Y-m-d',
+        ];
+        $this->validate($request, $rules);
+        $absences = Absence::where('date', $request->date)->get();
+        return $this->showAll($absences);
+    }
+
+    public function getAbsenceByMonth(Request $request)
+    {
+        $rules = [
+            'date' => 'required|date_format:Y-m',
+        ];
+        $this->validate($request, $rules);
+        $absences = Absence::where('date', 'like', $request->date . '%')->get();
+        return $this->showAll($absences);
+    }
 }

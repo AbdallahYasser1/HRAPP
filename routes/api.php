@@ -182,10 +182,17 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::delete('users/{id}/lastSlip', [UserSlipController::class, 'destroyLastSlip']);
     Route::resource('users.slips.adjustments', UserSlipAdjustmentController::class,);
     Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
+
     Route::resource('attendances', AttendanceController::class,);
     Route::resource('users.attendances', UserAttendanceController::class,);
     Route::resource('absences', AbsenceController::class,);
     Route::resource('users.absences', UserAbsenceController::class,);
+    Route::get('users/{user}/byDate/absences', [UserAbsenceController::class, 'getUserAbsenceByDate']);
+    Route::get('absence/byDay', [AbsenceController::class, 'getAbsenceByDay']);
+    Route::get('absence/byMonth', [AbsenceController::class, 'getAbsenceByMonth']);
+
+
+
     Route::post('users/{id}/slips', [UserSlipController::class, 'store']);
 
     Route::put('slips/{slip}/calc', [CalculateNetSalaryController::class, 'calcSlip']);
