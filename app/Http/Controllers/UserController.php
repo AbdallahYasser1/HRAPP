@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AuthResource;
 use App\Models\Profile;
 use App\Models\Requestdb;
+use App\Models\Salary\SalaryTerm;
 use App\Models\Vacationday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -60,6 +61,10 @@ class UserController extends ApiController
             'user_id' => $request['id'],
             'department_id' => $request['department_id'],
             'job__title_id'=>$request['job__title_id']
+        ]);
+        $salary_term=SalaryTerm::create([
+            'user_id'=>$request['id'],
+            'salary_agreed'=>$request['salary']
         ]);
         $user->assignRole($request['role']);
         $response = ['user' => new AuthResource($user), 'password' => $hashed_random_password];

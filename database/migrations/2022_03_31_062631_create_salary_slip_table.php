@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('date',$format='Y-m-d');
             $table->timestamps();
             $table->string('status')->default('pending');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 //            $table->foreign('salary_term_id')->references('id')->on('salary_terms');
 //            $table->foreign('salary_adjustment_id')->references('id')->on('salary_adjustments');
         });

@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             ->each(function ($user) {
                 $user->assignRole('Admin');
             });
-            
+
         User::factory(1)->has(Vacationday::factory()->state([]))->has(Profile::factory()->state(['department_id' => 2,'job__title_id'=>Job_Title::where('department_id','=',2)->first()->id]))->create()
             ->each(function ($user) {
                 $user->assignRole('HR');
