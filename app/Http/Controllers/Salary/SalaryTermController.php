@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Salary;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
-use App\Models\Salary\SalarySlip;
 use App\Models\Salary\SalaryTerm;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,9 +36,23 @@ class SalaryTermController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request, $user_id)
     {
+        $user = User::find($user_id);
+        $rules = [
+            'salary_agreed' => 'required|numeric',
+            'start' => 'required|date',
+            'end' => 'required|date',
+        ];
 
+        $this->validate($request, $rules);
+
+        $data = $request->all();
+        $data['user_id'] = $user->id;
+
+        $term = SalaryTerm::create($data);
+
+        return $this->showOne($term, 201);
     }
 
     /**
@@ -73,9 +85,22 @@ class SalaryTermController extends ApiController
      * @param  \App\Models\Salary\SalaryTerm  $salaryTerm
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SalaryTerm $salaryTerm)
+    public function update(Request $request, $salaryTerm_id)
     {
-        //
+        $salaryTerm = SalaryTerm::find($salaryTerm_id);
+        $salaryTerm->fill($request->only([
+            'salary_agreed',
+            'start',
+            'end',
+        ]));
+
+        if ($salaryTerm->isClean()) {
+            return $this->errorResponse('At least one value must change', 422);
+        }
+
+        $salaryTerm->save();
+
+        return $this->showOne($salaryTerm);
     }
 
     /**

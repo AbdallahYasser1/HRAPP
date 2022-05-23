@@ -12,7 +12,9 @@ class SalaryTerm extends Model
 
     protected $fillable = [
         'salary_agreed',
-        'end'
+        'end',
+        'start',
+        'user_id',
     ];
 
     public function user() {

@@ -111,10 +111,10 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::post('profile/photo', [ProfileController::class, 'storePhoto']);
     Route::put('profile/photoDefault', [ProfileController::class, 'storeDefaultPhoto']);
     //Vacation
-    Route::post('/{absence}/vacation',[VacationController::class,'UnscheduledVacation']);
-    Route::post('/vacation',[VacationController::class,'ScheduledVacation']);
-    Route::get('/vacation/{vacation}',[VacationController::class,'ShowVacationRequest']);
-    Route::get('/vacationbalance',[VacationController::class,'RemainingVacationBalance']);
+    Route::post('/{absence}/vacation', [VacationController::class, 'UnscheduledVacation']);
+    Route::post('/vacation', [VacationController::class, 'ScheduledVacation']);
+    Route::get('/vacation/{vacation}', [VacationController::class, 'ShowVacationRequest']);
+    Route::get('/vacationbalance', [VacationController::class, 'RemainingVacationBalance']);
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
@@ -123,7 +123,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::middleware(['auth:sanctum', 'role:Admin'])->put('/supervisor', [SupervisorController::class, 'makeUserSupervised']);
 
     Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
-        Route::get('/getCompanyStstistics',GetCompanyStstistics::class);
+        Route::get('/getCompanyStstistics', GetCompanyStstistics::class);
         //Create New Account
         Route::post('/register', [UserController::class, 'store']);
         Route::put('profile/photoApprove/{id}', [ProfileController::class, 'approvePhoto']);
@@ -170,6 +170,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
 
     Route::resource('salaryTerms', SalaryTermController::class,);
     Route::resource('salaryTerms.slips', TermSlipController::class,);
+    Route::resource('users.salaryTerms', UserTermController ::class, ['only' => ['store', 'destroy']]);
 
     Route::resource('salaryAdjustments', SalaryAdjustmentController::class,);
     Route::resource('salaryAdjustmentTypes', SalaryAdjustmentTypeController::class,);
@@ -185,8 +186,8 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::resource('users.absences', UserAbsenceController::class,);
     Route::post('users/{id}/slips', [UserSlipController::class, 'store']);
 
-Route::put('users/{user}/slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateUserSlip']);
-
+    Route::put('slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateSlip']);
+    Route::put('users/{user}/slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateUserSlip']);
 });
 
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(function () {
@@ -213,11 +214,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
     Route::get('user/absences', [UserAbsenceController::class, 'index']);
 
     Route::put('user/slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateMySlip']);
+    Route::put('user/lastSlip/calc', [CalculateNetSalaryController::class, 'calcMyLastSlip']);
 
 });
-
-
-
-
-// Route::resource('slips', SalarySlipController2::class,);
 

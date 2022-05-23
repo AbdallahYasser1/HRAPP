@@ -39,19 +39,18 @@ class UserTermController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,)
+    public function store(Request $request, $user_id)
     {
         $rules = [
-//            'start' => 'required|date|date_format:Y-m-d|after:yesterday',
+           'start' => 'required|date|date_format:Y-m-d|after:yesterday',
 //            'end' => 'required|date|date_format:d-m-Y',
-            'salary_agreed' => 'required|integer',
+            'salary_agreed' => 'required|numeric',
 
         ];
         $this->validate($request, $rules);
-        $user= Auth::user();
 
         $data = $request->all();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user_id;
 
         $newTerm = SalaryTerm::create($data);
         return $this->showOne($newTerm, 201);
@@ -86,24 +85,23 @@ class UserTermController extends ApiController
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user, $salaryTermId)
+    public function update(Request $request, $user_id)
     {
-//        $user = User::find($id);
-        $term = SalaryTerm::find($salaryTermId);
+        $user = User::find($user_id);
+        $salaryTerm = $user->salaryTerm;
+        $salaryTerm->fill($request->only([
+            'salary_agreed',
+            'start',
+            'end',
+        ]));
 
-        $rules = [
-            'salary_agreed' => 'integer',
-        ];
-        $this->validate($request, $rules);
-        $this->checkUser($user, $term);
-
-        $term->fill($request->only(['salary_agreed', 'end']));
-        if($term->isClean()) {
-            return $this->errorResponse('you need to specify a different value to update', 422);
+        if ($salaryTerm->isClean()) {
+            return $this->errorResponse('At least one value must change', 422);
         }
 
-        $term->save();
-        return $this->showOne($term);
+        $salaryTerm->save();
+
+        return $this->showOne($salaryTerm);
     }
 
     /**
