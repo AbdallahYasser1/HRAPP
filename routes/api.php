@@ -186,7 +186,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::resource('users.absences', UserAbsenceController::class,);
     Route::post('users/{id}/slips', [UserSlipController::class, 'store']);
 
-    Route::put('slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateSlip']);
+    Route::put('slips/{slip}/calc', [CalculateNetSalaryController::class, 'calcSlip']);
     Route::put('users/{user}/slips/{slip}/calc', [CalculateNetSalaryController::class, 'calculateUserSlip']);
 });
 

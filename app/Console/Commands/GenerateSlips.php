@@ -6,9 +6,11 @@ use Illuminate\Console\Command;
 use App\Models\User;
 use App\Models\Salary\SalarySlip;
 use App\Models\Salary\SalaryAdjustmentType;
+use App\Traits\CalcNetSalary;
 
 class GenerateSlips extends Command
 {
+    use CalcNetSalary;
     /**
      * The name and signature of the console command.
      *
@@ -49,6 +51,7 @@ class GenerateSlips extends Command
                     ]);
                 }
             }
+            $this->calculateSlip($slip);
         }
 
         return 0;
