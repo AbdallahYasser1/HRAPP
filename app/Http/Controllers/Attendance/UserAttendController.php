@@ -17,7 +17,7 @@ class UserAttendController extends ApiController
 {
     use CheckLocation;
 
-    public function attendEmployee(Request $request, )
+    public function attendEmployee(Request $request,)
     {
         // absent table
         $rules = [
@@ -28,11 +28,13 @@ class UserAttendController extends ApiController
         $this->validate($request, $rules);
 
         // $user = User::find($id);
-        $user= Auth::user();
+        $user = Auth::user();
 
 
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
+
+        $isUserWFH = true;
 
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
@@ -41,22 +43,26 @@ class UserAttendController extends ApiController
         $isOnTime = $this->checkTime($user);
 
         $isLate = $this->checkLate($user);
-        $isLate=false;
+        $isLate = false;
 
         $isUserOnVacation = false;
 
-        $outerConditions = $isOnPremies && !$isTodayHoliday && $isOnTime && !$isWeekend && !$isUserOnVacation;
+        $outerConditions = !$isTodayHoliday && $isOnTime && !$isWeekend && !$isUserOnVacation;
         $outerConditions = true;
 
         if ($outerConditions) {
+            if ($isOnPremies | $isUserWFH) {
 
-            if ($request['status'] == 'start') {
-                if (!$isLate)
+                if ($request['status'] == 'start') {
+                    if (!$isLate)
+                        return $this->update($request, $user);
+                    else
+                        return $this->errorResponse('You are late', 422);
+                } elseif ($request['status'] == 'out') {
                     return $this->update($request, $user);
-                else
-                    return $this->errorResponse('You are late', 422);
-            } elseif ($request['status'] == 'out') {
-                return $this->update($request, $user);
+                }
+            } else {
+                return $this->errorResponse('You are not on premises', 422);
             }
         } else {
             $error = 'You are not allowed to work today';

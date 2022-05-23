@@ -25,8 +25,8 @@ class ConfigSeeder extends Seeder
             'distance' => '2000',
             'photo' => 'lat',
             'timezone' => 'Africa/Cairo',
-            'fullDayAbsenceDeduction' => '1/30',
-            'halfDayAbsenceDeduction' => '1/60',
+            'fullDayAbsenceDeduction' => '-1/30',
+            'halfDayAbsenceDeduction' => '-1/60',
             'fullDayAbsenceDeductionName' => 'Full Day Absence Deduction',
             'halfDayAbsenceDeductionName' => 'Half Day Absence Deduction',
         ];

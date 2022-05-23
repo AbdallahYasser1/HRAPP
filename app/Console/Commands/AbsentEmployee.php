@@ -52,6 +52,7 @@ class AbsentEmployee extends Command
                     $absence->user_id = $user_id;
                     $absence->date = $date;
                     $absence->save();
+                    $attendance->delete();
                 }
             }
         }

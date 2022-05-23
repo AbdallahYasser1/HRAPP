@@ -71,6 +71,14 @@ class UserSlipController extends ApiController
         return $this->showOne($slip);
     }
 
+
+    public function getUserSlips($id)
+    {
+        $user = User::find($id);
+        $slips = $user->salarySlips;
+        return $this->showAll($slips);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

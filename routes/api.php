@@ -166,6 +166,8 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::resource('slips', SalarySlipController2::class,);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
 
+    Route::get('users/{user}/slips', [UserSlipController::class, 'getUserSlips']);
+
     Route::resource('salaryTerms', SalaryTermController::class,);
     Route::resource('salaryTerms.slips', TermSlipController::class,);
 

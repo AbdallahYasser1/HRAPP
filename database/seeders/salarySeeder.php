@@ -8,9 +8,12 @@ use App\Models\Salary\SalarySlip;
 use App\Models\Salary\SalaryTerm;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Config;
+use App\Traits\Utils;
 
 class salarySeeder extends Seeder
 {
+    use Utils;
     /**
      * Run the database seeds.
      *
@@ -36,17 +39,21 @@ class salarySeeder extends Seeder
         SalaryAdjustmentType::factory($salaryAdjustmentTypeQuantity)->create();
         // SalarySlip::factory($salarySlipQuantity)->create();
         // SalaryAdjustment::factory($salaryAdjustmentQuantity)->create();
+        SalaryAdjustmentType::factory(1)->create([
+            'id' => 1,
+            'name' => Config::first()->fullDayAbsenceDeductionName,
+            'percent' => $this->convertToDecimal(Config::first()->fullDayAbsenceDeduction),
+            'amount' => 0,
+            'isAll' => false,
+        ]);
+        SalaryAdjustmentType::factory(1)->create([
+            'id' => 2,
+            'name' => Config::first()->halfDayAbsenceDeductionName,
+            'percent' => $this->convertToDecimal(Config::first()->halfDayAbsenceDeduction),
+            'amount' => 0,
+            'isAll' => false,
+        ]);
 
-        // SalaryAdjustmentType::factory(1)->create([
-        //     'name' => 'Half Day Absence Deduction',
-        //     'percent' => 1.665,
-        //     'amount' => 0,
-        // ]);
-        // SalaryAdjustmentType::factory(1)->create([
-        //     'name' => 'Full Day Absence Deduction',
-        //     'percent' => 3.333,
-        //     'amount' => 0,
-        // ]);
 
     }
 }
