@@ -152,7 +152,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 }); // end of Application access
 Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
     Route::get('admin/requests', [RequestController::class, 'ShowAllRequestsAdmin']);
-
+    Route::patch('admin/users/{user}/activate',[AuthController::class,'Deactivate_user']);
     Route::get('Shifts/GetUsersShift/{id}', [ShiftController::class, 'getUsersOfShift']);
     Route::get('Shifts/UpdateUserShift/{id}', [ShiftController::class, 'updateUserShift']);
     Route::get('Shifts/GetUserShift/{id}', [ShiftController::class, 'getUserShiftById']);
@@ -164,7 +164,6 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
     ]);
 });
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
-Route::patch('admin/users/{user}/activate',[AuthController::class,'Deactivate_user']);
     Route::resource('slips', SalarySlipController2::class,);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
 
