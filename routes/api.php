@@ -103,6 +103,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::patch('departments/{department}', [DepartmentController::class, 'update']);
     Route::get('departments/{department}', [DepartmentController::class, 'showJobTitles']);
     Route::post('jobtitle', [JobTitleController::class, 'store']);
+    Route::get('jobtitles', [JobTitleController::class, 'index']);
+    Route::patch('jobtitles/{job_Title}', [JobTitleController::class, 'update']);
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);
