@@ -112,7 +112,7 @@ class MissionController extends RequestController
 
     if(! $mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Request'))
         return  $this->errorResponse("You do not have the permission",403);
-    return $this->showCustom(["mission"=>$mission,"missionupdates"=>$mission->missionUpdatesGroup()],200);
+    return $this->showCustom(["mission"=>$mission,"missionupdates"=>$mission->missionUpdates],200);
 
 }
 public function showAllMissionRequests()

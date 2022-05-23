@@ -41,6 +41,7 @@ use App\Http\Controllers\GetCompanyStstistics;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -80,7 +81,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::delete('/mission/{id}', [MissionController::class, 'destroy']); //ok
     Route::put('/mission/{id}', [MissionController::class, 'update']); //ok
     Route::put('/mission/updateUser/{id}', [MissionController::class, 'updateDate']); //ok
-    Route::post('/missionUpdate', [MissionUpdatesController::class, 'store']); //ok
+    Route::post('/missionUpdate/{mission}', [MissionUpdatesController::class, 'store']); //ok
     Route::delete('/missionUpdate/{id}', [MissionUpdatesController::class, 'destroy']); //ok
     Route::get('/missionUpdate/{id}', [MissionUpdatesController::class, 'show']); //ok
     //Tasks
@@ -118,6 +119,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 
     Route::middleware(['role:Admin'])->delete('profile/{user}', [ProfileController::class, 'destroy']);
     Route::middleware(['role:Admin'])->get('/admin/wfh', [WfhAdminController::class, 'showAllWFHRequestes']);
+    Route::middleware(['role:Admin'])->apiResource('Config',ConfigController::class);
     Route::middleware(['role:Admin'])->get('/admin/mission', [MissionController::class, 'showAllMissionRequestsAdmin']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->delete('/Users/{id}', [UserController::class, 'destroy']);
     Route::middleware(['auth:sanctum', 'role:Admin'])->put('/supervisor', [SupervisorController::class, 'makeUserSupervised']);

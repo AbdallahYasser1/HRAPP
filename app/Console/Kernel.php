@@ -15,9 +15,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('makerequestcanceled')->dailyAt('00:00');
         $schedule->command('generate:attendance')->dailyAt('00:00');
         $schedule->command('deduct:absence')->dailyAt('11:59');
         $schedule->command('absent:employee')->dailyAt('11:58');
+        $schedule->command('StatusChange')->everyMinute();
+        $schedule->command('finishrequest')->everyMinute();
 
     }
 

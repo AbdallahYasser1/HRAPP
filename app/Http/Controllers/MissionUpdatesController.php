@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 //Show_Mission_Update_Request
 class MissionUpdatesController extends ApiController
 {
-    public function store(MissionUpdateRequest  $request){
-        $mission=Mission::find($request['mission_id']);
+    public function store(MissionUpdateRequest  $request ,Mission $mission){
+$request['date']=date('Y-m-d');
 
         if($mission===null){
             return $this->errorResponse("Mission not found",404);
         }
-        if(!in_array($mission->requests()->first()->status, ['approved','closed'])||(strtotime($mission->requests()->first()->end_date)<strtotime($request['date'])||strtotime($mission->requests()->first()->start_date)>strtotime($request['date']))||$mission->requests()->first()->user_id!=Auth::id()){
+        if(!in_array($mission->requests()->first()->status, ['approved','closed','in-progress'])||(strtotime($mission->requests()->first()->end_date)<strtotime($request['date'])||strtotime($mission->requests()->first()->start_date)>strtotime($request['date']))||$mission->requests()->first()->user_id!=Auth::id()){
           // print_r($mission->requests()->first()->status!='approved');
 
             return $this->errorResponse("MissionUpdate in pending status or time of update vanished",400);
@@ -28,7 +28,7 @@ class MissionUpdatesController extends ApiController
 
             $missionUpdate=new MissionUpdate(['description'=>$request['description'],'date'=>$request['date'],'extra_cost'=>$request['extra_cost'],'approved_file'=>$path]);
             $mission->missionUpdates()->save($missionUpdate);
-            return $this->showCustom(["message"=>"mission update saved",$mission], 200);
+            return $this->showCustom(["message"=>"mission update saved","Update"=>$missionUpdate], 200);
         }
     }
     public function destroy($id){
