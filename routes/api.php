@@ -97,8 +97,11 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     //Holidays
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
-    Route::post('department', [DepartmentController::class, 'store']);
-    Route::get('department/{department}', [DepartmentController::class, 'showJobTitles']);
+    Route::post('departments', [DepartmentController::class, 'store']);
+    Route::get('departments', [DepartmentController::class, 'index']);
+    Route::delete('departments/{department}', [DepartmentController::class, 'destroy']);
+    Route::patch('departments/{department}', [DepartmentController::class, 'update']);
+    Route::get('departments/{department}', [DepartmentController::class, 'showJobTitles']);
     Route::post('jobtitle', [JobTitleController::class, 'store']);
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);

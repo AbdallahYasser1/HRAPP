@@ -59,7 +59,7 @@ class DepartmentController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Department $department)
     {
         $department = Department::find($id);
         if ($department === null) {
@@ -78,9 +78,9 @@ class DepartmentController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Department $department)
     {
-        $department = Department::find($id);
+
         if ($department === null) {
             return $this->errorResponse("Department not found", 404);
         } else {
