@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Absence;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absence;
 use App\Http\Controllers\ApiController;
@@ -18,8 +17,7 @@ class UserAbsenceController extends ApiController
      */
     public function index()
     {
-        $user= Auth::user();
-        // $user = User::findOrFail($id);
+        $user = Auth::user();
         $absences = $user->absences;
         return $this->showAll($absences);
     }
@@ -53,9 +51,9 @@ class UserAbsenceController extends ApiController
      */
     public function show($user_id, $absence_id)
     {
-        // $user = User::findOrFail($user_id);
-        // $absence = $user->absences()->findOrFail($absence_id);
-        // return $this->showOne($absence);
+        $user = User::findOrFail($user_id);
+        $absence = $user->absences()->findOrFail($absence_id);
+        return $this->showOne($absence);
     }
 
     /**
@@ -89,9 +87,20 @@ class UserAbsenceController extends ApiController
      */
     public function destroy($user_id, $absence_id)
     {
-        // $user = User::findOrFail($user_id);
-        // $absence = $user->absences()->findOrFail($absence_id);
-        // $absence->delete();
-        // return $this->showOne($absence);
+        $user = User::findOrFail($user_id);
+        $absence = $user->absences()->findOrFail($absence_id);
+        $absence->delete();
+        return $this->showOne($absence);
+    }
+
+    public function getUserAbsenceByDate(Request $request, $user_id)
+    {
+        $rules = [
+            'date' => 'required|date',
+        ];
+        $this->validate($request, $rules);
+        $user = User::findOrFail($user_id);
+        $absences = $user->absences()->where('date', $request->date)->get();
+        return $this->showAll($absences);
     }
 }
