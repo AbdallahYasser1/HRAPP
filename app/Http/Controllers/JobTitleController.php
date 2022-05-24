@@ -28,8 +28,9 @@ class JobTitleController extends ApiController
             return $this->errorResponse("Department not found", 404);
         } else {
             $job_titles->update([
-                'name' => $request['name'],
+                'job_name' => $request['name'],
             ]);
+            $job_titles->save();
             return $this->showOne($job_titles, 200);
         }
     }
