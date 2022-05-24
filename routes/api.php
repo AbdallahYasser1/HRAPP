@@ -105,6 +105,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::post('jobtitle', [JobTitleController::class, 'store']);
     Route::get('jobtitles', [JobTitleController::class, 'index']);
     Route::patch('jobtitles/{job_Title}', [JobTitleController::class, 'update']);
+    Route::delete('jobtitles/{job_Title}', [JobTitleController::class, 'destroy']);
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);
