@@ -100,26 +100,26 @@ class UserController extends ApiController
             return $this->errorResponse("user not found", 404);
         } else {
 $User_Request= new Request([
-    'name' => $request['name'],
-    'email' => $request['email'],
-    'phone' => $request['phone'],
-    'birthdate' => $request['birthdate'],
-    'shift_id' => $request['shift_id'],
-    'password' => $request['password'],
-    'can_wfh'=>$request['can_wfh'],
-    'supervisor'=>$request['supervisor']
+    'name' => $request['name'] ==null?$user->name : $request['name'],
+    'email' => $request['email'] ==null?$user->email : $request['email'],
+    'phone' => $request['phone'] ==null?$user->phone : $request['phone'],
+    'birthdate' => $request['birthdate'] ==null?$user->birthdate : $request['birthdate'],
+    'shift_id' => $request['shift_id'] ==null?$user->shift_id : $request['shift_id'],
+    'password' => $request['password'] ==null?$user->password : $request['password'],
+    'can_wfh'=>$request['can_wfh'] ==null?$user->can_wfh : $request['can_wfh'],
+    'supervisor'=>$request['supervisor'] ==null?$user->supervisor : $request['supervisor']
 ]);
 $Profile_Request=new Request([
-    'department_id' => $request['department_id'],
-    'job__title_id'=>$request['job__title_id']
+    'department_id' => $request['department_id']==null?$user->profile()->department_id : $request['department_id'],
+    'job__title_id'=>$request['job__title_id']==null?$user->profile()->job__title_id : $request['job__title_id']
 ]);
-$Salary_Request=new Request(['salary_agreed'=>$request['salary']]);
+$Salary_Request=new Request(['salary_agreed'=>$request['salary']==null?$user->salaryTerm():$request['salary']]);
             $user->update($User_Request->all());
             $user->profile()->update($Profile_Request->all());
             $user->salaryTerm()->update($Salary_Request);
-      //      $user->assignRole($request['role']);
+            //$user->assignRole($request['role']);
             $response=['User'=>$user,'profile'=>$user->profile(),'salary'=>$user->salaryTerm()];
-            return $this->showCustom($user, 200);
+            return $this->showCustom($response, 200);
         }
     }
 

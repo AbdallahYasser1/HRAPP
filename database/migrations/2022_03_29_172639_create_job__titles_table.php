@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('job__titles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
             $table->string('job_name');
             $table->timestamps();
         });

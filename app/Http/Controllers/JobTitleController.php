@@ -16,8 +16,8 @@ class JobTitleController extends ApiController
             return $this->showAll($jobtitles, 200);
         }}
     public function store(Request $request){
-        $job_title=Job_Title::create(['job_name'=>$request['name'],
-            'department_id'=>$request['department_id']]);
+        $job_title=Job_Title::create(['job_name'=>$request['name']
+         ]);
 
         return $this->showCustom($job_title, 201);
     }
@@ -29,7 +29,6 @@ class JobTitleController extends ApiController
         } else {
             $job_titles->update([
                 'name' => $request['name'],
-                'department_id'=>$request['department_id']==null?$job_titles->department_id : $request['department_id']
             ]);
             return $this->showOne($job_titles, 200);
         }
