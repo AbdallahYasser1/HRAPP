@@ -66,6 +66,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('vacationdayuser', [VacationdayController::class, 'showVacationdayAuth']);
     //Requests
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
+    Route::post('/requests/{requestdb}/approve', [RequestController::class, 'ApproveRequest']);
+    Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequest']);
 
     //WFH
     Route::post('/wfh', [WfhController::class, 'store']);
@@ -94,18 +96,9 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('tasks/{task}/employees', [TaskEmployeeController::class, 'ShowEmployees']);
     Route::put('tasks/{task}/employee', [TaskEmployeeController::class, 'MarkTheTask']);
 
-    //Holidays
+//Holidays
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
-    Route::post('departments', [DepartmentController::class, 'store']);
-    Route::get('departments', [DepartmentController::class, 'index']);
-    Route::delete('departments/{department}', [DepartmentController::class, 'destroy']);
-    Route::patch('departments/{department}', [DepartmentController::class, 'update']);
-    Route::get('departments/{department}', [DepartmentController::class, 'showJobTitles']);
-    Route::post('jobtitle', [JobTitleController::class, 'store']);
-    Route::get('jobtitles', [JobTitleController::class, 'index']);
-    Route::patch('jobtitles/{job_Title}', [JobTitleController::class, 'update']);
-    Route::delete('jobtitles/{job_Title}', [JobTitleController::class, 'destroy']);
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);
@@ -157,6 +150,16 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     });
 }); // end of Application access
 Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
+
+    Route::post('departments', [DepartmentController::class, 'store']);
+    Route::get('departments', [DepartmentController::class, 'index']);
+    Route::delete('departments/{department}', [DepartmentController::class, 'destroy']);
+    Route::patch('departments/{department}', [DepartmentController::class, 'update']);
+    Route::get('departments/{department}', [DepartmentController::class, 'showJobTitles']);
+    Route::post('jobtitle', [JobTitleController::class, 'store']);
+    Route::get('jobtitles', [JobTitleController::class, 'index']);
+    Route::patch('jobtitles/{job_Title}', [JobTitleController::class, 'update']);
+    Route::delete('jobtitles/{job_Title}', [JobTitleController::class, 'destroy']);
     Route::get('admin/requests', [RequestController::class, 'ShowAllRequestsAdmin']);
     Route::patch('admin/users/{user}/activate',[AuthController::class,'Deactivate_user']);
     Route::get('Shifts/GetUsersShift/{id}', [ShiftController::class, 'getUsersOfShift']);
