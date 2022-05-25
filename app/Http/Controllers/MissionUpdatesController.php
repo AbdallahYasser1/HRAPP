@@ -22,10 +22,12 @@ $request['date']=date('Y-m-d');
 
             return $this->errorResponse("MissionUpdate in pending status or time of update vanished",400);
         }
+$path='';
         if($request->hasFile('approved_file')) {
             //$path=$request->file('approved_file')->store('public/missionUpdateImages');
             $path = cloudinary()->upload($request->file('approved_file')->getRealPath(), $options = ["folder" => "missionUpdateImages"])->getSecurePath();
         }
+
             $missionUpdate=new MissionUpdate(['description'=>$request['description'],'date'=>$request['date'],'extra_cost'=>$request['extra_cost'],'approved_file'=>$path]);
             $mission->missionUpdates()->save($missionUpdate);
             return $this->showCustom(["message"=>"mission update saved","Update"=>$missionUpdate], 200);
