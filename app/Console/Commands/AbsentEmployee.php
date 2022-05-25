@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Holiday;
 use App\Models\Attendance;
 use App\Models\Absence;
+use App\Models\Wfh;
 
 class AbsentEmployee extends Command
 {
@@ -41,12 +42,25 @@ class AbsentEmployee extends Command
     public function handle()
     {
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
-        
+
         if (!$isTodayHoliday) {
             $attendances = Attendance::where('date', date('Y-m-d'))->get();
             foreach ($attendances as $attendance) {
                 if ($attendance->start_time == null) {
                     $user_id = $attendance->user_id;
+
+                    $wfhs = Wfh::where('user_id', $user_id)->where('date', date('Y-m-d'))->get();
+                    $isUserWFH = !$wfhs->isEmpty();
+                    if (!$isUserWFH) {
+                        $date = $attendance->date;
+                        $absence = new Absence();
+                        $absence->user_id = $user_id;
+                        $absence->date = $date;
+                        $absence->status = 'wfh';
+                        $absence->save();
+                        $attendance->delete();
+                    }
+
                     $date = $attendance->date;
                     $absence = new Absence();
                     $absence->user_id = $user_id;

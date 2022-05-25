@@ -40,34 +40,36 @@ class DeductAttendanceDeduction extends Command
         $absences = Absence::where('date', '=', date('Y-m-d'))->get();
         $salaryAdjustmentTypes = new SalaryAdjustmentType;
         $fullDayAbsenceAdjustment = $salaryAdjustmentTypes->getFullDayAbsenceAdjustment();
-        foreach($absences as $absence) {
+        foreach ($absences as $absence) {
             $user = User::find($absence->user_id);
-            $taken_days=$this->takendays('unscheduled',$user->id);
-            $vacation_balance=$this->VacationBalance('unscheduled',$user);
-            $remaining=$vacation_balance-$taken_days;
-            if($remaining>0){
+            $taken_days = $this->takendays('unscheduled', $user->id);
+            $vacation_balance = $this->VacationBalance('unscheduled', $user);
+            $remaining = $vacation_balance - $taken_days;
+            if ($remaining > 0) {
                 $vacation = new Vacation();
-                $vacation->type='unscheduled';
-                $vacation->count=1;
+                $vacation->type = 'unscheduled';
+                $vacation->count = 1;
                 $vacation->save();
                 $requestdb = new Requestdb;
                 $requestdb->user_id = $user->id;
                 $requestdb->start_date = $absence->date;
-                $requestdb->end_date =$absence->date;
-                $requestdb->status='finished';
+                $requestdb->end_date = $absence->date;
+                $requestdb->status = 'finished';
                 $vacation->requests()->save($requestdb);
-            }
-      else {
-          $salarySlip = $user->lastSlip;
-          $term = $user->salaryTerm;
-          SalaryAdjustment::create([
-              'salary_slip_id' => $salarySlip->id,
-              'salary_adjustment_type_id' => $fullDayAbsenceAdjustment->id,
-              'amount' => $fullDayAbsenceAdjustment->percent * $term->salary_agreed,
-              'date' => $absence->date,
+            } else {
+                if ($absence->status == 'wfh')
+                    continue;
+                $salarySlip = $user->lastSlip;
+                $term = $user->salaryTerm;
+                SalaryAdjustment::create([
+                    'salary_slip_id' => $salarySlip->id,
+                    'salary_adjustment_type_id' => $fullDayAbsenceAdjustment->id,
+                    'amount' => $fullDayAbsenceAdjustment->percent * $term->salary_agreed,
+                    'date' => $absence->date,
 
-          ]);
-      }  }
+                ]);
+            }
+        }
         return 0;
     }
 }
