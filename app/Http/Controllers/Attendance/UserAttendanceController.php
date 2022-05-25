@@ -18,7 +18,6 @@ class UserAttendanceController extends ApiController
      */
     public function index()
     {
-        print('index');
         $user= Auth::user();
 
         // $user = User::findOrFail($id);
@@ -73,6 +72,28 @@ class UserAttendanceController extends ApiController
         // $attend = $user->attendances()->findOrFail($attend_id);
         // $attend->delete();
         // return $this->showOne($attend);
+    }
+
+    public function getUserAttendanceByDate(Request $request)
+    {
+        $rules = [
+            'date' => 'required|date|date_format:Y-m-d',
+        ];
+        $this->validate($request, $rules);
+        $user = Auth::user();
+        $attend = $user->attendances()->where('date', $request->date)->get()->first();
+        return $this->showOne($attend);
+    }
+
+    public function getUserAttendanceByMonth(Request $request)
+    {
+        $rules = [
+            'date' => 'required|date_format:Y-m',
+        ];
+        $this->validate($request, $rules);
+        $user = Auth::user();
+        $attends = $user->attendances()->where('date', 'like', $request->date.'%')->get();
+        return $this->showAll($attends);
     }
 
 }

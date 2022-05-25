@@ -86,4 +86,24 @@ class AttendanceController extends ApiController
     {
         //
     }
+
+    public function getAttendanceByDay(Request $request)
+    {
+        $rules = [
+            'date' => 'required|date|date_format:Y-m-d',
+        ];
+        $this->validate($request, $rules);
+        $attendances = Attendance::where('date', $request->date)->get();
+        return $this->showAll($attendances);
+    }
+
+    public function getAttendanceByMonth(Request $request)
+    {
+        $rules = [
+            'date' => 'required|date|date_format:Y-m',
+        ];
+        $this->validate($request, $rules);
+        $attendances = Attendance::where('date', 'like', $request->date . '%')->get();
+        return $this->showAll($attendances);
+    }
 }

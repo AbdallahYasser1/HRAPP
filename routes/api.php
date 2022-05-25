@@ -189,7 +189,11 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
 
     Route::resource('attendances', AttendanceController::class,);
+    Route::get('attend/ByDate', [AttendanceController::class, 'getAttendanceByDay']);
+    Route::get('attend/ByMonth', [AttendanceController::class, 'getAttendanceByMonth']);
     Route::resource('users.attendances', UserAttendanceController::class,);
+
+
     Route::resource('absences', AbsenceController::class,);
     Route::resource('users.absences', UserAbsenceController::class,);
     Route::get('users/{user}/byDate/absences', [UserAbsenceController::class, 'getUserAbsenceByDate']);
@@ -222,6 +226,10 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 
     Route::get('/user/attendances', [UserAttendanceController::class,  'index']);
     Route::get('/user/attendances/{attendance}', [UserAttendanceController::class,  'show']);
+    Route::get('/user/attendance/byDate', [UserAttendanceController::class,  'getUserAttendanceByDate']);
+    Route::get('/user/attends/byMonth', [UserAttendanceController::class,  'getUserAttendanceByMonth']);
+
+
 
     Route::put('user/attend', [UserAttendController::class, 'attendEmployee']);
 
