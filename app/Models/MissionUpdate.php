@@ -11,7 +11,7 @@ class MissionUpdate extends Model
 {
     use HasFactory;
     protected $fillable=['id','mission_id','description','date','extra_cost','approved_file'];
-    const Validation_Rules = [ 'approved_file' => 'required', 'description' => 'required|string', 'extra_cost' => 'required|numeric'];
+    const Validation_Rules = [  'description' => 'required|string', 'extra_cost' => 'required|numeric'];
     public function mission()
     {
         return $this->belongsTo(Mission::class);
