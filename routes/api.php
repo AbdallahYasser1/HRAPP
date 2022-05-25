@@ -67,7 +67,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     //Requests
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
     Route::post('/requests/{requestdb}/approve', [RequestController::class, 'ApproveRequest']);
-    Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequest']);
+    Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequests']);
 
     //WFH
     Route::post('/wfh', [WfhController::class, 'store']);
