@@ -15,9 +15,9 @@ class UserAbsenceController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $user = Auth::user();
+        $user = User::findOrFail($id);
         $absences = $user->absences;
         return $this->showAll($absences);
     }

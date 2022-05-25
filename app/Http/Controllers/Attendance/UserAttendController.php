@@ -34,8 +34,6 @@ class UserAttendController extends ApiController
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
 
-        $isUserWFH = true;
-
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
         $isWeekend = date('N') == 5 || date('N') == 6;
@@ -51,7 +49,7 @@ class UserAttendController extends ApiController
         $outerConditions = true;
 
         if ($outerConditions) {
-            if ($isOnPremies | $isUserWFH) {
+            if ($isOnPremies) {
 
                 if ($request['status'] == 'start') {
                     if (!$isLate)
