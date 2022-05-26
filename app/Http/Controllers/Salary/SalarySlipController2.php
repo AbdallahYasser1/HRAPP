@@ -17,6 +17,9 @@ class SalarySlipController2 extends ApiController
     public function index()
     {
         $slips = SalarySlip::all();
+        $adjustments = $slips->map(function ($slip) {
+            return $slip->adjustments;
+        });
         return $this->showAll($slips);
     }
 
@@ -49,7 +52,8 @@ class SalarySlipController2 extends ApiController
      */
     public function show($id)
     {
-        $salarySlip = SalarySlip::find($id);
+        $salarySlip = SalarySlip::findOrFail($id);
+        $adjustments = $salarySlip->adjustments;
         return $this->showOne($salarySlip);
 
     }

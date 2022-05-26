@@ -23,6 +23,9 @@ class UserSlipController extends ApiController
         $user = Auth::user();
         // var_dump($user);
         $slips = $user->salarySlips;
+        $adjustments = $slips->map(function ($slip) {
+            return $slip->adjustments;
+        });
         return $this->showAll($slips);
     }
 
@@ -45,7 +48,7 @@ class UserSlipController extends ApiController
     public function store(Request $request, $id)
     {
         $user = User::find($id);
-        
+
         $rules = [
             'date' => 'required|string',
         ];
@@ -66,16 +69,20 @@ class UserSlipController extends ApiController
      */
     public function show($id)
     {
-        $user= Auth::user();
+        $user = Auth::user();
         $slip = $user->salarySlips()->findOrFail($id);
+        $adjustments = $slip->adjustments;
         return $this->showOne($slip);
     }
 
 
     public function getUserSlips($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $slips = $user->salarySlips;
+        $adjustments = $slips->map(function ($slip) {
+            return $slip->adjustments;
+        });
         return $this->showAll($slips);
     }
 
@@ -99,7 +106,7 @@ class UserSlipController extends ApiController
      */
     public function update(Request $request, User $user, $slip_id)
     {
-        $user= Auth::user();
+        $user = Auth::user();
 
         $slip = $user->salarySlips()->findOrFail($slip_id);
         // $rules = [
@@ -127,13 +134,16 @@ class UserSlipController extends ApiController
         return $this->showOne($slip);
     }
 
-    public function lastSlip($id) {
+    public function lastSlip($id)
+    {
         $user = User::find($id);
         $slip = $user->lastSlip;
+        $adjustments = $slip->adjustments;
         return $this->showOne($slip);
     }
 
-    public function updateLastSlip(Request $request, $id) {
+    public function updateLastSlip(Request $request, $id)
+    {
         $user = User::find($id);
         $slip = $user->lastSlip;
 
@@ -144,11 +154,12 @@ class UserSlipController extends ApiController
         // $this->validate($request, $rules);
 
         $slip->fill($request);
-        if($slip->isClean()) {
+        if ($slip->isClean()) {
             return $this->errorResponse('you need to specify a different value to update', 422);
         }
 
         $slip->save();
+        $adjustments = $slip->adjustments;
         return $this->showOne($slip);
     }
 
@@ -160,15 +171,16 @@ class UserSlipController extends ApiController
         return $this->showOne($slip);
     }
 
-public function getSlipByMonth(Request $request) {
-    $rules = [
-        'date' => 'required|regex:/^\d{4}-\d{2}$/',
-    ];
-    $this->validate($request, $rules);
+    public function getSlipByMonth(Request $request)
+    {
+        $rules = [
+            'date' => 'required|regex:/^\d{4}-\d{2}$/',
+        ];
+        $this->validate($request, $rules);
 
-    $user = Auth::user();
-    $slip = $user->salarySlips()->where('date', 'like', '%'.$request['date'].'%')->get();
-    return $this->showAll($slip);
-}
-
+        $user = Auth::user();
+        $slip = $user->salarySlips()->where('date', 'like', '%' . $request['date'] . '%')->get()->first();
+        $adjustments = $slip->adjustments;
+        return $this->showOne($slip);
+    }
 }
