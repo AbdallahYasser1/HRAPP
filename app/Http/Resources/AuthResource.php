@@ -18,6 +18,7 @@ class AuthResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'job_title' => $this->profile->job_title->job_name,
             'phone' => $this->phone,
             'birthdate'=>$this->birthdate,
             'first_time_login'=>$this->first_time_login==1?true:false,
