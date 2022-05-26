@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\RequestController;
@@ -68,7 +69,10 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
     Route::post('/requests/{requestdb}/approve', [RequestController::class, 'ApproveRequest']);
     Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequests']);
-
+// leave request
+    Route::post('/leave',[LeaveController::class,'store']);
+    Route::get('/leave/{id}',[LeaveController::class,'ShowLeave']);
+    Route::patch('/leave/{id}',[LeaveController::class,'update']);
     //WFH
     Route::post('/wfh', [WfhController::class, 'store']);
     Route::get('/EmployeeLog', [UserController::class, 'ViewAllRequests']);
