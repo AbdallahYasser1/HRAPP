@@ -225,5 +225,29 @@ public function CheckRequestDate($date){
     return true;
     //}
 }
+
+public function ApproveRequest(Requestdb $requestdb){
+if($requestdb==null) return $this->errorResponse("Request Not Found", 404);
+if($requestdb->user->supervisor == Auth::id() || Auth::user()->hasPermissionTo('Change_Request_Status')){
+    $requestdb->status = 'approved';
+    $requestdb->bywhom =Auth::id();
+    $requestdb->save();
+    return $this->showCustom($requestdb, 200);
+}else{
+return  $this->errorResponse("You Dont Have The Permission To Approve the Requests", 403);
+}
+
+    }
+    public function CancelRequests(Requestdb $requestdb){
+    if($requestdb==null) return $this->errorResponse("Request Not Found", 404);
+    if($requestdb->user->supervisor == Auth::id() || Auth::user()->hasPermissionTo('Change_Request_Status')){
+    $requestdb->status = 'canceled';
+    $requestdb->bywhom =Auth::id();
+    $requestdb->save();
+    return $this->showCustom($requestdb, 200);
+}else{
+return  $this->errorResponse("You Dont Have The Permission To Approve the Requests", 403);
+}
+    }
 }
 

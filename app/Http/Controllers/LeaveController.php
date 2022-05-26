@@ -19,7 +19,7 @@ class LeaveController extends RequestController
         $timeOfMission = date('Y-m-d', strtotime($request['start_date']));
         $timeOfDate = date('Y-m-d', time());
         if ($request['leave_time']=='first_half'){
-            if ($timeOfMission == $timeOfDate && !($endshift - $now > 0)) {
+            if ($timeOfMission == $timeOfDate && !($timeShift - $now > 0)) {
                 return $this->errorResponse("cant make request in past date", 400);
             }
         } else{
