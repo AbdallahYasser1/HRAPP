@@ -19,7 +19,11 @@ class TaskController extends RequestController
         $endtimeOfTask = date('Y-m-d', strtotime($request['end_date']));
         if ($timeOfTask < $timeOfDate|| $endtimeOfTask<$timeOfDate)
             return $this->errorResponse("Cant making task in past date", 400);
+        if(empty($request['employees'])){
+            return $this->errorResponse("Please provide atleast one employee", 400);
+        }
         foreach($request['employees'] as $item) {
+            $user=User::find($item);
            $check= User::where('id', '=',$item)->exists();
            if (!$check){
                return $this->errorResponse("User{{$item}} is not found ", 404);
@@ -29,6 +33,9 @@ class TaskController extends RequestController
                return $this->errorResponse("Can't Assign Task to yourself ", 404);
 
            }
+if(Auth::id()!=$user->supervisor){
+    return  $this->errorResponse("Can't Assign Task to this employee ", 403);
+}
         }
 
             $task = new Task;
@@ -56,7 +63,7 @@ class TaskController extends RequestController
         if($task->id!=Auth::id() || ! Auth::user()->hasPermissionTo('Show_Task_Request'||!$task->employees()->where('user_id',Auth::id()))){
             $this->errorResponse("You do not have the permission",403);
         }
-        return $this->showOne($task,200);
+        return $this->showCustom(['Task'=>$task,"Employees"=>$task->employees()->get()],200);
         }
   public function ShowAllTasks()
     {

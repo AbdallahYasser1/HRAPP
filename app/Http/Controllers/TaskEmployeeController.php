@@ -10,6 +10,32 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskEmployeeController extends RequestController
 {
+
+
+    public function ShowAllAssignedTasks(Request $request){
+        $status=$request->query('status');
+        if($status==null){
+            $Tasks=Task::join('task_employees','task_employees.task_id','tasks.id')
+                ->join('requestdbs','requestdbs.requestable_id','tasks.id')
+                ->where('requestdbs.requestable_type','App\\Models\\Task')
+                ->where('task_employees.user_id','=',Auth::id())
+              ->select('tasks.id as Task_id','task_employees.user_id as user_id','requestdbs.user_id as supervisor',
+                   'requestdbs.start_date','requestdbs.end_date','tasks.description','requestdbs.status as status','task_employees.status as progress')
+                ->get();
+        }else{
+            $Tasks=Task::join('task_employees','task_employees.task_id','tasks.id')
+                ->join('requestdbs','requestdbs.requestable_id','tasks.id')
+                ->where('requestdbs.requestable_type','App\\Models\\Task')
+                ->where('task_employees.user_id','=',Auth::id())
+                ->where('requestdbs.status','=',$status)
+                ->select('tasks.id as Task_id','task_employees.user_id as user_id','requestdbs.user_id as supervisor',
+                    'requestdbs.start_date','requestdbs.end_date','tasks.description','requestdbs.status as status','task_employees.status as progress')
+                ->get();}
+        return $this->showCustom( $Tasks,200);
+    }
+
+
+
     public function AddEmployee(Task $task, Request $request)
     {
         if ($task === null) {
@@ -90,12 +116,31 @@ if($request['employees']==null){
             return $this->errorResponse("You don't have the permission", 401);
         }
     }
-    public function MarkTheTask(Task $task,Request $request){
+    public function MarkTheTaskasCompleted(Task $task){
         if ($task === null) {
             return $this->errorResponse("Request is not found", 404);
         }
-        if($task->employees()->where('user_id',Auth::id())){
-            $task->employees()->where('user_id',Auth::id())->update(["status"=>$request['status']]);
+        $user=User::find($task->employees()->first()->user_id);
+
+        if($task->employees()->where('user_id',Auth::id())||$user->supervisor==Auth::id()){
+            $task->employees()->where('user_id',Auth::id())->update(["status"=>"completed"]);
+           $task->requests()->update(['status'=>'finished']);
+            return $this->showCustom($task->employees()->where('user_id',Auth::id())->get(),200);
+
+        }
+        else{
+            return $this->errorResponse("You don't have the permission", 401);
+
+        }
+
+    } public function MarkTheTaskasseen(Task $task){
+        if ($task === null) {
+            return $this->errorResponse("Request is not found", 404);
+        }
+        $user=User::find($task->employees()->first()->user_id);
+
+        if($task->employees()->where('user_id',Auth::id())||$user->supervisor==Auth::id()){
+            $task->employees()->where('user_id',Auth::id())->update(["status"=>"seen"]);
             return $this->showCustom($task->employees()->where('user_id',Auth::id())->get(),200);
 
         }

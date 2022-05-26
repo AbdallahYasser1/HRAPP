@@ -94,7 +94,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::delete('tasks/{task}/employees', [TaskEmployeeController::class, 'DeleteEmployee']);
     Route::post('tasks/{task}/employees', [TaskEmployeeController::class, 'AddEmployee']);
     Route::get('tasks/{task}/employees', [TaskEmployeeController::class, 'ShowEmployees']);
-    Route::put('tasks/{task}/employee', [TaskEmployeeController::class, 'MarkTheTask']);
+    Route::get('employee/tasks', [TaskEmployeeController::class, 'ShowAllAssignedTasks']);
+    Route::put('tasks/{task}/employee', [TaskEmployeeController::class, 'MarkTheTaskasCompleted']);
 
 //Holidays
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
