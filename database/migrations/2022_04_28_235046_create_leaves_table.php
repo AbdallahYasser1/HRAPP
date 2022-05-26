@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('leaves', function (Blueprint $table) {
             $table->id();
-            $table->string("description");
             $table->enum('leave_time',['first_half','second_half']);
             $table->timestamps();
         });

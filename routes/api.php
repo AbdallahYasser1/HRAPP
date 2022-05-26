@@ -71,8 +71,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequests']);
 // leave request
     Route::post('/leave',[LeaveController::class,'store']);
-    Route::get('/leave/{id}',[LeaveController::class,'ShowLeave']);
-    Route::patch('/leave/{id}',[LeaveController::class,'update']);
+    Route::get('/leave/{leave}',[LeaveController::class,'ShowLeave']);
+    Route::patch('/leave/{leave}',[LeaveController::class,'update']);
     //WFH
     Route::post('/wfh', [WfhController::class, 'store']);
     Route::get('/EmployeeLog', [UserController::class, 'ViewAllRequests']);
