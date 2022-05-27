@@ -113,7 +113,7 @@ $Profile_Request= [
     'department_id' => $request['department_id']==null?$user->profile->department_id : $request['department_id'],
     'job__title_id'=>$request['job__title_id']==null?$user->profile->job__title_id : $request['job__title_id']
 ];
-$Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm():$request['salary']];
+$Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->salary_agreed:$request['salary']];
             $user->update($User_Request);
             $user->profile()->update($Profile_Request);
             $user->salaryTerm()->update($Salary_Request);
