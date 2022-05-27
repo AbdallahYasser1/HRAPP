@@ -99,7 +99,7 @@ class UserController extends ApiController
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
-$User_Request= new Request([
+$User_Request=  [
     'name' => $request['name'] ==null?$user->name : $request['name'],
     'email' => $request['email'] ==null?$user->email : $request['email'],
     'phone' => $request['phone'] ==null?$user->phone : $request['phone'],
@@ -108,16 +108,17 @@ $User_Request= new Request([
     'password' => $request['password'] ==null?$user->password : $request['password'],
     'can_wfh'=>$request['can_wfh'] ==null?$user->can_wfh : $request['can_wfh'],
     'supervisor'=>$request['supervisor'] ==null?$user->supervisor : $request['supervisor']
-]);
-$Profile_Request=new Request([
-    'department_id' => $request['department_id']==null?$user->profile()->department_id : $request['department_id'],
-    'job__title_id'=>$request['job__title_id']==null?$user->profile()->job__title_id : $request['job__title_id']
-]);
-$Salary_Request=new Request(['salary_agreed'=>$request['salary']==null?$user->salaryTerm():$request['salary']]);
-            $user->update($User_Request->all());
-            $user->profile()->update($Profile_Request->all());
+];
+$Profile_Request= [
+    'department_id' => $request['department_id']==null?$user->profile->department_id : $request['department_id'],
+    'job__title_id'=>$request['job__title_id']==null?$user->profile->job__title_id : $request['job__title_id']
+];
+$Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm():$request['salary']];
+            $user->update($User_Request);
+            $user->profile()->update($Profile_Request);
             $user->salaryTerm()->update($Salary_Request);
-            //$user->assignRole($request['role']);
+
+           $user->assignRole($request['role']==null?$user->roles->pluck('name')[0] : $request['role']);
             $response=['User'=>$user,'profile'=>$user->profile(),'salary'=>$user->salaryTerm()];
             return $this->showCustom($response, 200);
         }
