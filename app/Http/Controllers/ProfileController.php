@@ -23,7 +23,7 @@ class ProfileController extends ApiController
     public function storeDefaultPhoto($id){
         $profile=Profile::where('user_id',$id)->first();
         //when choose default image path var will be empty
-        $path='';
+        $path='https://res.cloudinary.com/dokaaek9w/image/upload/v1653746912/profile_images/IMG-20220403-WA0021_yvig6b.jpg';
         if($profile===null){
             return $this->errorResponse("profile not found",404);
         }else{
