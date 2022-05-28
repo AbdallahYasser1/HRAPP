@@ -48,6 +48,7 @@ class GenerateSlips extends Command
                         'amount' => $adjustmentType->amount,
                         'percent' => $adjustmentType->percent,
                         'date' => date('Y-m-d'),
+                        'title'=>$adjustmentType->name,
                     ]);
                 }
             }

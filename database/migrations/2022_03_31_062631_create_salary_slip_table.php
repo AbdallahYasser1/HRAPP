@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->foreignId('salary_term_id')->constrained();
 //            $table->foreignId('salary_adjustment_id')->constrained();
-            $table->string('title');
+
             $table->double('net_salary', 10, 2)->nullable();
             $table->date('date',$format='Y-m-d');
             $table->timestamps();

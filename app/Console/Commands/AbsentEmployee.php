@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Requestdb;
 use Illuminate\Console\Command;
 use App\Models\Holiday;
 use App\Models\Attendance;
@@ -49,7 +50,10 @@ class AbsentEmployee extends Command
                 if ($attendance->start_time == null) {
                     $user_id = $attendance->user_id;
 
-                    $wfhs = Wfh::where('user_id', $user_id)->where('date', date('Y-m-d'))->get();
+                    $wfhs =Requestdb::all()
+                        ->where('user_id', $user_id)
+                        ->where('start_date', date('Y-m-d'))
+                        ->where('requestable_type','=',"App\\Models\\Wfh");
                     $isUserWFH = !$wfhs->isEmpty();
                     if (!$isUserWFH) {
                         $date = $attendance->date;

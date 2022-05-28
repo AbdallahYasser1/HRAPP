@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('amount')->nullable();
             $table->double('percent', 4, 2)->nullable();
             $table->dateTime('date')->default(now());
+            $table->string('title');
             $table->timestamps();
 //            $table->foreign('salary_slip_id')->references('id')->on('salary_slips');
 //            $table->foreign('salary_adjustment_type_id')->references('id')->on('salary_adjustment_types');

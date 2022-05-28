@@ -3,13 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Department.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Department.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Job_Title.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Job_Title.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/Job_TitleFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/Job_TitleFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/Salary/SalaryAdjustmentFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/Salary/SalaryAdjustmentFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/AbsentEmployee.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/AbsentEmployee.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GenerateSlips.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/GenerateSlips.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Salary/SalaryAdjustment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Salary/SalaryAdjustment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Salary/SalarySlip.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Salary/SalarySlip.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_30_084804_create_salary_adjustments_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_30_084804_create_salary_adjustments_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2022_03_31_062631_create_salary_slip_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_03_31_062631_create_salary_slip_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/UserSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_04_24_014954_create_configs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_04_24_014954_create_configs_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/ConfigSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/ConfigSeeder.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +237,7 @@
       <workItem from="1653483434878" duration="15894000" />
       <workItem from="1653572388493" duration="7553000" />
       <workItem from="1653650978033" duration="17070000" />
-      <workItem from="1653745053293" duration="2348000" />
+      <workItem from="1653745053293" duration="3802000" />
     </task>
     <servers />
   </component>

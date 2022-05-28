@@ -29,6 +29,7 @@ class ConfigSeeder extends Seeder
             'halfDayAbsenceDeduction' => '-1/60',
             'fullDayAbsenceDeductionName' => 'Full Day Absence Deduction',
             'halfDayAbsenceDeductionName' => 'Half Day Absence Deduction',
+            'LatePeriod'=>'15'
         ];
         DB::table('configs')->insert($configuration);
     }
