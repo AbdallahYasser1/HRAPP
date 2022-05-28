@@ -33,6 +33,7 @@ class UserAttendController extends ApiController
 
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
+        $isOnPremies = true;
 
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
