@@ -61,7 +61,7 @@ class DepartmentController extends ApiController
      */
     public function update(Request $request, Department $department)
     {
-        $department = Department::find($id);
+
         if ($department === null) {
             return $this->errorResponse("Department not found", 404);
         } else {
