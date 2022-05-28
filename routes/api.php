@@ -69,6 +69,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
     Route::post('/requests/{requestdb}/approve', [RequestController::class, 'ApproveRequest']);
     Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequests']);
+    Route::post('/user/updatepassword',[UserController::class,'UpdatePassword']);
 // leave request
     Route::post('/leave',[LeaveController::class,'store']);
     Route::get('/leave/{leave}',[LeaveController::class,'ShowLeave']);

@@ -4,6 +4,7 @@
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +160,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/xampp/htdocs/DoctorApp",
+    "last_opened_file_path": "C:/xampp/htdocs/HRAPP",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -229,7 +230,8 @@
       <workItem from="1653422639731" duration="1311000" />
       <workItem from="1653483434878" duration="15894000" />
       <workItem from="1653572388493" duration="7553000" />
-      <workItem from="1653650978033" duration="14672000" />
+      <workItem from="1653650978033" duration="17070000" />
+      <workItem from="1653745053293" duration="1159000" />
     </task>
     <servers />
   </component>

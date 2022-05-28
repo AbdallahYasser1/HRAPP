@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUserRequest;
 use App\Http\Resources\AuthResource;
 use App\Models\Profile;
 use App\Models\Requestdb;
@@ -162,5 +163,16 @@ $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->sa
     }
     function UserStatus(){
         return $this->showCustom(Auth::user()->status,200);
+    }
+
+    function UpdatePassword(LoginUserRequest $request){
+    $user=Auth::user();
+  if($user==null){
+      return $this->errorResponse('User Not Found ', 200);
+  }
+        $user->password = $request->password;
+        $user->save();
+        auth()->user()->tokens()->delete();
+        return response()->json(["message" => "Password has changed succesfully please login again with the new password"], 200);
     }
 }
