@@ -69,7 +69,6 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
     Route::post('/requests/{requestdb}/approve', [RequestController::class, 'ApproveRequest']);
     Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequests']);
-    Route::patch('/user/updatepassword',[UserController::class,'UpdatePassword']);
 // leave request
     Route::post('/leave',[LeaveController::class,'store']);
     Route::get('/leave/{leave}',[LeaveController::class,'ShowLeave']);
@@ -111,6 +110,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);
     Route::put('supervisor/requests/{id}', [SupervisorController::class, 'supervisorApproveRequest']);
     Route::get('department/users/{department}', [DepartmentController::class, 'getUsersOfDepartment']);
+    Route::patch('/user/updatepassword',[UserController::class,'UpdatePassword']);
 
     Route::post('profile', [ProfileController::class, 'store']);
     Route::get('profile', [ProfileController::class, 'getprofile']);

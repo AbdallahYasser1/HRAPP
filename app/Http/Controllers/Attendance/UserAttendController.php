@@ -94,10 +94,14 @@ class UserAttendController extends ApiController
             $attend->update([
                 'start_time' => new DateTime(),
             ]);
+            $user->status = "Active";
+            $user->save();
         } elseif ($request['status'] == 'out') {
             $attend->update([
                 'leave_time' => new DateTime(),
             ]);
+            $user->status = "Available";
+            $user->save();
         }
         return $this->showOne($attend);
     }
