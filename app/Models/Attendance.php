@@ -11,7 +11,9 @@ class Attendance extends Model
     protected $fillable=[
         'date','user_id','start_time','leave_time'
     ];
+    protected $primaryKey = null;
 
+    public $incrementing = false;
 
     protected function setKeysForSaveQuery($query)
     {

@@ -47,10 +47,8 @@ class GenerateAttendance extends Command
             foreach ($users as $user) {
                 $isUserOnVacation = false;
                 if (!$isUserOnVacation) {
-                    error_log('start');
                     $attendance = Attendance::where('user_id', $user->id)->where('date', date('Y-m-d'))->first();
                     if (!$attendance) {
-                        error_log('inside');
                         $attendance = new Attendance();
                         $attendance->user_id = $user->id;
                         error_log($user->id);
