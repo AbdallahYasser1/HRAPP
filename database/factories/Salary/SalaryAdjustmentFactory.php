@@ -22,9 +22,11 @@ class SalaryAdjustmentFactory extends Factory
     public function definition()
     {
         $slips = SalarySlip::pluck('id');
+        $slipType = SalaryAdjustmentType::all()->random();
         return [
             'salary_slip_id' => SalarySlip::all()->isEmpty()? null : $this->faker->randomElement($slips),
-            'salary_adjustment_type_id' => SalaryAdjustmentType::all()->random()->id,
+            'salary_adjustment_type_id' => $slipType->id,
+            'title'=> $slipType->name,
             'amount' => $this->faker->numberBetween(1000, 100000),
             'percent' => $this->faker->randomFloat(2, 0, 99),
             'date' => $this->faker->dateTimeBetween('-1 year', 'now'),

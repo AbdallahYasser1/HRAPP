@@ -20,7 +20,7 @@ class Job_TitleFactory extends Factory
     {
         return [
             "job_name"=>$this->faker->jobTitle(),
-            "department_id"=>Department::all()->random()
+
         ];
     }
 }
