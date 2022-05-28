@@ -8,11 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Job_Title extends Model
 {
     use HasFactory;
-    protected $fillable=['job_name','department_id'];
-    public function Department()
-    {
-        return $this->belongsTo(Job_Title::class);
-    }
+    protected $fillable=['job_name'];
+
     public function Profile()
     {
         return $this->belongsTo(Profile::class);
