@@ -51,7 +51,6 @@ class GenerateAttendance extends Command
                     if (!$attendance) {
                         $attendance = new Attendance();
                         $attendance->user_id = $user->id;
-                        error_log($user->id);
                         $attendance->date = date('Y-m-d');
                         $attendance->save();
                     }
