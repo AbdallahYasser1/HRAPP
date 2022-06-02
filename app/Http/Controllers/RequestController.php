@@ -166,7 +166,7 @@ class RequestController extends ApiController
                     ->join('profiles','requestdbs.user_id','profiles.user_id')
                     ->where('requestdbs.status', '=', $status)
                     ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class))
-                    ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status')
+                    ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status','profiles.image')
                     ->paginate()->appends(request()->query());
             }
         }
