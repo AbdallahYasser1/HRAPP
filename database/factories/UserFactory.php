@@ -21,14 +21,14 @@ class UserFactory extends Factory
      */
     function genrateID() {
         $ID = mt_rand(100000, 999999999); // better than rand()
-    
+
         if ($this->IDExists($ID)) {
             return $this->genrateID();
         }
-    
+
         return $ID;
     }
-    
+
     function IDExists($ID) {
         return User::where('id',$ID)->exists();
     }
@@ -43,7 +43,7 @@ class UserFactory extends Factory
             'birthdate'=>date("Y-m-d", rand( strtotime("Jan 01 1977"), strtotime("Nov 01 2000") ) ),
             'active'=>true,
             'first_time_login'=>false,
-            'status'=>'active',
+            'status'=>'available',
             'password' => '123456789',
             'shift_id'=>Shift::all()->Random(),// password
             'remember_token' => Str::random(10),

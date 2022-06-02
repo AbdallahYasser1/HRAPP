@@ -12,6 +12,9 @@ use App\Http\Resources\AuthResource;
 
 class AuthController extends ApiController
 {
+    public function ava(){
+      $users=  User::query()->update(['status' => 'available']);
+    }
     public function credentials(Request $request)
     {
         return [
