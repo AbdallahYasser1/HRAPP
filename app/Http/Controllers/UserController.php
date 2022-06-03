@@ -26,11 +26,11 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with(['profile','vacationday','salaryTerm'])->get();
         if($users===null){
             return $this->errorResponse("Users are not existed", 404);
         }else{
-            return new UserCollection($users);
+            return $this->showCustom($users);
         }
     }
 

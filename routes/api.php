@@ -54,6 +54,8 @@ use App\Http\Controllers\GetCompanyStstistics;
 |
 */
 //Login
+
+
 Route::post('login', [AuthController::class, 'login']);
 Route::patch('available',[AuthController::class,'ava']);
 Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
