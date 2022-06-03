@@ -229,7 +229,12 @@ public function CheckRequestDate($date){
 public function ApproveRequest(Requestdb $requestdb){
 if($requestdb==null) return $this->errorResponse("Request Not Found", 404);
 if($requestdb->user->supervisor == Auth::id() || Auth::user()->hasPermissionTo('Change_Request_Status')){
+    $timeOfDate = date('Y-m-d', time());
+   if ($requestdb->start_date==$timeOfDate){
+       $requestdb->status = 'in-progress';
+   }else{
     $requestdb->status = 'approved';
+   }
     $requestdb->bywhom =Auth::id();
     $requestdb->save();
     return $this->showCustom($requestdb, 200);

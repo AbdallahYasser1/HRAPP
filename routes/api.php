@@ -62,6 +62,10 @@ Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
     Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
 });
 //Application access middleware
+Route::get('/valid', function () {
+    return response()->json([ 'valid' => auth()->check() ],200);
+});
+
 Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () {
     //Get Auth User Data
     Route::get('/user', function (Request $request) {
