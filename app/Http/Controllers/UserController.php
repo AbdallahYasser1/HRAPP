@@ -26,11 +26,11 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::with(['profile','vacationday','salaryTerm'])->get();
+        $users = User::all();
         if($users===null){
             return $this->errorResponse("Users are not existed", 404);
         }else{
-            return $this->showCustom($users);
+            return new UserCollection($users);
         }
     }
 
@@ -86,10 +86,11 @@ class UserController extends ApiController
      */
     public function show(User $user)
     {
+     $user=   $user::with(['profile','vacationday','salaryTerm'])->where('id',$user->id)->get();
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
-            return $this->showOne($user, 200);
+            return $this->ShowCustom($user, 200);
         }
     }
 
