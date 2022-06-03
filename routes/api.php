@@ -63,7 +63,14 @@ Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
 });
 //Application access middleware
 Route::get('/valid', function () {
-    return response()->json([ 'valid' => auth()->check() ],200);
+    $check = (int) auth('sanctum')->check();
+    if ($check ==1 )    {
+    $responseCode = 200;
+    $response=true;
+    }else{
+        $response=false;
+    }
+    return response()->json(["valid"=>$response],200);
 });
 
 Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () {
