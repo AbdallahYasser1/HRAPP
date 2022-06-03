@@ -69,10 +69,7 @@ class Handler extends ExceptionHandler
 
             if ($e instanceof NotFoundHttpException) {
                 return $this->errorResponse("Url Not Found", 404);
-            }   if ($e instanceof AuthenticationException) {
-                return $this->errorResponse($e->getMessage(), 401);
             }
-
 
             if ($e instanceof MethodNotAllowedHttpException) {
                 return $this->errorResponse("This method is invalid for this request", 405);
@@ -122,9 +119,9 @@ class Handler extends ExceptionHandler
      * @param  \Illuminate\Auth\AuthenticationException  $exception
      * @return \Symfony\Component\HttpFoundation\Response
      */
-//    protected function unauthenticated($request, AuthenticationException $exception)
-//    {
-//        return $this->errorResponse("Unauthenticated", 401);
-//    }
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->errorResponse("Unauthenticated", 401);
+    }
 }
 
