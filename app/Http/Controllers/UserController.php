@@ -86,11 +86,13 @@ class UserController extends ApiController
      */
     public function show(User $user)
     {
+        $role=$user->getRoleNames();
      $user=   $user::with(['profile','vacationday','salaryTerm'])->where('id',$user->id)->get();
+
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
-            return $this->ShowCustom($user, 200);
+            return $this->ShowCustom([$user,"role"=>$role], 200);
         }
     }
 
@@ -126,7 +128,7 @@ $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->sa
             $user->profile()->update($Profile_Request);
             $user->salaryTerm()->update($Salary_Request);
 
-           $user->assignRole($request['role']==null?$user->roles->pluck('name')[0] : $request['role']);
+           $user->syncRoles($request['role']==null?$user->roles->pluck('name')[0] : $request['role']);
             $response=['User'=>$user,'profile'=>$user->profile(),'salary'=>$user->salaryTerm()];
             return $this->showCustom($response, 200);
         }
