@@ -10,6 +10,14 @@ use Illuminate\Database\Eloquent\Collection;
 
 class HolidayController extends ApiController
 {
+    public function index(){
+        $holidays=Holiday::all();
+        if($holidays->count()==0){
+            return $this->errorResponse("Holiday not found",404);
+        }else{
+            return $this->ShowCustom( $holidays,200);
+        }
+    }
     public function store(StoreHoliday $request){
         $holiday=Holiday::create([
             'name'=>$request['name'],
@@ -44,7 +52,7 @@ class HolidayController extends ApiController
             return $this->errorResponse("Holiday not found",404);
         }else{
             $holiday->delete();
-            return $this->showCustom(['holiday deleted'],200);    
+            return $this->showCustom(['holiday deleted'],200);
         }
         }
     public function getAllHolidaysOfMonth($month){
