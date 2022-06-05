@@ -194,6 +194,8 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
     ]);
 });
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
+    Route::get('admin/attendancelog', [UserController::class, 'AdminAttendanceSheet']);
+
     Route::resource('slips', SalarySlipController2::class,);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
 

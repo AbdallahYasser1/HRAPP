@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->time("start_time")->nullable();
             $table->time("leave_time")->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->primary(['user_id', 'date']);
             $table->timestamps();
         });

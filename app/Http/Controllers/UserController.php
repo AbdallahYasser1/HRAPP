@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Resources\AuthResource;
+use App\Models\Attendance;
 use App\Models\Profile;
 use App\Models\Requestdb;
 use App\Models\Salary\SalaryTerm;
@@ -129,7 +130,7 @@ $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->sa
             $user->salaryTerm()->update($Salary_Request);
 
            $user->syncRoles($request['role']==null?$user->roles->pluck('name')[0] : $request['role']);
-            $response=['User'=>$user,'profile'=>$user->profile(),'salary'=>$user->salaryTerm()];
+            $response=['User'=>$user];
             return $this->showCustom($response, 200);
         }
     }
@@ -183,5 +184,16 @@ $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->sa
         $user->save();
         auth()->user()->tokens()->delete();
         return response()->json(["message" => "Password has changed succesfully please login again with the new password"], 200);
+    }
+    public function AdminAttendanceSheet(Request $request){
+        $date=$request->query('date');
+        $user=$request->query('user');
+        $attendance=Attendance::with('user');
+        if($date !=null)
+$attendance->where('date',$date);
+        if($user !=null)
+      $attendance->where('user_id',$user);
+
+        return $attendance->get();
     }
 }
