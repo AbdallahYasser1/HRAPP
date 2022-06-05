@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('requestdbs', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('bywhom')->nullable();
             $table->foreign('bywhom')->references('id')->on('users');
             $table->date('start_date');

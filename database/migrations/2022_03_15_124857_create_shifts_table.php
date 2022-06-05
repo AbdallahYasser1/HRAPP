@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('users',function(Blueprint $table){
-            $table->foreignId('shift_id')->constrained('shifts');
+            $table->foreignId('shift_id')->constrained('shifts')->onDelete('cascade');
 
 
         });

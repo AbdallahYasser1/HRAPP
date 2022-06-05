@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date("date");
             $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('status',['wfh','vacation','leave','absent'])->default('absent');
             $table->timestamps();
         });
