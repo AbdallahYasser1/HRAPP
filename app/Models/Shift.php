@@ -17,9 +17,9 @@ class Shift extends Model
         Const Validation_Rules=[
 
             'name' => 'required|string',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i',
-            'midday' => 'required|date_format:H:i'
+            'start_time' => 'required|date_format:H:i:s',
+            'end_time' => 'required|date_format:H:i:s',
+            'midday' => 'required|date_format:H:i:s'
         ];
     public function users()
     {

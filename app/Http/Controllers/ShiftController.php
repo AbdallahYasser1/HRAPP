@@ -74,10 +74,10 @@ class ShiftController extends ApiController
             return $this->errorResponse("shift not found", 404);
         } else {
             $shift->update([
-                'name' => $request['name'],
-                'start_time' => $request['start_time'],
-                'end_time' => $request['end_time'],
-                'midday'=> $request['midday']
+                'name' => $request['name']==null?$shift->name:$request['name'],
+                'start_time' => $request['start_time']==null?$shift->start_time:$request['start_time'],
+                'end_time' => $request['end_time']==null?$shift->end_time:$request['end_time'],
+                'midday'=> $request['midday'] ==null?$shift->midday:$request['midday'],
             ]);
             return $this->showOne($shift, 200);
         }
