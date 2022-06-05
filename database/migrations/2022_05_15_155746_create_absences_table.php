@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('absences', function (Blueprint $table) {
-            $table->id('id');
+            $table->id();
             $table->date("date");
             $table->integer('user_id');
             $table->enum('status',['wfh','vacation','leave','absent'])->default('absent');
