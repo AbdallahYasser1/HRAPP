@@ -14,7 +14,6 @@ trait SalaryAdjustment
     public function calculateAdjustment($adjustment, $salary)
     {
         $amount = $adjustment->amount ? $adjustment->amount : $adjustment->percent * $salary;
-
         $salary = $salary + $amount;
         return $salary;
     }

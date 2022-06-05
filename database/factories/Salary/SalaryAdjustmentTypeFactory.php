@@ -22,8 +22,8 @@ class SalaryAdjustmentTypeFactory extends Factory
         return [
             'id' => $this->faker->numberBetween(3, ),
             'name' => $this->faker->name(),
-            'percent' => $this->faker->randomFloat(2, 0, 99),
-            'amount' => $this->faker->randomFloat(2, 0, ),
+            'percent' => $this->faker->randomFloat(2, -0.03, 0.10),
+            'amount' => $this->faker->numberBetween(0, 3000,-3000),
             'isAll' => $this->faker->boolean(),
 
         ];

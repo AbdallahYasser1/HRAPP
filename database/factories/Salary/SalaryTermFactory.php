@@ -24,7 +24,7 @@ class SalaryTermFactory extends Factory
             'user_id' => $this->faker->unique()->randomElement($users),
             'start' => $this->faker->dateTime(),
             'end' => $this->faker->dateTimeBetween('now', '+30 years'),
-            'salary_agreed' => $this->faker->numberBetween(10000, 1000000),
+            'salary_agreed' => $this->faker->numberBetween(5000, 50000),
         ];
     }
 }
