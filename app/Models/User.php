@@ -52,7 +52,8 @@ class User extends Authenticatable
         'job__title_id' => 'integer|exists:job__titles,id',
         'scheduled' => 'integer',
         'unscheduled' => 'integer',
-        'salary'=>'numeric'
+        'salary'=>'numeric',
+        'supervisor'=>'integer'
     ];
     protected $fillable = [
         'id',

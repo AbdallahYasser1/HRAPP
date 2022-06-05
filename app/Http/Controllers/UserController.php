@@ -110,6 +110,11 @@ class UserController extends ApiController
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
+            $path='';
+            if($request->hasFile('image')){
+                //$path=$request->file('photo')->store('public/images');
+                $path=cloudinary()->upload($request->file('image')->getRealPath(),$options=["folder"=>"images"])->getSecurePath();
+            }
 $User_Request=  [
     'name' => $request['name'] ==null?$user->name : $request['name'],
     'email' => $request['email'] ==null?$user->email : $request['email'],
@@ -122,8 +127,10 @@ $User_Request=  [
 ];
 $Profile_Request= [
     'department_id' => $request['department_id']==null?$user->profile->department_id : $request['department_id'],
-    'job__title_id'=>$request['job__title_id']==null?$user->profile->job__title_id : $request['job__title_id']
-];
+    'job__title_id'=>$request['job__title_id']==null?$user->profile->job__title_id : $request['job__title_id'],
+    'image'=>$path=='' ?"https://res.cloudinary.com/dokaaek9w/image/upload/v1653746912/profile_images/IMG-20220403-WA0021_yvig6b.jpg" : $path
+
+    ];
 $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->salary_agreed:$request['salary']];
             $user->update($User_Request);
             $user->profile()->update($Profile_Request);
