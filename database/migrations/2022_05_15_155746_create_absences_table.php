@@ -14,12 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('absences', function (Blueprint $table) {
-         
+            $table->id('id');
             $table->date("date");
             $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('status',['wfh','vacation','leave','absent'])->default('absent');
-            $table->primary(['user_id', 'date']);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+
             $table->timestamps();
         });
     }
