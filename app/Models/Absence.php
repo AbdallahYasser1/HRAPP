@@ -9,7 +9,9 @@ class Absence extends Model
 {
     use HasFactory;
     protected $fillable = ['user_id', 'date'];
-    
+    protected $primaryKey = null;
+
+    public $incrementing = false;
     protected function setKeysForSaveQuery($query)
     {
         $query
