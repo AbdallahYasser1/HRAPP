@@ -49,26 +49,19 @@ class AbsentEmployee extends Command
             foreach ($attendances as $attendance) {
                 if ($attendance->start_time == null) {
                     $user_id = $attendance->user_id;
-
-                    $wfhs =Requestdb::all()
-                        ->where('user_id', $user_id)
-                        ->where('start_date', date('Y-m-d'))
-                        ->where('requestable_type','=',"App\\Models\\Wfh");
-                    $isUserWFH = !$wfhs->isEmpty();
-                    if (!$isUserWFH) {
-                        $date = $attendance->date;
-                        $absence = new Absence();
-                        $absence->user_id = $user_id;
-                        $absence->date = $date;
-                        $absence->status = 'wfh';
-                        $absence->save();
-                        $attendance->delete();
-                    }
-
                     $date = $attendance->date;
                     $absence = new Absence();
                     $absence->user_id = $user_id;
                     $absence->date = $date;
+
+                    $wfhs = Requestdb::all()
+                        ->where('user_id', $user_id)
+                        ->where('start_date', date('Y-m-d'))
+                        ->where('requestable_type', '=', "App\\Models\\Wfh");
+                    $isUserWFH = !$wfhs->isEmpty();
+                    if ($isUserWFH)
+                        $absence->status = 'wfh';
+
                     $absence->save();
                     $attendance->delete();
                 }
