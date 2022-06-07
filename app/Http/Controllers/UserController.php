@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Resources\AuthResource;
+use App\Models\Absence;
 use App\Models\Attendance;
 use App\Models\Profile;
 use App\Models\Requestdb;
@@ -197,6 +198,17 @@ $user->profile->save();
         $date=$request->query('date');
         $user=$request->query('user');
         $attendance=Attendance::with('user');
+        if($date !=null)
+$attendance->where('date',$date);
+        if($user !=null)
+      $attendance->where('user_id',$user);
+
+        return $attendance->get();
+    }
+    public function AdminAbsenceSheet(Request $request){
+        $date=$request->query('date');
+        $user=$request->query('user');
+        $attendance=Absence::with('user');
         if($date !=null)
 $attendance->where('date',$date);
         if($user !=null)
