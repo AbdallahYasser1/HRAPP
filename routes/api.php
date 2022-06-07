@@ -160,7 +160,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
             'Shifts' => ShiftController::class,
             'Vacationday' => VacationdayController::class
         ]);
-        Route::patch('users/{user}', [UserController::class, 'update']);
+        Route::post('users/{user}', [UserController::class, 'update']);
         Route::delete('users/{user}', [UserController::class, 'destroy']);
         Route::get('users/{user}', [UserController::class, 'show']);
         Route::get('users', [UserController::class, 'index']);

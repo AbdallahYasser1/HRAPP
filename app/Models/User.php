@@ -53,7 +53,7 @@ class User extends Authenticatable
         'scheduled' => 'integer',
         'unscheduled' => 'integer',
         'salary'=>'numeric',
-        'supervisor'=>'integer'
+        'supervisor'=>'integer',
     ];
     protected $fillable = [
         'id',
