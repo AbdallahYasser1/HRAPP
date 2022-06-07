@@ -47,6 +47,7 @@ class UserController extends ApiController
         if ($request['role'] == 'Admin' && !Auth::user()->hasPermissionTo('create_account_Admin')) return  $this->errorResponse(' The authenticated user is not permitted to perform the requested operation.', 403);
         $hashed_random_password = Str::random(10);
         if($request->hasFile('image')){
+            //$path=$request->file('photo')->store('public/images');
             $path=cloudinary()->upload($request->file('image')->getRealPath(),$options=["folder"=>"images"])->getSecurePath();
         }
         $user = User::create([
@@ -67,7 +68,7 @@ class UserController extends ApiController
             'user_id' => $request['id'],
             'department_id' => $request['department_id'],
             'job__title_id'=>$request['job__title_id'],
-            'image'=>$path==''?"https://res.cloudinary.com/dokaaek9w/image/upload/v1653746912/profile_images/IMG-20220403-WA0021_yvig6b.jpg" : $path
+            'image'=>$path=='' ?"https://res.cloudinary.com/dokaaek9w/image/upload/v1653746912/profile_images/IMG-20220403-WA0021_yvig6b.jpg" : $path
         ]);
         $salary_term=SalaryTerm::create([
             'user_id'=>$request['id'],
@@ -127,16 +128,17 @@ $User_Request=  [
 $Profile_Request= [
     'department_id' => $request['department_id']==null?$user->profile->department_id : $request['department_id'],
     'job__title_id'=>$request['job__title_id']==null?$user->profile->job__title_id : $request['job__title_id'],
-    'image'=>$path=='' ? $user->profile->image : $path
+    'image'=>$request['image']==null? $user->profile->image: $path
 
     ];
 $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->salary_agreed:$request['salary']];
             $user->update($User_Request);
             $user->profile()->update($Profile_Request);
             $user->salaryTerm()->update($Salary_Request);
-
+$user->profile->save();
            $user->syncRoles($request['role']==null?$user->roles->pluck('name')[0] : $request['role']);
-            $response=['User'=>$user];
+           $userresult=User::find($user->id);
+            $response=['User'=>$userresult,"Profile"=>$userresult->profile,"Salary"=>$userresult->salaryTerm,"role"=>$userresult->roles->pluck('name')[0]];
             return $this->showCustom($response, 200);
         }
     }

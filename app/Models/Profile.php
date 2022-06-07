@@ -26,7 +26,7 @@ class Profile extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>$value==''?"https://res.cloudinary.com/dokaaek9w/image/upload/v1653746912/profile_images/IMG-20220403-WA0021_yvig6b.jpg" :$value,
+            get: fn ($value) =>$value,
         );
     }
 }
