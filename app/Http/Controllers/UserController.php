@@ -152,10 +152,14 @@ $user->profile->save();
      */
     public function destroy(User $user)
     {
-        if($user->id==Auth::id() )  return $this->errorResponse("Can't Delete your account", 403);
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
+            if(Auth::user()->hasRole("HR")&&$user->hasAnyRole(['Admin','HR'])){
+                return $this->showCustom(['HR Cant Delete Admin\HR User OR Cant delete Admin User by himself'], 403);    
+            }else if(Auth::id()==$user->id){
+                return $this->showCustom(['User cant delete himself'], 403);
+            }
             $user->delete();
             return $this->showCustom(['user deleted'], 200);
         }
