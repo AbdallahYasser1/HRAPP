@@ -205,6 +205,15 @@ $attendance->where('date',$date);
 
         return $attendance->get();
     }
+    public function UserAttendanceSheet(Request $request){
+        $date=$request->query('date');
+        $attendance=Attendance::with('user');
+        if($date !=null)
+            $attendance->where('date',$date);
+            $attendance->where('user_id',Auth::id());
+
+        return $attendance->get();
+    }
     public function AdminAbsenceSheet(Request $request){
         $date=$request->query('date');
         $user=$request->query('user');
@@ -213,6 +222,16 @@ $attendance->where('date',$date);
 $attendance->where('date',$date);
         if($user !=null)
       $attendance->where('user_id',$user);
+
+        return $attendance->get();
+    }   public function UserAbsenceSheet(Request $request){
+        $date=$request->query('date');
+        $user=$request->query('user');
+        $attendance=Absence::with('user');
+        if($date !=null)
+$attendance->where('date',$date);
+
+      $attendance->where('user_id',Auth::id());
 
         return $attendance->get();
     }

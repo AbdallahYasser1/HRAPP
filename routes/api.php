@@ -78,6 +78,9 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/user', function (Request $request) {
         return new AuthResource($request->user());
     });
+    Route::get('user/attendancelog', [UserController::class, 'UserAttendanceSheet']);
+    Route::get('user/absencelog', [UserController::class, 'UserAbsenceSheet']);
+
     Route::get('vacationdayuser', [VacationdayController::class, 'showVacationdayAuth']);
     //Requests
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
