@@ -39,7 +39,6 @@ class UserAttendController extends ApiController
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
         $isWeekend = $this->checkWeekend();
-        var_dump($isWeekend);
         $isOnTime = $this->checkTime($user);
 
         $isLate = $this->checkLate($user);
