@@ -56,6 +56,7 @@ class UserSlipController extends ApiController
 
         $data = $request->all();
         $data['user_id'] = $user->id;
+        $data['user_name'] = $user->name;
         $data['salary_term_id'] = $user->salaryTerm->id;
         $slip = SalarySlip::create($data);
         return $this->showOne($slip);

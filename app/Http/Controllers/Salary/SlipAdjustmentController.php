@@ -42,7 +42,6 @@ class SlipAdjustmentController extends ApiController
     public function store(Request $request, $id)
     {
         $rules = [
-            'amount' => 'required|numeric',
             'salary_adjustment_type_id' => 'required|integer',
         ];
         $this->validate($request, $rules);
@@ -51,6 +50,7 @@ class SlipAdjustmentController extends ApiController
 
         $data = $request->all();
         $data['salary_slip_id'] = $salarySlip->id;
+        $data['title'] = SalaryAdjustmentType::find($data['salary_adjustment_type_id'])->name;
         $adjustment = SalaryAdjustment::create($data);
         return $this->showOne($adjustment);
     }

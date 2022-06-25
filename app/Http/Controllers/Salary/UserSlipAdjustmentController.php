@@ -40,7 +40,6 @@ class UserSlipAdjustmentController extends ApiController
     public function store(Request $request, $user_id, $slip_id)
     {
         $rules = [
-            'amount' => 'required|numeric',
             'salary_adjustment_type_id' => 'required|integer',
 
 

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('salary_adjustment_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->double('percent', 4, 2);
-            $table->double('amount');
+            $table->double('percent', 4, 2)->nullable();
+            $table->double('amount')->nullable();
             $table->string('isAll')->default('0');
             $table->timestamps();
         });

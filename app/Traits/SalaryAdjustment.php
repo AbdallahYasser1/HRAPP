@@ -2,18 +2,33 @@
 
 namespace App\Traits;
 
-use App\Models\Attendance;
-use App\Models\Salary\SalaryAdjustment as SalarySalaryAdjustment;
+use App\Models\Salary\SalaryAdjustmentType;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
 trait SalaryAdjustment
 {
-
+    use ApiResponser;
     public function calculateAdjustment($adjustment, $salary)
     {
-        $amount = $adjustment->amount ? $adjustment->amount : $adjustment->percent * $salary;
+        $adjustment_type_amount = SalaryAdjustmentType::find($adjustment->salary_adjustment_type_id)->amount;
+        $adjustment_type_percent = SalaryAdjustmentType::find($adjustment->salary_adjustment_type_id)->percent;
+        
+
+        if($adjustment->amount) {
+            $amount = $adjustment->amount;
+        } elseif($adjustment->percent) {
+            $amount = $adjustment->percent * $salary;
+        } elseif ($adjustment_type_amount) {
+            var_dump("here");
+            var_dump($adjustment->amount);
+            $amount = $adjustment_type_amount;
+        } elseif ($adjustment_type_percent) {
+            $amount = $adjustment_type_percent * $salary;
+        } else {
+            return $this->errorResponse('No amount or percent specified for adjustment', 404);
+        }
+
         $salary = $salary + $amount;
         return $salary;
     }

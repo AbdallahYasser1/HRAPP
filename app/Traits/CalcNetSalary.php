@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Salary\SalarySlip;
 use App\Models\Salary\SalaryTerm;
 
-trait CalcNetSalary
+trait CalcNetSalary 
 {
     use SalaryAdjustment;
+    use ApiResponser;
     public function calculateSlip($salarySlip)
     {
         
