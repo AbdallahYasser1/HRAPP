@@ -36,6 +36,7 @@ class GenerateSlips extends Command
         foreach ($users as $user) {
             $slip = new SalarySlip();
             $slip->user_id = $user->id;
+            $slip->user_name = $user->name;
             $slip->salary_term_id = $user->salaryTerm->id;
             $slip->date = date('Y-m-d');
             $slip->save();

@@ -10,7 +10,7 @@ class SalarySlip extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['net_salary', 'date', 'salary_term_id', 'user_id', ];
+    protected $fillable = ['net_salary', 'date', 'salary_term_id', 'user_id', 'user_name'];
 
 
     public function employee() {

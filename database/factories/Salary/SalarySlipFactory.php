@@ -24,12 +24,14 @@ class SalarySlipFactory extends Factory
         $users = User::pluck('id');
 
         $user_id = $this->faker->randomElement($users);
+        $user = User::find($user_id);
         $term_id = User::find($user_id)->salaryTerm;
 
         return [
             'user_id' => $user_id,
+            'user_name' => $user->name,
             'salary_term_id' => $term_id,
-            'net_salary' => $this->faker->randomFloat(2, 1000, 100000),
+            // 'net_salary' => $this->faker->randomFloat(2, 1000, 100000),
             'date' => $this->faker->date(),
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
         ];

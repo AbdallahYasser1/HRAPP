@@ -15,18 +15,14 @@ return new class extends Migration
     {
         Schema::create('salary_slips', function (Blueprint $table) {
             $table->id();
-//            $table->foreignId('user_id')->constrained();
             $table->integer('user_id');
             $table->foreignId('salary_term_id')->constrained();
-//            $table->foreignId('salary_adjustment_id')->constrained();
-
+            $table->string('user_name')->nullable();
             $table->double('net_salary', 10, 2)->nullable();
-            $table->date('date',$format='Y-m-d');
+            $table->date('date', $format='Y-m-d');
             $table->timestamps();
             $table->string('status')->default('pending');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-//            $table->foreign('salary_term_id')->references('id')->on('salary_terms');
-//            $table->foreign('salary_adjustment_id')->references('id')->on('salary_adjustments');
         });
     }
 

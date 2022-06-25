@@ -27,7 +27,7 @@ class SalaryAdjustmentFactory extends Factory
             'salary_slip_id' => SalarySlip::all()->isEmpty()? null : $this->faker->randomElement($slips),
             'salary_adjustment_type_id' => $slipType->id,
             'title'=> $slipType->name,
-            'amount' => $this->faker->numberBetween(1000, 2000),
+            'amount' => $this->faker->numberBetween(2000, 2000),
             'percent' => $this->faker->randomFloat(2, -10, 10),
             'date' => $this->faker->dateTimeBetween('-1 year', 'now'),
 
