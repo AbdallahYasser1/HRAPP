@@ -32,7 +32,6 @@ class LeaveController extends RequestController
             }
         }
         $leave = new Leave;
-        $leave->description=$request['description'];
         $leave->leave_time=$request['leave_time'];
         $leave->save();
         $requestdb=$this->Create_Request($request);

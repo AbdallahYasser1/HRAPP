@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Resources\AuthResource;
+use App\Models\Absence;
 use App\Models\Attendance;
 use App\Models\Profile;
 use App\Models\Requestdb;
@@ -128,16 +129,17 @@ $User_Request=  [
 $Profile_Request= [
     'department_id' => $request['department_id']==null?$user->profile->department_id : $request['department_id'],
     'job__title_id'=>$request['job__title_id']==null?$user->profile->job__title_id : $request['job__title_id'],
-    'image'=>$path=='' ?"https://res.cloudinary.com/dokaaek9w/image/upload/v1653746912/profile_images/IMG-20220403-WA0021_yvig6b.jpg" : $path
+    'image'=>$request['image']==null? $user->profile->image: $path
 
     ];
 $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->salary_agreed:$request['salary']];
             $user->update($User_Request);
             $user->profile()->update($Profile_Request);
             $user->salaryTerm()->update($Salary_Request);
-
+$user->profile->save();
            $user->syncRoles($request['role']==null?$user->roles->pluck('name')[0] : $request['role']);
-            $response=['User'=>$user];
+           $userresult=User::find($user->id);
+            $response=['User'=>$userresult,"Profile"=>$userresult->profile,"Salary"=>$userresult->salaryTerm,"role"=>$userresult->roles->pluck('name')[0]];
             return $this->showCustom($response, 200);
         }
     }
@@ -150,10 +152,14 @@ $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->sa
      */
     public function destroy(User $user)
     {
-        if($user->id==Auth::id() )  return $this->errorResponse("Can't Delete your account", 403);
         if ($user === null) {
             return $this->errorResponse("user not found", 404);
         } else {
+            if(Auth::user()->hasRole("HR")&&$user->hasAnyRole(['Admin','HR'])){
+                return $this->showCustom(['HR Cant Delete Admin\HR User OR Cant delete Admin User by himself'], 403);    
+            }else if(Auth::id()==$user->id){
+                return $this->showCustom(['User cant delete himself'], 403);
+            }
             $user->delete();
             return $this->showCustom(['user deleted'], 200);
         }
@@ -200,6 +206,36 @@ $Salary_Request=['salary_agreed'=>$request['salary']==null?$user->salaryTerm->sa
 $attendance->where('date',$date);
         if($user !=null)
       $attendance->where('user_id',$user);
+
+        return $attendance->get();
+    }
+    public function UserAttendanceSheet(Request $request){
+        $date=$request->query('date');
+        $attendance=Attendance::with('user');
+        if($date !=null)
+            $attendance->where('date',$date);
+            $attendance->where('user_id',Auth::id());
+
+        return $attendance->get();
+    }
+    public function AdminAbsenceSheet(Request $request){
+        $date=$request->query('date');
+        $user=$request->query('user');
+        $attendance=Absence::with('user');
+        if($date !=null)
+$attendance->where('date',$date);
+        if($user !=null)
+      $attendance->where('user_id',$user);
+
+        return $attendance->get();
+    }   public function UserAbsenceSheet(Request $request){
+        $date=$request->query('date');
+        $user=$request->query('user');
+        $attendance=Absence::with('user');
+        if($date !=null)
+$attendance->where('date',$date);
+
+      $attendance->where('user_id',Auth::id());
 
         return $attendance->get();
     }

@@ -78,6 +78,9 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/user', function (Request $request) {
         return new AuthResource($request->user());
     });
+    Route::get('user/attendancelog', [UserController::class, 'UserAttendanceSheet']);
+    Route::get('user/absencelog', [UserController::class, 'UserAbsenceSheet']);
+
     Route::get('vacationdayuser', [VacationdayController::class, 'showVacationdayAuth']);
     //Requests
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
@@ -160,7 +163,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
             'Shifts' => ShiftController::class,
             'Vacationday' => VacationdayController::class
         ]);
-        Route::patch('users/{user}', [UserController::class, 'update']);
+        Route::post('users/{user}', [UserController::class, 'update']);
         Route::delete('users/{user}', [UserController::class, 'destroy']);
         Route::get('users/{user}', [UserController::class, 'show']);
         Route::get('users', [UserController::class, 'index']);
@@ -195,6 +198,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
 });
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
     Route::get('admin/attendancelog', [UserController::class, 'AdminAttendanceSheet']);
+    Route::get('admin/absencelog', [UserController::class, 'AdminAbsenceSheet']);
 
     Route::resource('slips', SalarySlipController2::class,);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
