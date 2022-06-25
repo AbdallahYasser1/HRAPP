@@ -7,6 +7,7 @@ date_default_timezone_set("Africa/Cairo");
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\Config;
 use App\Models\Holiday;
 use App\Models\User;
 use DateTime;
@@ -37,8 +38,8 @@ class UserAttendController extends ApiController
 
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
-        $isWeekend = date('N') == 5 || date('N') == 6;
-
+        $isWeekend = $this->checkWeekend();
+        var_dump($isWeekend);
         $isOnTime = $this->checkTime($user);
 
         $isLate = $this->checkLate($user);
@@ -130,5 +131,18 @@ class UserAttendController extends ApiController
         } else {
             return false;
         }
+    }
+
+
+    public function checkWeekend(){
+        $days = Config::first()->weekend_days;
+        $days = preg_split("/[\s,-]+/", $days);
+        $day = date('D');
+        foreach($days as $d){
+            if(str_contains($d, $day)){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('fullDayAbsenceDeductionName');
             $table->string('halfDayAbsenceDeductionName');
             $table->string("LatePeriod");
+            $table->string("weekend_days");
             $table->timestamps();
         });
     }
