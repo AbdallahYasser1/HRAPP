@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Mission extends Model
 {
     use HasFactory;
-    protected $fillable = ['id', 'description', 'initial_cost'];
+    protected $fillable = ['id', 'description', 'initial_cost','paid'];
     const Validation_Rules = ['start_date' => 'required|date', 'end_date' => 'required|date', 'description' => 'required|string', 'initial_cost' => 'required|numeric'];
     public function requests()
     {

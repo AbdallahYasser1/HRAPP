@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('description');
             $table->float('initial_cost', 8, 2);
+            $table->boolean('paid')->default(false);
             $table->timestamps();
         });
     }

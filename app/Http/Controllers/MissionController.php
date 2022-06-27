@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 use App\Models\Requestdb;
 use App\Models\Mission;
 use App\Models\User;
+use App\Traits\CalulateTotalMission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class MissionController extends RequestController
 {
+    use CalulateTotalMission;
     public function diffrenceBetweenTwoDates($newEndDate,$oldEndDate){
         $newEndDate=date('Y-m-d',strtotime($newEndDate));
         $oldEndDate=date('Y-m-d',strtotime($oldEndDate));
@@ -106,7 +108,26 @@ class MissionController extends RequestController
             }
         }
     }
-
+    public function getSumMissionAndMissionUpdates(Mission $mission){
+        if ($mission === null) {
+            return $this->errorResponse("mission not found", 404);
+        }
+        if(! $mission->requests->first()->user_id == Auth::id() || ! Auth::user()->hasPermissionTo('Show_Mission_Request'))
+        return  $this->errorResponse("You do not have the permission",403);
+        else{
+            return $this->showCustom($this->calculateTotalMissionAndMissionUpdates($mission->id),200);
+        }    
+    }
+    public function makeUserPaid(Mission $mission){
+        if ($mission === null) {
+            return $this->errorResponse("mission not found", 404);
+        }
+        if(! Auth::user()->hasPermissionTo('Show_Mission_Request'))
+        return  $this->errorResponse("You do not have the permission",403);
+        $mission->paid=true;
+        $mission->save();
+        return $this->showCustom($mission,200); 
+    }
     public function showMissionRequest(Mission $mission)
 {
 
