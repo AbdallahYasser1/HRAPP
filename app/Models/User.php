@@ -121,6 +121,7 @@ class User extends Authenticatable
     public function profile_data(){
         return profile()->job_title;
     }
+
     public function vacationday(){
         return $this->hasOne(Vacationday::class);
     }

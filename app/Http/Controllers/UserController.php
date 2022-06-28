@@ -28,7 +28,7 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::with(["profile"])->get();
+        $users = User::with(["profile.job_title"])->get();
         if($users===null){
             return $this->errorResponse("Users are not existed", 404);
         }else{
