@@ -30,4 +30,5 @@ class Mission extends Model
         }
         return $groupTheResult;
     }
+    
 }
