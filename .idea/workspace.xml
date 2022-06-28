@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ce6105f-2c4c-4cf3-a2e0-83d777d315b2" name="Default Changelist" comment="turn off conditions 2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ConfigController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ConfigController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -247,7 +246,7 @@
       <workItem from="1654887884725" duration="63000" />
       <workItem from="1655315794816" duration="1152000" />
       <workItem from="1656090859518" duration="6681000" />
-      <workItem from="1656417486957" duration="13055000" />
+      <workItem from="1656417486957" duration="13318000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1653753222517</created>
