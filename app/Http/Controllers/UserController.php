@@ -28,7 +28,7 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with(["profile"])->get();
         if($users===null){
             return $this->errorResponse("Users are not existed", 404);
         }else{
@@ -156,7 +156,7 @@ $user->profile->save();
             return $this->errorResponse("user not found", 404);
         } else {
             if(Auth::user()->hasRole("HR")&&$user->hasAnyRole(['Admin','HR'])){
-                return $this->showCustom(['HR Cant Delete Admin\HR User OR Cant delete Admin User by himself'], 403);    
+                return $this->showCustom(['HR Cant Delete Admin\HR User OR Cant delete Admin User by himself'], 403);
             }else if(Auth::id()==$user->id){
                 return $this->showCustom(['User cant delete himself'], 403);
             }
