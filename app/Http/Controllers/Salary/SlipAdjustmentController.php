@@ -45,12 +45,24 @@ class SlipAdjustmentController extends ApiController
             'salary_adjustment_type_id' => 'required|integer',
         ];
         $this->validate($request, $rules);
-        
+
         $salarySlip = SalarySlip::find($id);
 
         $data = $request->all();
         $data['salary_slip_id'] = $salarySlip->id;
-        $data['title'] = SalaryAdjustmentType::find($data['salary_adjustment_type_id'])->name;
+        try {
+
+            $data['title'] = SalaryAdjustmentType::find($data['salary_adjustment_type_id'])->name;
+
+        } catch (\Exception $e) {
+
+            return $this->errorResponse("There is no adjustment with this identifier",400);
+        }
+
+        if($request['amount']!=null)
+        $data['amount']=$request['amount'];
+    else
+        $data['amount']=SalaryAdjustmentType::find($request['salary_adjustment_type_id'])->amount;
         $adjustment = SalaryAdjustment::create($data);
         return $this->showOne($adjustment);
     }
