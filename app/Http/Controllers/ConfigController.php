@@ -7,7 +7,7 @@ use App\Models\Config;
 use Cloudinary\Api\ApiResponse;
 use Illuminate\Http\Request;
 
-class ConfigController extends ApiController
+class   ConfigController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class ConfigController extends ApiController
             $path = cloudinary()->upload($request->file('photo')->getRealPath())->getSecurePath();
 
             $config = Config::create([
-                'company_name' => $request['company_name'], 'branches' => $request['branches'], 'specifity' => $request['specifity'], 'company_email' => $request['company_email'], 'company_phone' => $request['company_phone'], 'location' => $request['location'], 'country' => $request['country'], 'photo' => $path, 'latiude' => $request['latiude'], 
+                'company_name' => $request['company_name'], 'branches' => $request['branches'], 'specifity' => $request['specifity'], 'company_email' => $request['company_email'], 'company_phone' => $request['company_phone'], 'location' => $request['location'], 'country' => $request['country'], 'photo' => $path, 'latiude' => $request['latiude'],
                 'longtiude' => $request['longtiude'], 'distance' => $request['distance'],
                 'timezone'=>$request['timezone'],'fullDayAbsenceDeduction'=>$request['fullDayAbsenceDeduction'],'halfDayAbsenceDeduction'=>$request['fullDayAbsenceDeduction'],'fullDayAbsenceDeductionName'=>$request['fullDayAbsenceDeductionName'],'halfDayAbsenceDeductionName'=>$request['halfDayAbsenceDeductionName']
             ]);
