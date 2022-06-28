@@ -57,7 +57,7 @@ class SlipAdjustmentController extends ApiController
         } catch (\Exception $e) {
 
             return $this->errorResponse("There is no adjustment with this identifier",400);
-        }   
+        }
         $adjustment = SalaryAdjustment::create($data);
         return $this->showOne($adjustment);
     }

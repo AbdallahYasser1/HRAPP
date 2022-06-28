@@ -88,88 +88,44 @@ class RequestController extends ApiController
         }
 
     }
-    public function ShowAllUserRequestsFilter(Request $request){
+
+
+    public function ShowAllRequestsAdmin(Request $request){
         $status = $request->query('status');
         $class=$request->query('class');
-        if ($status === null && $class===null) {
-            $requestes = Requestdb::with(['requestable'])
-                ->join('users', 'requestdbs.user_id', 'users.id')
+        $requestes = Requestdb::with(['requestable'])
+            ->join('users', 'requestdbs.user_id', 'users.id')
+            ->join('profiles','requestdbs.user_id','profiles.user_id');
+            if($status != null )
+                $requestes=   $requestes->where('requestdbs.status', '=', $status);
+            if ( $class!=null)
+                $requestes=   $requestes->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class));
 
-->where("user_id",'=',Auth::id())
-           ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' )
-                ->paginate()->appends(request()->query());
+        $requestes=  $requestes->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status','profiles.image')
+                    ->paginate()->appends(request()->query());
 
-        } else {
-            if($status != null && $class===null)
-            $requestes = Requestdb::with(['requestable'])
-                ->join('users', 'requestdbs.user_id', 'users.id')
-                ->where('requestdbs.status', '=', $status)
-                ->where("user_id",'=',Auth::id())
-                ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' )
 
-                ->paginate()->appends(request()->query());
-        elseif ($status === null && $class!=null){
-            $requestes = Requestdb::with(['requestable'])
-                ->join('users', 'requestdbs.user_id', 'users.id')
-                ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class))
-                ->where("user_id",'=',Auth::id())
-                ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' )
-                ->paginate()->appends(request()->query());
-        }
-        else{
-            $requestes = Requestdb::with(['requestable'])
-                ->join('users', 'requestdbs.user_id', 'users.id')
-                ->where('requestdbs.status', '=', $status)
-                ->where("user_id",'=',Auth::id())
-                ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class))
-                ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' )
-                ->paginate()->appends(request()->query());
-        }
-        }
         if ($requestes->count()==0) {
             return $this->errorResponse("There is no requests found", 404);
         } else {
             return $this->showCustom( $requestes,200);
         }
-
     }
-    public function ShowAllRequestsAdmin(Request $request){
+    public function ShowAllUserRequestsFilter(Request $request){
         $status = $request->query('status');
         $class=$request->query('class');
-        if ($status === null && $class===null) {
-            $requestes = Requestdb::with(['requestable'])
-                ->join('users', 'requestdbs.user_id', 'users.id')
-                ->join('profiles','requestdbs.user_id','profiles.user_id')
-                ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' ,'profiles.image')
-                ->paginate()->appends(request()->query());
+        $requestes = Requestdb::with(['requestable'])
+            ->join('users', 'requestdbs.user_id', 'users.id')
+            ->join('profiles','requestdbs.user_id','profiles.user_id')
+            ->where("requestdbs.user_id",'=',Auth::id());
+            if($status != null )
+                $requestes=$requestes->where('requestdbs.status', '=', $status);
+            if ( $class!=null)
+                $requestes=$requestes->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class));
+                $requestes=$requestes->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status','profiles.image')
+                            ->paginate()->appends(request()->query());
 
-        } else {
-            if($status != null && $class===null)
-                $requestes = Requestdb::with(['requestable'])
-                    ->join('users', 'requestdbs.user_id','=', 'users.id')
-                    ->join('profiles','requestdbs.user_id','profiles.user_id')
-                    ->where('requestdbs.status', '=', $status)
-                    ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' , 'profiles.image' )
 
-                    ->paginate()->appends(request()->query());
-            elseif ($status === null && $class!=null){
-                $requestes = Requestdb::with(['requestable'])
-                    ->join('users', 'requestdbs.user_id', 'users.id')
-                    ->join('profiles','requestdbs.user_id','profiles.user_id')
-                    ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class))
-                    ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status' ,'profiles.image')
-                    ->paginate()->appends(request()->query());
-            }
-            else{
-                $requestes = Requestdb::with(['requestable'])
-                    ->join('users', 'requestdbs.user_id', 'users.id')
-                    ->join('profiles','requestdbs.user_id','profiles.user_id')
-                    ->where('requestdbs.status', '=', $status)
-                    ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class))
-                    ->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status','profiles.image')
-                    ->paginate()->appends(request()->query());
-            }
-        }
         if ($requestes->count()==0) {
             return $this->errorResponse("There is no requests found", 404);
         } else {
