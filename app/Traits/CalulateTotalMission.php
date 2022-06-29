@@ -29,8 +29,7 @@ trait CalulateTotalMission
 
         $user = User::find($user_id);
         $slip = $user->lastSlip;
-
-        $adjustmentType = new SalaryAdjustmentType();
+        $adjustmentType = new SalaryAdjustmentType;
         $adjustmentType->name = $name;
         $adjustmentType->save();
         $slip->adjustments()->create([
