@@ -56,7 +56,7 @@ use App\Http\Controllers\test\testController;
 //Login
 
 Route::post('login', [AuthController::class, 'login']);
-
+Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
 Route::patch('available',[AuthController::class,'ava']);
 Route::patch('ready',[AuthController::class,'ready']);
 Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {

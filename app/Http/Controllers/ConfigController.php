@@ -79,15 +79,16 @@ class   ConfigController extends ApiController
         }
     }
     public function UpdateCompanyImage(Request $request){
-        if($request->hasFile('photo')) {
-       $path=cloudinary()->upload($request->file('photo')->getRealPath(),$options=["folder"=>"images"])->getSecurePath();
-       $config=Config::find(1);
-       $config->update([
-           'photo'=>$path
-       ]);
-       $config->save();
-       return $this->showCustom(Config::find(1));
+        $config=Config::find(1);
+         if($request->hasFile('image')) {
+            $path = cloudinary()->upload($request->file('image')->getRealPath(), $options = ["folder" => "images"])->getSecurePath();
+            $config->update([
+                'photo' => $path
+            ]);
+            $config->save();
         }
+
+        return $this->showCustom($config);
     }
 
     /**
