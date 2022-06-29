@@ -15,6 +15,9 @@ class AuthController extends ApiController
     public function ava(){
       $users=  User::query()->update(['status' => 'available']);
     }
+    public function ready(){
+      $users=  User::query()->update(['status' => 'ready']);
+    }
     public function credentials(Request $request)
     {
         return [
