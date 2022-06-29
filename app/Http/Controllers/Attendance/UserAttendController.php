@@ -36,8 +36,6 @@ class UserAttendController extends ApiController
         $isOnPremies = $premise['onPremises'];
         $isOnPremies = true;
 
-        $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
-
         $isWeekend = $this->checkWeekend();
         $isOnTime = $this->checkTime($user);
 
@@ -46,7 +44,7 @@ class UserAttendController extends ApiController
 
         $isUserOnVacation = false;
 
-        $outerConditions = !$isTodayHoliday && $isOnTime && !$isWeekend && !$isUserOnVacation;
+        $outerConditions = $isOnTime && !$isUserOnVacation;
         $outerConditions = true;
 
         if ($outerConditions) {

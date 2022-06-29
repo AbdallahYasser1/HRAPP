@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Traits\AttendanceChecks;
 use Illuminate\Console\Command;
 use App\Models\User;
 use App\Models\Holiday;
@@ -9,6 +10,7 @@ use App\Models\Attendance;
 
 class GenerateAttendance extends Command
 {
+    use AttendanceChecks;
     /**
      * The name and signature of the console command.
      *
@@ -41,8 +43,9 @@ class GenerateAttendance extends Command
     public function handle()
     {
         $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
+        $isWeekend = $this->checkWeekend();
 
-        if (!$isTodayHoliday) {
+        if (!$isTodayHoliday && !$isWeekend) {
             $users = User::all();
             foreach ($users as $user) {
                 $isUserOnVacation = false;
@@ -57,6 +60,8 @@ class GenerateAttendance extends Command
                 }
             }
         }
-        return 0;
+        else{
+            $this->info('Today is holiday or weekend');
+        }
     }
 }
