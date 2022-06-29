@@ -57,11 +57,12 @@ use App\Http\Controllers\test\testController;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
+Route::post('birthdays',[UserController::class,'birthdays']);
 Route::patch('available',[AuthController::class,'ava']);
 Route::patch('ready',[AuthController::class,'ready']);
-Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
-    Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
-});
+    Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
+        Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
+    });
 //Application access middleware
 Route::get('/valid', function () {
     $check = (int) auth('sanctum')->check();

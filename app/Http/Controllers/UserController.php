@@ -12,6 +12,7 @@ use App\Models\Requestdb;
 use App\Models\Salary\SalaryTerm;
 use App\Models\Vacationday;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
@@ -238,5 +239,13 @@ $attendance->where('date',$date);
       $attendance->where('user_id',Auth::id());
 
         return $attendance->get();
+    }
+    public function birthdays(){
+// start range 7 days ago
+        $start = date('z') + 1 ;
+// end range 7 days from now
+        $end = date('z') + 1 + 20;
+        $birthdays = User::whereRaw("DAYOFYEAR(birthdate) BETWEEN $start AND $end")->get();
+return $birthdays;
     }
 }
