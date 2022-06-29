@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfigRequest;
 use App\Models\Config;
+use App\Models\User;
 use Cloudinary\Api\ApiResponse;
 use Illuminate\Http\Request;
 
@@ -77,6 +78,18 @@ class   ConfigController extends ApiController
             return $this->showOne($config, 200);
         }
     }
+    public function UpdateCompanyImage(Request $request){
+        $config=Config::find(1);
+         if($request->hasFile('image')) {
+            $path = cloudinary()->upload($request->file('image')->getRealPath(), $options = ["folder" => "images"])->getSecurePath();
+            $config->update([
+                'photo' => $path
+            ]);
+            $config->save();
+        }
+
+        return $this->showCustom($config);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -110,6 +123,14 @@ $config->weekend_days=$str;
 $config->save();
         return $this->showCustom($config->weekend_days,200);
     }
-
+public function piechart(){
+        $Users=User::all();
+        $CountofUsers=$Users->count();
+        $CountOfActiveUsers=$Users->where('active',false)->count();
+        $CountOfReadyUsers=$Users->where('status','ready')->count();
+        $CountOfAvaUsers=$Users->where('status','available')->count();
+        return $this->showCustom(['allusers'=>$CountofUsers,'deactivatedusers'=>$CountOfActiveUsers,
+                                'readyusers'=>$CountOfReadyUsers,'availableusers'=>$CountOfAvaUsers]);
+}
 
 }

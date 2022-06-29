@@ -55,10 +55,10 @@ use App\Http\Controllers\test\testController;
 */
 //Login
 
-
 Route::post('login', [AuthController::class, 'login']);
-
+Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
 Route::patch('available',[AuthController::class,'ava']);
+Route::patch('ready',[AuthController::class,'ready']);
 Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
     Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
 });
@@ -202,6 +202,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
     ]);
 });
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
+  Route::get('dashboard/piechart',[ConfigController::class,'piechart']);
     Route::get('admin/attendancelog', [UserController::class, 'AdminAttendanceSheet']);
     Route::get('admin/absencelog', [UserController::class, 'AdminAbsenceSheet']);
 
