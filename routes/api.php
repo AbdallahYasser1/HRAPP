@@ -57,6 +57,7 @@ use App\Http\Controllers\test\testController;
 
 
 Route::post('login', [AuthController::class, 'login']);
+
 Route::patch('available',[AuthController::class,'ava']);
 Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
     Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
@@ -151,6 +152,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 
     Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
         Route::get('/getCompanyStstistics', GetCompanyStstistics::class);
+        Route::get('fixedvacation/{id}', [ConfigController::class, 'FetchWeekendDays']);
+        Route::post('fixedvacation/{id}', [ConfigController::class, 'UpdateWeekendDays']);
         //Create New Account
         Route::post('/register', [UserController::class, 'store']);
         Route::put('profile/photoApprove/{id}', [ProfileController::class, 'approvePhoto']);

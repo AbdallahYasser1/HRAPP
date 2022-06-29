@@ -93,4 +93,23 @@ class   ConfigController extends ApiController
             return $this->showCustom("config Deleted", 200);
         }
     }
+
+    public function FetchWeekendDays($id){
+        $config = Config::findorfail($id)->weekend_days;
+error_log($config);
+        $str_arr = explode (",", $config);
+   //     error_log($str_arr);
+
+return $this->showCustom($str_arr,200);
+    }
+    public function UpdateWeekendDays(Request $request,$id){
+        $config = Config::find($id);
+     $days= $request['days'];
+        $str = implode (",", $days);
+$config->weekend_days=$str;
+$config->save();
+        return $this->showCustom($config->weekend_days,200);
+    }
+
+
 }
