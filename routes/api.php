@@ -38,7 +38,7 @@ use App\Http\Controllers\Attendance\UserAttendController;
 use App\Http\Controllers\Absence\AbsenceController;
 use App\Http\Controllers\Absence\UserAbsenceController;
 use App\Http\Controllers\GetCompanyStstistics;
-
+use App\Http\Controllers\test\testController;
 
 
 
@@ -272,3 +272,5 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 
 });
 
+
+Route::get('test/addtoslip', [testController::class, 'index']);

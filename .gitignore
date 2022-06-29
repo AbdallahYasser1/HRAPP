@@ -25,5 +25,3 @@ vendor/composer/autoload_classmap.php
 *.xml
 .idea/workspace.xml
 
-
-.env
