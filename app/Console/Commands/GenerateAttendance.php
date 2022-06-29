@@ -23,7 +23,7 @@ class GenerateAttendance extends Command
      *
      * @var string
      */
-    protected $description = 'Everyday at 00:00, generate attendance for all employees';
+    protected $description = 'Everyday at 00:00, generate attendance records for all employees';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,6 @@ class GenerateAttendance extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      */
     public function handle()
     {
