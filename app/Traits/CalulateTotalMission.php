@@ -1,6 +1,11 @@
 <?php
 namespace App\Traits;
 use App\Models\Mission;
+use App\Models\Salary\SalaryAdjustment;
+use App\Models\Salary\SalaryAdjustmentType;
+use App\Models\User;
+use GuzzleHttp\Psr7\Request;
+
 trait CalulateTotalMission
 {
     public function calculateTotalMissionAndMissionUpdates(Mission $mission){
@@ -15,6 +20,30 @@ trait CalulateTotalMission
         $combineResult['total']=$combineResult['extra_cost']+$combineResult['initial_cost'];
         return $combineResult;
     }
+
+
+    public function addAmountToSlip($data) {
+        $user_id = $data['user_id'];
+        $amount = $data['total'];
+        $name = $data['mission_description'];
+
+        $user = User::find($user_id);
+        $slip = $user->lastSlip;
+
+        $adjustmentType = new SalaryAdjustmentType();
+        $adjustmentType->name = $name;
+        $adjustmentType->save();
+        $slip->adjustments()->create([
+            'salary_adjustment_type_id' => $adjustmentType->id,
+            'salary_slip_id' => $slip->id,
+            'amount' => $amount,
+            'date' => date('Y-m-d'),
+            'title'=>$adjustmentType->name,
+        ]);
+    }
+
+
+
 }
 
 

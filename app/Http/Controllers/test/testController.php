@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\test;
 
+use App\Traits\CalulateTotalMission;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class testController extends Controller
 {
+    use CalulateTotalMission;
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +17,11 @@ class testController extends Controller
      */
     public function index()
     {
+        $this->addAmountToSlip([
+            'user_id' => 5697163,
+            'total' => 100,
+            'mission_description' => 'test_mission',
+        ]);
         return "hi";
     }
 
