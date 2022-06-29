@@ -208,6 +208,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::get('admin/absencelog', [UserController::class, 'AdminAbsenceSheet']);
 
     Route::resource('slips', SalarySlipController2::class,);
+    Route::get('slipsByMonth', [SalarySlipController2::class, 'getSlipsByMonth']);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
 
     Route::get('users/{user}/slips', [UserSlipController::class, 'getUserSlips']);

@@ -28,26 +28,19 @@ class UserAttendController extends ApiController
         ];
         $this->validate($request, $rules);
 
-        // $user = User::find($id);
         $user = Auth::user();
 
 
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
-        $isOnPremies = true;
 
-        $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
-
-        $isWeekend = $this->checkWeekend();
         $isOnTime = $this->checkTime($user);
 
         $isLate = $this->checkLate($user);
-        $isLate = false;
 
         $isUserOnVacation = false;
 
-        $outerConditions = !$isTodayHoliday && $isOnTime && !$isWeekend && !$isUserOnVacation;
-        $outerConditions = true;
+        $outerConditions = $isOnTime && !$isUserOnVacation;
 
         if ($outerConditions) {
             if ($isOnPremies) {

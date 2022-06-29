@@ -91,4 +91,18 @@ class SalarySlipController2 extends ApiController
     {
         //
     }
+
+    public function getSlipsByMonth(Request $request)
+    {
+        $rules = [
+            'date' => 'required|regex:/^\d{4}-\d{2}$/',
+        ];
+        $this->validate($request, $rules);
+
+        $slips = SalarySlip::where('date', 'like', '%' . $request['date'] . '%')->get();
+        $adjustments = $slips->map(function ($slip) {
+            return $slip->adjustments;
+        });
+        return $this->showAll($slips);
+    }
 }

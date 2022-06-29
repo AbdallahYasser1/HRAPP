@@ -38,7 +38,6 @@ class AbsentEmployee extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      */
     public function handle()
     {
@@ -67,6 +66,5 @@ class AbsentEmployee extends Command
                 }
             }
         }
-        return 0;
     }
 }
