@@ -54,10 +54,12 @@ use App\Http\Controllers\test\testController;
 |
 */
 //Login
+Route::get('/holidays', [HolidayController::class, 'GetAllHolidays']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
 Route::post('birthdays',[UserController::class,'birthdays']);
+Route::post('userimage',[UserController::class,'UpdateUserImage']);
 Route::patch('available',[AuthController::class,'ava']);
 Route::patch('ready',[AuthController::class,'ready']);
     Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
@@ -126,6 +128,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 //Holidays
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
+    //Route::get('/Holidays', [HolidayController::class, 'GetAllHolidays']);
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);
