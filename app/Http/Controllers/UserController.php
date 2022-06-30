@@ -263,7 +263,11 @@ class UserController extends ApiController
         $start = date('z') + 1;
 // end range 7 days from now
         $end = date('z') + 1 + 20;
-        $birthdays = User::whereRaw("DAYOFYEAR(birthdate) BETWEEN $start AND $end")->get();
+        //$birthdays = User::whereRaw("DAYOFYEAR(birthdate) BETWEEN $start AND $end")->get();
+        $birthdays= User::whereMonth('birthdate' ,'=', Carbon::today()->month)
+            ->whereDay('birthdate' ,'>=', Carbon::today()->day)
+            ->get();
+
         return $birthdays;
     }
 

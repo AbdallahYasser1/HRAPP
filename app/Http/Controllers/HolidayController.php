@@ -8,6 +8,7 @@ use App\Http\Requests\StoreHoliday;
 use App\Models\Holiday;
 use App\Http\Controllers\ApiController;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 
 class HolidayController extends ApiController
 {
@@ -66,10 +67,10 @@ class HolidayController extends ApiController
 
     }
     public function GetAllHolidays(){
-        $start = date('z') + 1;
-// end range 7 days from now
-        $end = date('z') + 1 + 20;
-        $holidays = Holiday::whereRaw("DAYOFYEAR(date) BETWEEN $start AND $end")->get();
+
+        $holidays= Holiday::whereMonth('date' ,'>=', Carbon::today()->month)
+
+            ->get();
 
         if($holidays->count()==0){
             return $this->errorResponse("There is no holidays this month",404);

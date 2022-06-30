@@ -58,7 +58,7 @@ Route::get('/holidays', [HolidayController::class, 'GetAllHolidays']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
-Route::post('birthdays',[UserController::class,'birthdays']);
+Route::get('birthdays',[UserController::class,'birthdays']);
 Route::post('userimage',[UserController::class,'UpdateUserImage']);
 Route::patch('available',[AuthController::class,'ava']);
 Route::patch('ready',[AuthController::class,'ready']);
