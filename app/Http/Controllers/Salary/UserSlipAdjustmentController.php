@@ -8,10 +8,12 @@ use App\Http\Controllers\ApiController;
 use App\Models\Salary\SalaryAdjustment;
 use App\Models\Salary\SalaryAdjustmentType;
 use App\Models\User;
+use App\Traits\Utils;
 use Illuminate\Support\Facades\Auth;
 
 class UserSlipAdjustmentController extends ApiController
 {
+    use Utils;
     /**
      * Display a listing of the resource.
      *

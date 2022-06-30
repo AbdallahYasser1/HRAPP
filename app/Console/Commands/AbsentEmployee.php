@@ -8,9 +8,12 @@ use App\Models\Holiday;
 use App\Models\Attendance;
 use App\Models\Absence;
 use App\Models\Wfh;
+use App\Traits\Utils;
+use App\Models\User;
 
 class AbsentEmployee extends Command
 {
+    use Utils;
     /**
      * The name and signature of the console command.
      *
@@ -41,29 +44,32 @@ class AbsentEmployee extends Command
      */
     public function handle()
     {
-        $isTodayHoliday = Holiday::where('date', '=', date('Y-m-d'))->get()->first();
 
-        if (!$isTodayHoliday) {
-            $attendances = Attendance::where('date', date('Y-m-d'))->get();
-            foreach ($attendances as $attendance) {
-                if ($attendance->start_time == null) {
-                    $user_id = $attendance->user_id;
-                    $date = $attendance->date;
-                    $absence = new Absence();
-                    $absence->user_id = $user_id;
-                    $absence->date = $date;
 
-                    $wfhs = Requestdb::all()
-                        ->where('user_id', $user_id)
-                        ->where('start_date', date('Y-m-d'))
-                        ->where('requestable_type', '=', "App\\Models\\Wfh");
-                    $isUserWFH = !$wfhs->isEmpty();
-                    if ($isUserWFH)
-                        $absence->status = 'wfh';
+        $attendances = Attendance::where('date', date('Y-m-d'))->get();
+        foreach ($attendances as $attendance) {
+            if ($attendance->start_time == null) {
+                $user_id = $attendance->user_id;
+                $date = $attendance->date;
+                $absence = new Absence();
+                $absence->user_id = $user_id;
+                $absence->date = $date;
 
-                    $absence->save();
-                    $attendance->delete();
-                }
+                $wfhs = Requestdb::all()
+                    ->where('user_id', $user_id)
+                    ->where('start_date', date('Y-m-d'))
+                    ->where('requestable_type', '=', "App\\Models\\Wfh");
+                $isUserWFH = !$wfhs->isEmpty();
+                if ($isUserWFH)
+                    $absence->status = 'wfh';
+
+                $user = User::find($user_id);
+                $isUserLeave = $this->CheckLeave($user);
+                if($isUserLeave)
+                    $absence->status = 'leave';
+
+                $absence->save();
+                $attendance->delete();
             }
         }
     }
