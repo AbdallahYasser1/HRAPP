@@ -8,6 +8,7 @@ use App\Http\Controllers\ApiController;
 use App\Models\Salary\SalaryAdjustment;
 use App\Models\Salary\SalaryAdjustmentType;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserSlipAdjustmentController extends ApiController
 {
@@ -117,5 +118,35 @@ class UserSlipAdjustmentController extends ApiController
         $slip = $user->lastSlip;
         $adjustments = $slip->adjustments;
         return $this->showAll($adjustments);
+    }
+
+    public function getLastSlipDeductions()
+    {
+        $user = Auth::user();
+        $salarySlip = $user->lastSlip;
+        $adjustments = $salarySlip->adjustments->where('amount', '<', 0);
+        return  $this->showAll($adjustments);
+    }
+
+    public function getLastSlipEarnings()
+    {
+        $user = Auth::user();
+        $salarySlip = $user->lastSlip;
+        $adjustments = $salarySlip->adjustments->where('amount', '>', 0)->pluck('amount', 'title');
+        return  $this->showAll($adjustments);
+    }
+
+    public function getSlipDeductions($slip_id)
+    {
+        $salarySlip = SalarySlip::find($slip_id);
+        $adjustments = $salarySlip->adjustments->where('amount', '<', 0);
+        return  $this->showAll($adjustments);
+    }
+
+    public function getSlipEarnings($slip_id)
+    {
+        $salarySlip = SalarySlip::find($slip_id);
+        $adjustments = $salarySlip->adjustments->where('amount', '>', 0);
+        return  $this->showAll($adjustments);
     }
 }
