@@ -11,6 +11,7 @@ trait CalcNetSalary
 {
     use SalaryAdjustment;
     use ApiResponser;
+    
     public function calculateSlip($salarySlip)
     {
         

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Salary\SalarySlip;
 use App\Http\Controllers\ApiController;
 use App\Models\Salary\SalaryAdjustment;
+use App\Models\Salary\SalaryAdjustmentType;
 use App\Models\User;
 
 class UserSlipAdjustmentController extends ApiController
@@ -37,7 +38,7 @@ class UserSlipAdjustmentController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $user_id, $slip_id)
+    public function store(Request $request, $slip_id)
     {
         $rules = [
             'salary_adjustment_type_id' => 'required|integer',
@@ -48,6 +49,17 @@ class UserSlipAdjustmentController extends ApiController
 
         $data = $request->all();
         $data['salary_slip_id'] = $slip_id;
+
+        try {
+
+            $data['title'] = SalaryAdjustmentType::find($data['salary_adjustment_type_id'])->name;
+
+        } catch (\Exception $e) {
+
+            return $this->errorResponse("There is no adjustment with this identifier",400);
+        }
+
+
         $adjustment = SalaryAdjustment::create($data);
         return $this->showOne($adjustment);
     }

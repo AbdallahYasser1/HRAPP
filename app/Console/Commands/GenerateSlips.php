@@ -28,7 +28,6 @@ class GenerateSlips extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      */
     public function handle()
     {
@@ -56,6 +55,5 @@ class GenerateSlips extends Command
             $this->calculateSlip($slip);
         }
 
-        return 0;
     }
 }

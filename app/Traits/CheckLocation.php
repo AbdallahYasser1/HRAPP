@@ -44,10 +44,6 @@ trait CheckLocation {
       return round($angle * $earthRadius, 9);
     }
 
-
-    /**
-     * 
-     */
     public function checkDistance($latitude, $longitude)
     {
         $distance = $this->getDistanceBetweenPoints2(self::$base_latitude, self::$base_longitude, $latitude, $longitude);
