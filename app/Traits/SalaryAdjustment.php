@@ -20,8 +20,6 @@ trait SalaryAdjustment
         } elseif($adjustment->percent) {
             $amount = $adjustment->percent * $salary;
         } elseif ($adjustment_type_amount) {
-            var_dump("here");
-            var_dump($adjustment->amount);
             $amount = $adjustment_type_amount;
         } elseif ($adjustment_type_percent) {
             $amount = $adjustment_type_percent * $salary;
@@ -29,6 +27,7 @@ trait SalaryAdjustment
             return $this->errorResponse('No amount or percent specified for adjustment', 404);
         }
 
+        $adjustment->amount = $amount;
         $salary = $salary + $amount;
         return $salary;
     }

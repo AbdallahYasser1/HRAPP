@@ -201,6 +201,10 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
         'Shifts' => ShiftController::class
     ]);
 });
+Route::get('deds/{id}', [SlipAdjustmentController::class, 'getDeductions']);
+Route::get('erds/{id}', [SlipAdjustmentController::class, 'getEarnings']);
+
+
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
   Route::get('dashboard/piechart',[ConfigController::class,'piechart']);
     Route::get('admin/attendancelog', [UserController::class, 'AdminAttendanceSheet']);
@@ -209,6 +213,8 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::resource('slips', SalarySlipController2::class,);
     Route::get('slipsByMonth', [SalarySlipController2::class, 'getSlipsByMonth']);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
+
+
 
     Route::get('users/{user}/slips', [UserSlipController::class, 'getUserSlips']);
 

@@ -30,7 +30,6 @@ class UserAttendController extends ApiController
 
         $user = Auth::user();
 
-
         $premise = $this->checkDistance($request->latitude, $request->longitude);
         $isOnPremies = $premise['onPremises'];
 
@@ -117,7 +116,7 @@ class UserAttendController extends ApiController
     {
         $time = date('H:i:s');
         $startTime = $user->shift->start_time;
-        $endTime = date('H:i:s', strtotime("+15 minutes", strtotime($startTime)));
+        $endTime = date('H:i:s', strtotime("+" . Config::first()->LatePeriod . " minutes", strtotime($startTime)));
         if ($time > $endTime) {
             return true;
         } else {
@@ -126,12 +125,13 @@ class UserAttendController extends ApiController
     }
 
 
-    public function checkWeekend(){
+    public function checkWeekend()
+    {
         $days = Config::first()->weekend_days;
         $days = preg_split("/[\s,-]+/", $days);
         $day = date('D');
-        foreach($days as $d){
-            if(str_contains($d, $day)){
+        foreach ($days as $d) {
+            if (str_contains($d, $day)) {
                 return true;
             }
         }
