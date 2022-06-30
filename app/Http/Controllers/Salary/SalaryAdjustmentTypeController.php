@@ -40,8 +40,6 @@ class SalaryAdjustmentTypeController extends ApiController
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'amount' => 'required|numeric',
-            'percent' => 'required|numeric',
             'isAll' => 'required|boolean',
 
         ];

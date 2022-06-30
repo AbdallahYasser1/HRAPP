@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Salary\SalarySlip;
 use App\Http\Controllers\ApiController;
 use App\Models\Salary\SalaryAdjustment;
+use App\Models\Salary\SalaryAdjustmentType;
 use App\Models\User;
+use App\Traits\Utils;
+use Illuminate\Support\Facades\Auth;
 
 class UserSlipAdjustmentController extends ApiController
 {
+    use Utils;
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +41,7 @@ class UserSlipAdjustmentController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $user_id, $slip_id)
+    public function store(Request $request, $slip_id)
     {
         $rules = [
             'salary_adjustment_type_id' => 'required|integer',
@@ -48,6 +52,17 @@ class UserSlipAdjustmentController extends ApiController
 
         $data = $request->all();
         $data['salary_slip_id'] = $slip_id;
+
+        try {
+
+            $data['title'] = SalaryAdjustmentType::find($data['salary_adjustment_type_id'])->name;
+
+        } catch (\Exception $e) {
+
+            return $this->errorResponse("There is no adjustment with this identifier",400);
+        }
+
+
         $adjustment = SalaryAdjustment::create($data);
         return $this->showOne($adjustment);
     }
@@ -105,5 +120,53 @@ class UserSlipAdjustmentController extends ApiController
         $slip = $user->lastSlip;
         $adjustments = $slip->adjustments;
         return $this->showAll($adjustments);
+    }
+
+    public function getLastSlipDeductions()
+    {
+        $user = Auth::user();
+        $salarySlip = $user->lastSlip;
+        $adjustments = $salarySlip->adjustments->where('amount', '<', 0);
+        return  $this->showAll($adjustments);
+    }
+
+    public function getLastSlipEarnings()
+    {
+        $user = Auth::user();
+        $salarySlip = $user->lastSlip;
+        $adjustments = $salarySlip->adjustments->where('amount', '>', 0);
+        return  $this->showAll($adjustments);
+    }
+
+    public function getSlipDeductions($slip_id)
+    {
+        $salarySlip = SalarySlip::find($slip_id);
+        $user = Auth::user();
+
+        $checkUser = $this->checkUser($user, $salarySlip);
+        if ($checkUser)
+            return $checkUser;
+
+        $adjustments = $salarySlip->adjustments->where('amount', '<', 0);
+        return  $this->showAll($adjustments);
+    }
+
+    public function getSlipEarnings($slip_id)
+    {
+        $salarySlip = SalarySlip::find($slip_id);
+        $user = Auth::user();
+        $checkUser = $this->checkUser($user, $salarySlip);
+        if ($checkUser)
+            return $checkUser;
+
+        $adjustments = $salarySlip->adjustments->where('amount', '>', 0);
+        return  $this->showAll($adjustments);
+    }
+
+    public function checkUser(User $user, SalarySlip $salarySlip)
+    {
+        if ($user->id != $salarySlip->user_id) {
+            return $this->errorResponse("This user does not have access to this salary slip", 400);
+        }
     }
 }

@@ -110,4 +110,20 @@ class SlipAdjustmentController extends ApiController
         $adjustment->delete();
         return $this->showOne($adjustment);
     }
+
+    public function getDeductions($id)
+    {
+        $salarySlip = SalarySlip::find($id);
+        $adjustments = $salarySlip->adjustments->where('amount', '<', 0);
+
+        return  $this->ShowCustom($adjustments);
+    }
+
+    public function getEarnings($id)
+    {
+        $salarySlip = SalarySlip::find($id);
+        $adjustments = $salarySlip->adjustments->where('amount', '>', 0);
+        return  $this->showCustom($adjustments);
+    }
+
 }

@@ -15,10 +15,10 @@ trait Utils
 
     function convertToDecimal($value)
     {
-        if (is_numeric($value)) 
+        if (is_numeric($value))
             return $value;
-            
-        if (!str_contains($value, "/")) 
+
+        if (!str_contains($value, "/"))
             return $value;
 
         $numbers = explode("/", $value);
@@ -49,4 +49,15 @@ trait Utils
 
         return $days;
     }
+public function CheckLeave(User $user){
+    $requestes = Requestdb::with(['requestable'])
+        ->join('users', 'requestdbs.user_id', 'users.id')
+        ->where("requestdbs.user_id",'=',$user->id)
+        ->where('requestdbs.status', '=', 'approved')
+        ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords('leave'))
+        ->where('requestdbs.start_date','=', date('Y-m-d', time()))->get();
+return $requestes;
+
+    }
+
 }

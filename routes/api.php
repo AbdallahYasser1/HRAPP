@@ -54,14 +54,17 @@ use App\Http\Controllers\test\testController;
 |
 */
 //Login
+Route::get('/holidays', [HolidayController::class, 'GetAllHolidays']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
+Route::get('birthdays',[UserController::class,'birthdays']);
+Route::post('userimage',[UserController::class,'UpdateUserImage']);
 Route::patch('available',[AuthController::class,'ava']);
 Route::patch('ready',[AuthController::class,'ready']);
-Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
-    Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
-});
+    Route::middleware(['auth:sanctum', 'abilities:firstlogin'])->group(function () {
+        Route::patch('/resetpassword', [AuthController::class, 'reset_password']);
+    });
 //Application access middleware
 Route::get('/valid', function () {
     $check = (int) auth('sanctum')->check();
@@ -125,6 +128,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 //Holidays
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
+    //Route::get('/Holidays', [HolidayController::class, 'GetAllHolidays']);
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);
@@ -201,13 +205,20 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
         'Shifts' => ShiftController::class
     ]);
 });
+
+
+
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
   Route::get('dashboard/piechart',[ConfigController::class,'piechart']);
     Route::get('admin/attendancelog', [UserController::class, 'AdminAttendanceSheet']);
     Route::get('admin/absencelog', [UserController::class, 'AdminAbsenceSheet']);
 
     Route::resource('slips', SalarySlipController2::class,);
+    Route::get('slipsByMonth', [SalarySlipController2::class, 'getSlipsByMonth']);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
+
+    Route::get('slips/{id}/deductions', [SlipAdjustmentController::class, 'getDeductions']);
+    Route::get('slips/{id}/earnings', [SlipAdjustmentController::class, 'getEarnings']);
 
     Route::get('users/{user}/slips', [UserSlipController::class, 'getUserSlips']);
 
@@ -259,6 +270,11 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 
     Route::get('users/{id}/lastSlip', [UserSlipController::class, 'lastSlip']);
     Route::get('users/{id}/lastSlip/adjustments', [UserSlipAdjustmentController::class, 'lastSlipAdjustments']);
+
+    Route::get('user/lastSlip/deductions', [UserSlipAdjustmentController::class, 'getLastSlipDeductions']);
+    Route::get('user/lastSlip/earnings', [UserSlipAdjustmentController::class, 'getLastSlipEarnings']);
+    Route::get('user/slip/{id}/deductions', [UserSlipAdjustmentController::class, 'getSlipDeductions']);
+    Route::get('user/slip/{id}/earnings', [UserSlipAdjustmentController::class, 'getSlipEarnings']);
 
     Route::get('/user/attendances', [UserAttendanceController::class,  'index']);
     Route::get('/user/attendances/{attendance}', [UserAttendanceController::class,  'show']);

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreHoliday;
 use App\Models\Holiday;
 use App\Http\Controllers\ApiController;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 
 class HolidayController extends ApiController
 {
@@ -59,6 +61,19 @@ class HolidayController extends ApiController
         $holidays=Holiday::whereMonth('date',$month)->get();
         if($holidays->count()==0){
             return $this->errorResponse("Holiday not found",404);
+        }else{
+            return $this->showAll( $holidays,200);
+        }
+
+    }
+    public function GetAllHolidays(){
+
+        $holidays= Holiday::whereMonth('date' ,'>=', Carbon::today()->month)
+
+            ->get();
+
+        if($holidays->count()==0){
+            return $this->errorResponse("There is no holidays this month",404);
         }else{
             return $this->showAll( $holidays,200);
         }
