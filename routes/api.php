@@ -54,6 +54,7 @@ use App\Http\Controllers\test\testController;
 |
 */
 //Login
+Route::get('/holidays', [HolidayController::class, 'GetAllHolidays']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
@@ -127,6 +128,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
 //Holidays
     Route::get('/Holidays/{id}', [HolidayController::class, 'show']);
     Route::get('/Holidays/ofMonth/{month}', [HolidayController::class, 'getAllHolidaysOfMonth']);
+    //Route::get('/Holidays', [HolidayController::class, 'GetAllHolidays']);
 
     Route::get('supervised', [SupervisorController::class, 'showSupervisedUsers']);
     Route::get('supervisor/requests', [SupervisorController::class, 'showSupervisedUsersPendingRequests']);

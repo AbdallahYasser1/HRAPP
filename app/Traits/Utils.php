@@ -15,10 +15,10 @@ trait Utils
 
     function convertToDecimal($value)
     {
-        if (is_numeric($value)) 
+        if (is_numeric($value))
             return $value;
-            
-        if (!str_contains($value, "/")) 
+
+        if (!str_contains($value, "/"))
             return $value;
 
         $numbers = explode("/", $value);
@@ -49,4 +49,7 @@ trait Utils
 
         return $days;
     }
+public function CheckLeave(User $user){
+
+}
 }

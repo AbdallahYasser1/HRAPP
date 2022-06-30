@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreHoliday;
 use App\Models\Holiday;
@@ -59,6 +60,19 @@ class HolidayController extends ApiController
         $holidays=Holiday::whereMonth('date',$month)->get();
         if($holidays->count()==0){
             return $this->errorResponse("Holiday not found",404);
+        }else{
+            return $this->showAll( $holidays,200);
+        }
+
+    }
+    public function GetAllHolidays(){
+        $start = date('z') + 1;
+// end range 7 days from now
+        $end = date('z') + 1 + 20;
+        $holidays = Holiday::whereRaw("DAYOFYEAR(date) BETWEEN $start AND $end")->get();
+
+        if($holidays->count()==0){
+            return $this->errorResponse("There is no holidays this month",404);
         }else{
             return $this->showAll( $holidays,200);
         }
