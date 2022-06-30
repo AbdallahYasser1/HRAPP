@@ -100,11 +100,8 @@ class RequestController extends ApiController
                 $requestes=   $requestes->where('requestdbs.status', '=', $status);
             if ( $class!=null)
                 $requestes=   $requestes->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords($class));
-
-        $requestes=  $requestes->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status','profiles.image')
+                $requestes=  $requestes->select('requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.requestable_type','users.id as user_id', 'users.name','requestdbs.start_date','requestdbs.end_date' , 'requestdbs.status as request_status','profiles.image')
                     ->paginate()->appends(request()->query());
-
-
         if ($requestes->count()==0) {
             return $this->errorResponse("There is no requests found", 404);
         } else {
