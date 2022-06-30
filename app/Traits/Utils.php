@@ -50,6 +50,14 @@ trait Utils
         return $days;
     }
 public function CheckLeave(User $user){
+    $requestes = Requestdb::with(['requestable'])
+        ->join('users', 'requestdbs.user_id', 'users.id')
+        ->where("requestdbs.user_id",'=',$user->id)
+        ->where('requestdbs.status', '=', 'approved')
+        ->where('requestdbs.requestable_type','=',"App\\Models\\".ucwords('leave'))
+        ->where('requestdbs.start_date','=', date('Y-m-d', time()))->get();
+return $requestes;
 
-}
+    }
+
 }
