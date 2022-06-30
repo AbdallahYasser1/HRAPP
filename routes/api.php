@@ -273,8 +273,8 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 
     Route::get('user/lastSlip/deductions', [UserSlipAdjustmentController::class, 'getLastSlipDeductions']);
     Route::get('user/lastSlip/earnings', [UserSlipAdjustmentController::class, 'getLastSlipEarnings']);
-    Route::get('user/slip/{id}/deductions', [UserSlipAdjustmentController::class, 'getDeductions']);
-    Route::get('user/slip/{id}/earnings', [UserSlipAdjustmentController::class, 'getEarnings']);
+    Route::get('user/slip/{id}/deductions', [UserSlipAdjustmentController::class, 'getSlipDeductions']);
+    Route::get('user/slip/{id}/earnings', [UserSlipAdjustmentController::class, 'getSlipEarnings']);
 
     Route::get('/user/attendances', [UserAttendanceController::class,  'index']);
     Route::get('/user/attendances/{attendance}', [UserAttendanceController::class,  'show']);

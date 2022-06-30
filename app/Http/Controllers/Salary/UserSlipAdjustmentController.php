@@ -132,13 +132,19 @@ class UserSlipAdjustmentController extends ApiController
     {
         $user = Auth::user();
         $salarySlip = $user->lastSlip;
-        $adjustments = $salarySlip->adjustments->where('amount', '>', 0)->pluck('amount', 'title');
+        $adjustments = $salarySlip->adjustments->where('amount', '>', 0);
         return  $this->showAll($adjustments);
     }
 
     public function getSlipDeductions($slip_id)
     {
         $salarySlip = SalarySlip::find($slip_id);
+        $user = Auth::user();
+
+        $checkUser = $this->checkUser($user, $salarySlip);
+        if ($checkUser)
+            return $checkUser;
+
         $adjustments = $salarySlip->adjustments->where('amount', '<', 0);
         return  $this->showAll($adjustments);
     }
@@ -146,7 +152,19 @@ class UserSlipAdjustmentController extends ApiController
     public function getSlipEarnings($slip_id)
     {
         $salarySlip = SalarySlip::find($slip_id);
+        $user = Auth::user();
+        $checkUser = $this->checkUser($user, $salarySlip);
+        if ($checkUser)
+            return $checkUser;
+
         $adjustments = $salarySlip->adjustments->where('amount', '>', 0);
         return  $this->showAll($adjustments);
+    }
+
+    public function checkUser(User $user, SalarySlip $salarySlip)
+    {
+        if ($user->id != $salarySlip->user_id) {
+            return $this->errorResponse("This user does not have access to this salary slip", 400);
+        }
     }
 }
