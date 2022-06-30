@@ -202,8 +202,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
         'Shifts' => ShiftController::class
     ]);
 });
-Route::get('deds/{id}', [SlipAdjustmentController::class, 'getDeductions']);
-Route::get('erds/{id}', [SlipAdjustmentController::class, 'getEarnings']);
+
 
 
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
@@ -215,7 +214,8 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function 
     Route::get('slipsByMonth', [SalarySlipController2::class, 'getSlipsByMonth']);
     Route::resource('slips.adjustments', SlipAdjustmentController::class,);
 
-
+    Route::get('slips/{id}/deductions', [SlipAdjustmentController::class, 'getDeductions']);
+    Route::get('slips/{id}/earnings', [SlipAdjustmentController::class, 'getEarnings']);
 
     Route::get('users/{user}/slips', [UserSlipController::class, 'getUserSlips']);
 
