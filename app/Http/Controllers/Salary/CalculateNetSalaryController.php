@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Salary;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthResource;
+use App\Http\Resources\SlipResource;
 use Illuminate\Http\Request;
 use App\Models\Salary\SalarySlip;
 use App\Http\Controllers\ApiController;
@@ -43,7 +45,12 @@ class CalculateNetSalaryController extends ApiController
         $slip = $user->lastSlip;
         if ($slip) {
             $slip = $this->calculateSlip($slip);
-            return $this->showOne($slip);
+     $users=User::find($user->id);
+     $slips=$users->lastSlip;
+     $adjustments = $slip->adjustments()->where('amount', '<', 0)->get();
+     $earnings = $slip->adjustments()->where('amount', '>', 0)->get();
+     $response=["data"=>new SlipResource($slips)];
+            return response()->json($response,200);
         } else {
             return $this->errorResponse('No salary slip found', 404);
         }
