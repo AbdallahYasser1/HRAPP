@@ -88,8 +88,10 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('vacationdayuser', [VacationdayController::class, 'showVacationdayAuth']);
     //Requests
     Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
+    Route::get('/requests', [RequestController::class, 'ShowAllUserRequestsFilter']);
     Route::post('/requests/{requestdb}/approve', [RequestController::class, 'ApproveRequest']);
     Route::post('/requests/{requestdb}/cancel', [RequestController::class, 'CancelRequests']);
+    Route::post('user/requests/{requestdb}/cancel', [RequestController::class, 'UserCancelRequest']);
 // leave request
     Route::post('/leave',[LeaveController::class,'store']);
     Route::get('/leave/{leave}',[LeaveController::class,'ShowLeave']);

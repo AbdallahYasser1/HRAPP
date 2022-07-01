@@ -144,6 +144,21 @@ class RequestController extends ApiController
         }
 
     }
+    public function UserCancelRequest(Requestdb $request){
+        if ($request === null)
+            return $this->errorResponse("Request is not found", 404);
+        if ($request->user_id != Auth::id())
+            return $this->errorResponse("You Are not authorized to update this request", 403);
+        if($request->status!='pending')
+            return $this->errorResponse("You can not cancel this request", 400);
+
+        $request->update(['status'=>'canceled']);
+        $request->bywhom =Auth::id();
+        $request->save();
+
+        return $this->showCustom($request,200);
+
+    }
     public function UpdateRequest(Requestdb $model,Request $request)
     {
         if ($model === null){
