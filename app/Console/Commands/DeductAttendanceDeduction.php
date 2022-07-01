@@ -45,7 +45,7 @@ class DeductAttendanceDeduction extends Command
             $taken_days = $this->takendays('unscheduled', $user->id);
             $vacation_balance = $this->VacationBalance('unscheduled', $user);
             $remaining = $vacation_balance - $taken_days;
-            if ($remaining > 0) {
+            if ($remaining > 0 && $absence->status=='absent') {
                 $vacation = new Vacation();
                 $vacation->type = 'unscheduled';
                 $vacation->count = 1;
@@ -57,7 +57,7 @@ class DeductAttendanceDeduction extends Command
                 $requestdb->status = 'finished';
                 $vacation->requests()->save($requestdb);
             } else {
-                if ($absence->status == 'wfh')
+                if ($absence->status != 'absent')
                     continue;
                 $salarySlip = $user->lastSlip;
                 $term = $user->salaryTerm;
