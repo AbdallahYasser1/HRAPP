@@ -57,7 +57,7 @@ class SupervisorController extends ApiController
             ->join('users', 'requestdbs.user_id', 'users.id')
             ->where('supervisor', '=', Auth::id())
             ->where('requestdbs.status', '=', 'pending')
-          ->select('users.id as user_id','name','requestdbs.requestable_id','requestdbs.status','requestdbs.requestable_type','requestdbs.start_date','requestdbs.end_date')
+          ->select('users.id as user_id','name','requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.status','requestdbs.requestable_type','requestdbs.start_date','requestdbs.end_date')
             ->get();
             if ($employees->count()==0) {
                 return $this->errorResponse("There is no pending requests", 404);
