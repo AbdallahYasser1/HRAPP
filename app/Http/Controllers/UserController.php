@@ -47,7 +47,8 @@ class UserController extends ApiController
     {
         $path = '';
         if ($request['role'] == 'Admin' && !Auth::user()->hasPermissionTo('create_account_Admin')) return $this->errorResponse(' The authenticated user is not permitted to perform the requested operation.', 403);
-        $hashed_random_password = Str::random(10);
+  //      $hashed_random_password = Str::random(10);
+        $hashed_random_password = 123456789;
         if ($request->hasFile('image')) {
             //$path=$request->file('photo')->store('public/images');
             $path = cloudinary()->upload($request->file('image')->getRealPath(), $options = ["folder" => "images"])->getSecurePath();
@@ -87,7 +88,7 @@ class UserController extends ApiController
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function     show(User $user)
+    public function show(User $user)
     {
         $role = $user->getRoleNames();
         $user = $user::with(['profile', 'vacationday', 'salaryTerm'])->where('id', $user->id)->get();
