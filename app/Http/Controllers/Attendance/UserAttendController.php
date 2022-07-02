@@ -41,8 +41,10 @@ class UserAttendController extends ApiController
 
         $outerConditions = $isOnTime && !$isUserOnVacation;
 
-        if ($outerConditions) {
-            if ($isOnPremies) {
+       // if ($outerConditions) {
+        if (true) {
+           // if ($isOnPremies) {
+            if (true) {
 
                 if ($request['status'] == 'start') {
                     if (!$isLate)
