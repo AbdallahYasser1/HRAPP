@@ -48,7 +48,7 @@ class AbsentEmployee extends Command
 
         $attendances = Attendance::where('date', date('Y-m-d'))->get();
         foreach ($attendances as $attendance) {
-            if ($attendance->start_time == null) {
+            if ($attendance->start_time == null && $attendance->end_time == null) {
                 $user_id = $attendance->user_id;
                 $date = $attendance->date;
                 $absence = new Absence();
@@ -59,18 +59,43 @@ class AbsentEmployee extends Command
                     ->where('user_id', $user_id)
                     ->where('start_date', date('Y-m-d'))
                     ->where('requestable_type', '=', "App\\Models\\Wfh")
-                    ->whereIn('status',['in-progress','approved'])
-                ;
+                    ->whereIn('status', ['in-progress', 'approved']);
 
                 $isUserWFH = !$wfhs->isEmpty();
                 if ($isUserWFH)
                     $absence->status = 'wfh';
+                else
+                    $absence->status = 'absent';
 
-//                $user = User::find($user_id);
-////                $isUserLeave = $this->CheckLeave($user);
-////                if($isUserLeave)
-////                    $absence->status = 'leave';
+                $absence->save();
+                $attendance->delete();
+            } elseif ($attendance->start_time == null && $attendance->end_time != null) {
+                $user_id = $attendance->user_id;
+                $date = $attendance->date;
+                $absence = new Absence();
+                $absence->user_id = $user_id;
+                $absence->date = $date;
+                $user = User::find($user_id);
+                $isUserLeave = $this->CheckLeave($user)->isEmpty();
+                if (!$isUserLeave)
+                    $absence->status = 'leave';
+                else
+                    $absence->status = 'absent';
 
+                $absence->save();
+                $attendance->delete();
+            } elseif ($attendance->start_time != null && $attendance->end_time == null) {
+                $user_id = $attendance->user_id;
+                $date = $attendance->date;
+                $absence = new Absence();
+                $absence->user_id = $user_id;
+                $absence->date = $date;
+                $user = User::find($user_id);
+                $isUserLeave = $this->CheckLeave($user)->isEmpty();
+                if (!$isUserLeave)
+                    $absence->status = 'leave';
+                else
+                    $absence->status = 'absent';
                 $absence->save();
                 $attendance->delete();
             }
