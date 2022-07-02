@@ -66,7 +66,8 @@ class CalculateNetSalaryController extends ApiController
             $slips=$users->lastSlip;
             $adjustments = $slip->adjustments()->where('amount', '<', 0)->get();
             $earnings = $slip->adjustments()->where('amount', '>', 0)->get();
-            $response=["data"=>new SlipResource($slips)];
+            $percent=$slip->adjustments()->where('amount', '=', 0)->get();
+            $response=["data"=>new SlipResource($slips),"percent"=>$percent];
             return response()->json($response,200);
         } else {
             return $this->errorResponse('No salary slip found', 404);
