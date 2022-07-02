@@ -60,7 +60,7 @@ class SupervisorController extends ApiController
           ->select('users.id as user_id','name','requestdbs.id as request_id','requestdbs.requestable_id','requestdbs.status','requestdbs.requestable_type','requestdbs.start_date','requestdbs.end_date')
             ->get();
             if ($employees->count()==0) {
-                return $this->errorResponse("There is no pending requests", 404);
+                return $this->showCustom([], 200);
             } else {
                 return $this->showCustom($employees, 200);
             }
