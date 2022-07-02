@@ -104,7 +104,6 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/wfh/{wfh}', [WfhController::class, 'showWfhRequest']);
     Route::delete('/wfh/{id}', [WfhController::class, 'destroy']);
     //Mission
-    Route::middleware(['role:Accountant'])->put('/mission/MakeMissionPaid/{mission}',[MissionController::class,'makeUserPaid']);
     Route::post('/mission', [MissionController::class, 'store']); //ok
     Route::get('/mission/{mission}', [MissionController::class, 'showMissionRequest']); //ok
     Route::get('/mission', [MissionController::class, 'showAllMissionRequests']); //ok
@@ -185,6 +184,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     });
 }); // end of Application access
 Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
+    Route::put('/mission/MakeMissionPaid/{mission}',[MissionController::class,'makeUserPaid']);
 
     Route::post('departments', [DepartmentController::class, 'store']);
     Route::get('departments', [DepartmentController::class, 'index']);
