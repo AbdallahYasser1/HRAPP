@@ -56,7 +56,22 @@ class CalculateNetSalaryController extends ApiController
         }
     }
 
-
+    public function CalcTalk($id)
+    {
+        $user = User::find($id);
+        $slip = $user->lastSlip;
+        if ($slip) {
+            $slip = $this->calculateSlip($slip);
+            $users=User::find($user->id);
+            $slips=$users->lastSlip;
+            $adjustments = $slip->adjustments()->where('amount', '<', 0)->get();
+            $earnings = $slip->adjustments()->where('amount', '>', 0)->get();
+            $response=["data"=>new SlipResource($slips)];
+            return response()->json($response,200);
+        } else {
+            return $this->errorResponse('No salary slip found', 404);
+        }
+    }
 
     public function calcSlip($slip_id)
     {
