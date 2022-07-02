@@ -55,6 +55,7 @@ use App\Http\Controllers\test\testController;
 */
 //Login
 Route::get('/holidays', [HolidayController::class, 'GetAllHolidays']);
+Route::get('users/{user}', [UserController::class, 'show']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
@@ -175,7 +176,6 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         ]);
         Route::post('users/{user}', [UserController::class, 'update']);
         Route::delete('users/{user}', [UserController::class, 'destroy']);
-        Route::get('users/{user}', [UserController::class, 'show']);
         Route::get('users', [UserController::class, 'index']);
         Route::patch('user/changepassword', [AuthController::class, 'reset_password']);
         Route::get('user/requests', [UserController::class, 'ViewAllRequests']);
