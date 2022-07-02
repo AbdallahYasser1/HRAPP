@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Requestdb;
 use App\Traits\AttendanceChecks;
 use Illuminate\Console\Command;
 use App\Models\User;
@@ -47,7 +48,13 @@ class GenerateAttendance extends Command
         if (!$isTodayHoliday && !$isWeekend) {
             $users = User::all();
             foreach ($users as $user) {
-                $isUserOnVacation = false;
+                $vacatation = Requestdb::all()
+                    ->where('user_id', $user->id)
+                    ->where('start_date', date('Y-m-d'))
+                    ->where('requestable_type', '=', "App\\Models\\Vacation")
+                    ->whereIn('status', ['in-progress', 'approved']);
+
+                $isUserOnVacation =!$vacatation->isEmpty(); // vacation -> true
                 if (!$isUserOnVacation) {
                     $attendance = Attendance::where('user_id', $user->id)->where('date', date('Y-m-d'))->first();
                     if (!$attendance) {

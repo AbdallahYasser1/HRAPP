@@ -87,7 +87,7 @@ class UserController extends ApiController
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function     show(User $user)
     {
         $role = $user->getRoleNames();
         $user = $user::with(['profile', 'vacationday', 'salaryTerm'])->where('id', $user->id)->get();

@@ -184,7 +184,7 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
     });
 }); // end of Application access
-Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
 
     Route::post('departments', [DepartmentController::class, 'store']);
     Route::get('departments', [DepartmentController::class, 'index']);
