@@ -47,7 +47,8 @@ class UserAttendController extends ApiController
             if (true) {
 
                 if ($request['status'] == 'start') {
-                    if (!$isLate)
+               //     if (!$isLate)
+                    if (true)
                         return $this->update($request, $user);
                     else
                         return $this->errorResponse('You are late', 422);
