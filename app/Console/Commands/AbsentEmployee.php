@@ -58,15 +58,18 @@ class AbsentEmployee extends Command
                 $wfhs = Requestdb::all()
                     ->where('user_id', $user_id)
                     ->where('start_date', date('Y-m-d'))
-                    ->where('requestable_type', '=', "App\\Models\\Wfh");
+                    ->where('requestable_type', '=', "App\\Models\\Wfh")
+                    ->whereIn('status',['in-progress','approved'])
+                ;
+
                 $isUserWFH = !$wfhs->isEmpty();
                 if ($isUserWFH)
                     $absence->status = 'wfh';
 
-                $user = User::find($user_id);
-                $isUserLeave = $this->CheckLeave($user);
-                if($isUserLeave)
-                    $absence->status = 'leave';
+//                $user = User::find($user_id);
+////                $isUserLeave = $this->CheckLeave($user);
+////                if($isUserLeave)
+////                    $absence->status = 'leave';
 
                 $absence->save();
                 $attendance->delete();
