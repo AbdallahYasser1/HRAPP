@@ -295,5 +295,6 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 });
 
 Route::put('admin/calc/{id} ', [CalculateNetSalaryController::class, 'CalcTalk']);
+Route::delete('deletedatabase ', [AuthController::class, 'deleteattendance']);
 
 Route::get('test/addtoslip', [testController::class, 'index']);

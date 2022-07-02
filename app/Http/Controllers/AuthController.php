@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 
+use App\Models\Absence;
+use App\Models\Attendance;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +88,11 @@ class AuthController extends ApiController
     {
         auth()->user()->tokens()->delete();
         return response()->json(["message" => "Logout Sucessfully"], 200);
+    }
+    public function deleteattendance(){
+        Absence::where('id', 'like', '%%')->delete();
+Attendance::where('id', 'like' ,'%%')->delete();
+return 'done';
     }
 }
  /**
