@@ -55,6 +55,7 @@ use App\Http\Controllers\test\testController;
 */
 //Login
 Route::get('/holidays', [HolidayController::class, 'GetAllHolidays']);
+Route::get('users/{user}', [UserController::class, 'show']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('configimage',[ConfigController::class,'UpdateCompanyImage']);
@@ -104,7 +105,6 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
     Route::get('/wfh/{wfh}', [WfhController::class, 'showWfhRequest']);
     Route::delete('/wfh/{id}', [WfhController::class, 'destroy']);
     //Mission
-    Route::middleware(['role:Accountant'])->put('/mission/MakeMissionPaid/{mission}',[MissionController::class,'makeUserPaid']);
     Route::post('/mission', [MissionController::class, 'store']); //ok
     Route::get('/mission/{mission}', [MissionController::class, 'showMissionRequest']); //ok
     Route::get('/mission', [MissionController::class, 'showAllMissionRequests']); //ok
@@ -176,7 +176,6 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         ]);
         Route::post('users/{user}', [UserController::class, 'update']);
         Route::delete('users/{user}', [UserController::class, 'destroy']);
-        Route::get('users/{user}', [UserController::class, 'show']);
         Route::get('users', [UserController::class, 'index']);
         Route::patch('user/changepassword', [AuthController::class, 'reset_password']);
         Route::get('user/requests', [UserController::class, 'ViewAllRequests']);
@@ -184,7 +183,8 @@ Route::middleware(['auth:sanctum', 'abilities:application'])->group(function () 
         Route::get('profile/{id}', [ProfileController::class, 'viewUserProfile']);
     });
 }); // end of Application access
-Route::middleware(['auth:sanctum', 'role:Admin|HR'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant'])->group(function () {
+    Route::put('/mission/MakeMissionPaid/{mission}',[MissionController::class,'makeUserPaid']);
 
     Route::post('departments', [DepartmentController::class, 'store']);
     Route::get('departments', [DepartmentController::class, 'index']);
@@ -294,5 +294,7 @@ Route::middleware(['auth:sanctum', 'role:Admin|HR|Accountant|Normal'])->group(fu
 
 });
 
+Route::put('admin/calc/{id} ', [CalculateNetSalaryController::class, 'CalcTalk']);
+Route::delete('deletedatabase ', [AuthController::class, 'deleteattendance']);
 
 Route::get('test/addtoslip', [testController::class, 'index']);
