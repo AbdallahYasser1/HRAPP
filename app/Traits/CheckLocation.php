@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Config;
 
 trait CheckLocation {
 
@@ -41,13 +42,16 @@ trait CheckLocation {
     
       $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
         cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
-      return round($angle * $earthRadius, 9);
+ 
+        
+
+        return round($angle * $earthRadius, 9);
     }
 
     public function checkDistance($latitude, $longitude)
     {
-        $distance = $this->getDistanceBetweenPoints2(self::$base_latitude, self::$base_longitude, $latitude, $longitude);
-        return ['onPremises' => $distance <= self::$validDistance, 'distance' => $distance];
+        $distance = $this->getDistanceBetweenPoints2(Config::first()->latitude, Config::first()->longitude, $latitude, $longitude);
+        return ['onPremises' => $distance <= Config::first()->distance, 'distance' => $distance];
     }
     
 
