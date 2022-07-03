@@ -127,7 +127,7 @@ public function piechart(){
         $Users=User::all();
         $CountofUsers=$Users->count();
         $CountOfActiveUsers=$Users->where('active',false)->count();
-        $CountOfReadyUsers=$Users->where('status','ready')->count();
+        $CountOfReadyUsers=$Users->where('status','active')->count();
         $CountOfAvaUsers=$Users->where('status','available')->count();
         return $this->showCustom(['allusers'=>$CountofUsers,'deactivatedusers'=>$CountOfActiveUsers,
                                 'readyusers'=>$CountOfReadyUsers,'availableusers'=>$CountOfAvaUsers]);

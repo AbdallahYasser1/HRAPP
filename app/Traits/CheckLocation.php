@@ -8,9 +8,9 @@ use App\Models\Config;
 
 trait CheckLocation {
 
-    static $validDistance = 2000;
-    static $base_latitude = 31.213575888245597;
-    static $base_longitude = 29.955596923828125;
+    // static $validDistance = 2000;
+    // static $base_latitude = 31.213575888245597;
+    // static $base_longitude = 29.955596923828125;
 
     public function getDistanceBetweenPoints($latitude1, $longitude1, $latitude2, $longitude2, $unit = 'meters')
     {
