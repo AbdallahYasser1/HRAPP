@@ -1,7 +1,7 @@
-#Human Resource Paperwork Project (Backend Repo)
+# Human Resource Paperwork Project (Backend Repository)
 The project consists of an iOS application and a React dashboard which are connected via a Laravel API
 
-##The applications features include (but are not limited to):
+## The applications features include (but are not limited to):
 * Roles and permissions 
 * Attendance using gps and local authentication (ex. Face id, fingerprint…) at specific employee shift
 * Auto generated Salary slip at the start of the month with automated deductions 
@@ -18,3 +18,11 @@ The project consists of an iOS application and a React dashboard which are conne
 * Overtime tracking 
 * Alert and notifications 
 * Logging requests and attendance
+* Holidays and weekends
+* Shifts
+
+
+### Schedulers 
+```
+Php artisan generate:attendance  
+```
