@@ -22,7 +22,26 @@ The project consists of an iOS application and a React dashboard which are conne
 * Shifts
 
 
-### Schedulers 
+### Schedulers commands
+> To Generate Daily attendance 
 ```
 Php artisan generate:attendance  
+```
+> To Deduct Absence from the salary slip of the month 
+```
+Php artisan deduct:absence
+```
+> To take absence
+```
+Php artisan absent:employee
+```
+> To Generate Salary Slip at the start of the month 
+```
+Php artisan generate:slips  
+```
+> To Change the request status
+```
+Php artisan statuschange
+Php artisan makerequestcanceled
+Php artisan finishrequest
 ```
